@@ -9,39 +9,49 @@ import {
 })
 export class GameComponent implements OnInit {
 
-  canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
-  ctx = this.canvas.getContext('2d');
-  ball = document.getElementById('catHead');
-  numberOfRows = document.getElementById('numberOfRows');
-  ballRadius = 34;
-  x = this.canvas.width / 2;
-  y = this.canvas.height - 30;
-  dx = 7;
-  dy = -7;
+  // TODO: change to constants
   paddleHeight = 20;
   paddleWidth = 175;
-  paddleX = (this.canvas.width - this.paddleWidth) / 2;
-  rightPressed = false;
-  leftPressed = false;
-  brickRowCount = 12;
-  brickColumnCount = this.numberOfRows.value;
   brickWidth = 75;
   brickHeight = 20;
   brickPadding = 10;
   brickOffsetTop = 30;
   brickOffsetLeft = 30;
+  brickRowCount = 12; // TODO: why is this not called col count?
+
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+  ball: HTMLImageElement;
+  numberOfRows: HTMLElement;
+  ballRadius = 34;
+  x: number;
+  y: number;
+  dx = 7;
+  dy = -7;
+  paddleX: number;
+  rightPressed: boolean;
+  leftPressed: boolean;
+  brickColumnCount: number;
   score = 0;
   lives = 600;
   rainbow = ['#80F31F', '#A5DE0B', '#C7C101', '#E39E03', '#F6780F', '#FE5326', '#FB3244', '#ED1868', '#D5078E', '#B601B3', '#9106D3', '#6B16EC', '#472FFA', '#2850FE', '#1175F7', '#039BE5', '#01BECA', '#0ADCA8'];
 
-
   //////////////////////////////////////////////////////////////////
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
+    this.ctx = this.canvas.getContext('2d');
+    this.ball  = document.getElementById('catHead') as HTMLImageElement;
+    this.numberOfRows = document.getElementById('numberOfRows') as HTMLInputElement;
+    this.x = this.canvas.width / 2;
+    this.y = this.canvas.height - 30;
+    this.paddleX = (this.canvas.width - this.paddleWidth) / 2;
+    this.brickColumnCount = this.numberOfRows.value;
+  }
 
   play() {
-    document.documentElement.classList.remove('winner');
+    this.initGame();
     var bricks = [];
     for (var c = 0; c < this.brickColumnCount; c++) {
       bricks[c] = [];
@@ -59,6 +69,10 @@ export class GameComponent implements OnInit {
     document.addEventListener('mousemove', this.mouseMoveHandler, false);
 
     this.draw();
+  }
+
+  initGame() {
+    document.documentElement.classList.remove('winner');
   }
 
   let playButton = document.getElementById('playButton');
