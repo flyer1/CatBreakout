@@ -2,18 +2,13 @@
 
   <div class="header">
     <div class="left">
-      <span class="level">Level: {{player.level}}</span>
+      <!-- <span class="level">Level: {{player.level}}</span> -->
     </div>
 
     <div class="center">
       <h1>Cat Breakout!!!!</h1>
       <p>Little kitty wants to see what's on the other side of the rainbow</p>
       <p>Help her remove all of the blocks to see!</p>
-
-      <div class="options">
-        <label>Number of Rows</label>
-        <input id="numberOfRows" type="number" value="10" />
-      </div>
 
       <button type="button" (click)="play()">Play!</button>
     </div>
@@ -24,13 +19,12 @@
         <img src="../../../assets/images/game-ui/dressup.png">
       </a>
     </div>
-
   </div>
 
   <div class="play-area">
     <div class="play-header">
       <span class="coins"><img src="../../../assets/images/game-ui/coin.png">
-        Coins:
+        <label>Coins:</label>
         <span class="coin-value" [class.ta-da]="coinValueChanged">{{player.coins}}</span>
       </span>
     </div>
@@ -45,6 +39,13 @@
 
     <div *ngIf="game" class="side-bar">
       <img *ngFor="let heart of game.livesArray" src="../../../assets/images/game-ui/heart.png" />
+    </div>
+
+    <div *ngIf="game" class="play-footer">
+      <span class="score">
+        <label>Score:</label>
+        <span class="score-value">{{game.score}}</span>
+      </span>
     </div>
   </div>
 </div>

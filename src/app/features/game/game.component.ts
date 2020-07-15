@@ -24,12 +24,11 @@ export class GameComponent implements OnInit {
   ctx: CanvasRenderingContext2D;
   ball: HTMLImageElement;
   bricks = [];
-  numberOfRows: HTMLElement;
   ballRadius = 34;
   x: number;
   y: number;
-  dx = 10;
-  dy = -10;
+  dx = 12;
+  dy = -12;
   paddleX: number;
   rightPressed: boolean;
   leftPressed: boolean;
@@ -48,11 +47,10 @@ export class GameComponent implements OnInit {
     this.canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
     this.ctx = this.canvas.getContext('2d');
     this.ball = document.getElementById('catHead') as HTMLImageElement;
-    this.numberOfRows = document.getElementById('numberOfRows') as HTMLInputElement;
     this.x = this.canvas.width / 2;
     this.y = this.canvas.height - 30;
     this.paddleX = (this.canvas.width - PADDLE_WIDTH) / 2;
-    this.brickColumnCount = 10;
+    this.brickColumnCount = 1;
 
     this.player = this.sessionStorageService.get(SessionStorageKeys.PLAYER_STATE) || Player.resetPlayer();
   }
@@ -194,25 +192,11 @@ export class GameComponent implements OnInit {
     }
   }
 
-  drawScore() {
-    this.ctx.font = '16px Helvetica';
-    this.ctx.fillStyle = '#0095DD';
-    this.ctx.fillText('Score: ' + this.game.score, 8, 20);
-  }
-
-  drawLives() {
-    this.ctx.font = '16px Helvetica';
-    this.ctx.fillStyle = '#0095DD';
-    // this.ctx.fillText('Lives: ' + this.game.lives, this.canvas.width - 80, 20);
-  }
-
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.drawBricks();
     this.drawBall();
     this.drawPaddle();
-    this.drawScore();
-    this.drawLives();
     this.collisionDetection();
 
     if (this.x + this.dx > this.canvas.width - this.ballRadius || this.x + this.dx < this.ballRadius) {
@@ -232,8 +216,8 @@ export class GameComponent implements OnInit {
         } else {
           this.x = this.canvas.width / 2;
           this.y = this.canvas.height - 30;
-          this.dx = 5;
-          this.dy = -5;
+          // this.dx = 5;
+          // this.dy = -5;
           this.paddleX = (this.canvas.width - PADDLE_WIDTH) / 2;
         }
       }
