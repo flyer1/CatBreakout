@@ -1,1 +1,14 @@
-<p>store-component works!</p>
+<div class="store">
+
+  <div class="avatar">
+    <h1>Avatar</h1>
+    <pre>{{player | json}}</pre>
+  </div>
+
+  <div class="inventory">
+    <h1>Inventory</h1>
+    <span *ngFor="let inventory of store.inventory">
+      <pre>{{inventory | json }}</pre>
+    </span>
+  </div>
+</div>
