@@ -39,19 +39,6 @@
       p {
         color: white;
       }
-
-      button {
-        margin: 15px auto;
-        font-size: 24px;
-        padding: 10px 43px;
-        border-radius: 20px;
-        color: #089e08;
-        border-color: #14e014;
-        background: white;
-        border-style: solid;
-        cursor: pointer;
-        outline: none;
-      }
     }
 
     .right {
@@ -124,6 +111,10 @@
         padding-right: 3px;
         padding-left: 16px;
 
+        label {
+          margin-right: 5px;
+        }
+
         img {
           position: absolute;
           width: 25px;
@@ -144,6 +135,57 @@
     }
 
     .game-surface {
+      position: relative;
+
+      .play-button-wrapper {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+
+        .button-panel {
+          margin: 15px auto;
+          text-align: center;
+          padding: 20px 30px;
+          background: white;
+          border-radius: 10px;
+          font-family: helvetica;
+          border: 3px solid #000000d1;
+
+          h2 {
+            color: #ff718a;
+            font-size: 60px;
+            margin-bottom: 4px;
+          }
+
+          p {
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #089e57;
+          }
+
+          .play-button {
+
+            font-size: 24px;
+            padding: 10px 43px;
+            border-radius: 20px;
+            color: #089e08;
+            border-color: #14e014;
+            background: white;
+            border-style: solid;
+            cursor: pointer;
+            outline: none;
+            animation-duration: 1500ms;
+            animation-timing-function: ease-in-out;
+
+            &:hover {
+              animation-name: pulse;
+            }
+          }
+        }
+      }
+
       canvas {
         background: #eee;
         display: block;
@@ -188,8 +230,12 @@
     }
   }
 
-  &.winner {
+  &.is-winner {
     .play-area {
+      .play-header {
+        opacity: 0;
+      }
+
       .game-surface {
         canvas {
           display: none;
@@ -201,6 +247,10 @@
       }
 
       .side-bar {
+        display: none;
+      }
+
+      .play-footer {
         display: none;
       }
     }

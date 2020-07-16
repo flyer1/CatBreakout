@@ -24,11 +24,11 @@ export class GameComponent implements OnInit {
   ctx: CanvasRenderingContext2D;
   ball: HTMLImageElement;
   bricks = [];
-  ballRadius = 34;
+  ballRadius = 15;
   x: number;
   y: number;
-  dx = 12;
-  dy = -12;
+  dx = 8;
+  dy = -15;
   paddleX: number;
   rightPressed: boolean;
   leftPressed: boolean;
@@ -37,7 +37,6 @@ export class GameComponent implements OnInit {
   player: Player;
   rainbow = ['#80F31F', '#A5DE0B', '#C7C101', '#E39E03', '#F6780F', '#FE5326', '#FB3244', '#ED1868', '#D5078E', '#B601B3', '#9106D3', '#6B16EC', '#472FFA', '#2850FE', '#1175F7', '#039BE5', '#01BECA', '#0ADCA8'];
   isInitialized = false;
-  isWinner = false;
   coinValueChanged = false;
 
   //////////////////////////////////////////////////////////////////
@@ -47,16 +46,19 @@ export class GameComponent implements OnInit {
     this.canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
     this.ctx = this.canvas.getContext('2d');
     this.ball = document.getElementById('catHead') as HTMLImageElement;
-    this.x = this.canvas.width / 2;
-    this.y = this.canvas.height - 30;
     this.paddleX = (this.canvas.width - PADDLE_WIDTH) / 2;
-    this.brickColumnCount = 1;
+    this.brickColumnCount = 11;
 
     this.player = this.sessionStorageService.get(SessionStorageKeys.PLAYER_STATE) || Player.resetPlayer();
+    this.initGame();
   }
 
   play() {
-    this.initGame();
+    this.x = this.canvas.width / 2;
+    this.y = this.canvas.height - 60;
+
+    this.game.initGame();
+    this.game.gameOn();
 
     // Init data structure for bricks
     for (let c = 0; c < this.brickColumnCount; c++) {
@@ -74,8 +76,7 @@ export class GameComponent implements OnInit {
   }
 
   initGame() {
-    this.isWinner = false;
-    this.game = new Game({ score: 0, lives: 9 });
+    this.game = new Game();
 
     if (!this.isInitialized) {
       document.addEventListener('keydown', (e) => this.keyDownHandler(e), false);
@@ -117,29 +118,35 @@ export class GameComponent implements OnInit {
         if (b.status === 1) {
           if (this.x > b.x && this.x < b.x + BRICK_WIDTH && this.y > b.y && this.y < b.y + BRICK_HEIGHT) {
             this.dy = -this.dy;
+            // Block HIT!
             b.status = 0;
+
             this.game.score++;
             this.player.totalPoints++;
+
             this.calculateCoins();
 
             // let audio = new Audio('../../../assets/audio/catMeow.mp3');
             // audio.play();
             // audio = null;
 
+            // WON GAME!
             if (this.game.score === this.BRICK_ROW_COUNT * this.brickColumnCount) {
-              this.isWinner = true;
+              this.game.wonGame();
+
               const video = document.getElementById('catCelebration') as HTMLVideoElement;
               video.play();
-
-              // alert('YOU WIN, CONGRATS!');
-              // document.location.reload();
             }
 
             this.sessionStorageService.set(SessionStorageKeys.PLAYER_STATE, this.player);
+
+            return this.game.isWinner;
           }
         }
       }
     }
+
+    return this.game.isWinner;
   }
 
   calculateCoins() {
@@ -197,29 +204,29 @@ export class GameComponent implements OnInit {
     this.drawBricks();
     this.drawBall();
     this.drawPaddle();
-    this.collisionDetection();
+    const gameOver = this.collisionDetection();
+
+    // If they won a round, stop the game until they trigger another round
+    if (gameOver) { return; }
 
     if (this.x + this.dx > this.canvas.width - this.ballRadius || this.x + this.dx < this.ballRadius) {
       this.dx = -this.dx;
     }
+
     if (this.y + this.dy < this.ballRadius) {
       this.dy = -this.dy;
     } else if (this.y + this.dy > this.canvas.height - this.ballRadius) {
       if (this.x > this.paddleX && this.x < this.paddleX + PADDLE_WIDTH) {
         this.dy = -this.dy;
       } else {
-        this.game.lives--;
-        if (!this.game.lives) {
-          // alert('GAME OVER');
-          // document.location.reload();
-          return;
-        } else {
-          this.x = this.canvas.width / 2;
-          this.y = this.canvas.height - 30;
-          // this.dx = 5;
-          // this.dy = -5;
-          this.paddleX = (this.canvas.width - PADDLE_WIDTH) / 2;
-        }
+        // The game class will determine if we've lost the game or still have some lives left
+        this.game.died();
+
+        this.x = this.canvas.width / 2;
+        this.y = this.canvas.height - 60;
+        this.dx = 8;
+        this.dy = -15;
+        this.paddleX = (this.canvas.width - PADDLE_WIDTH) / 2;
       }
     }
 
@@ -232,6 +239,8 @@ export class GameComponent implements OnInit {
     this.x += this.dx;
     this.y += this.dy;
 
-    requestAnimationFrame(_ => this.draw());
+    if (this.game.isActive) {
+      requestAnimationFrame(_ => this.draw());
+    }
   }
 }
