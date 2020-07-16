@@ -4,6 +4,7 @@ export class Game {
     livesArray: number[];
     isActive: boolean;
     isWinner: boolean;
+    state: GameState;
 
     /////////
     set lives(value: number) {
@@ -18,18 +19,26 @@ export class Game {
     ///////////////////////////////////////////////////////
     constructor() {
         this.initGame();
+
     }
 
     initGame() {
         this.score = 0;
-        this.lives = 1;
+        this.lives = 9;
         this.isActive = false;
         this.isWinner = null;
+        this.state = GameState.NewGame;
+    }
+
+    /* After winning a game, reset for another round */
+    resetGame() {
+        this.state = GameState.PlayAgain;
     }
 
     wonGame() {
         this.isWinner = true;
         this.isActive = false;
+        this.state = GameState.GameReward;
     }
 
     died() {
@@ -43,9 +52,17 @@ export class Game {
     lostGame() {
         this.isWinner = false;
         this.isActive = false;
+        this.state = GameState.LostGame;
     }
 
     gameOn() {
         this.isActive = true;
     }
+}
+
+export enum GameState {
+    NewGame = 0,
+    LostGame = 1,
+    GameReward = 2,
+    PlayAgain = 3
 }

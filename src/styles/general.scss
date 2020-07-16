@@ -9,5 +9,15 @@ html {
   body {
     background-image: url('../assets/images/game-ui/background.jpg');
     background-size: cover;
+    font-family: 'Lato', sans-serif;
+    overflow: hidden;
   }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  // font-family: 'Helvetica';
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Store } from '../models/store.model';
+import { Store, ItemCategory } from '../models/store.model';
 import { Player } from '../models/player.model';
 import { SessionStorageService, SessionStorageKeys } from 'src/app/core/storage/session-storage.service';
 
@@ -24,9 +24,16 @@ export class StoreComponent implements OnInit {
   initInventory() {
     this.store = {
       inventory: [
-        { category: 'common', asset: '../../foo.png', price: 20, name: 'Glasses' },
-        { category: 'common', asset: '../../bar.png', price: 10, name: 'Horn' },
-        { category: 'rare', asset: '../../baz.png', price: 30, name: 'Baz' },
+        { category: ItemCategory.common, imagePath: '../../../assets/images/avatar/accessories/crown-gold.png', price: 20, name: '' },
+        { category: ItemCategory.common, imagePath: '../../../assets/images/avatar/accessories/funny-glasses.png', price: 20, name: '' },
+        { category: ItemCategory.rare, imagePath: '../../../assets/images/avatar/accessories/hair-bow-rainbow.png', price: 20, name: '' },
+        { category: ItemCategory.rare, imagePath: '../../../assets/images/avatar/accessories/heart-glasses.png', price: 20, name: '' },
+        { category: ItemCategory.ultraRare, imagePath: '../../../assets/images/avatar/accessories/princess-crown.png', price: 20, name: '' },
+        { category: ItemCategory.ultraRare, imagePath: '../../../assets/images/avatar/accessories/rainbow-heart-glasses.png', price: 20, name: '' },
+        { category: ItemCategory.legendary, imagePath: '../../../assets/images/avatar/accessories/sunglasses.png', price: 20, name: '' },
+        { category: ItemCategory.legendary, imagePath: '../../../assets/images/avatar/accessories/sunglasses-aviator.png', price: 20, name: '' },
+        { category: ItemCategory.legendary, imagePath: '../../../assets/images/avatar/accessories/sunglasses-swirls.png', price: 20, name: '' },
+        { category: ItemCategory.legendary, imagePath: '../../../assets/images/avatar/accessories/unicorn-horn.png', price: 20, name: '', imageWidth: 35 },
       ]
     };
   }

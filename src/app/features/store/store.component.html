@@ -1,14 +1,36 @@
 <div class="store">
 
-  <div class="avatar">
-    <h1>Avatar</h1>
-    <pre>{{player | json}}</pre>
+  <div class="store-header">
+    <div class="left">
+      <h1>Cat Store</h1>
+      <a>Back</a>
+    </div>
+    <app-avatar>
+    </app-avatar>
   </div>
 
+  <h3>Inventory</h3>
   <div class="inventory">
-    <h1>Inventory</h1>
-    <span *ngFor="let inventory of store.inventory">
-      <pre>{{inventory | json }}</pre>
-    </span>
+    <div class="items">
+      <div *ngFor="let item of store.inventory" class="card">
+        <div class="card-preview">
+          <span class="price">
+            <img src="../../../assets/images/game-ui/coin.png">
+            <span class="coin-value">9393</span>
+          </span>
+          <div class="image-wrapper">
+            <img [src]="item.imagePath" [ngStyle]="{width: item.imageWidth + 'px'}" />
+          </div>
+        </div>
+
+        <div class="details">
+          <div class="card-title">foo</div>
+          <div class="card-summary">
+            <label [ngClass]="item.category">{{item.category}}</label>
+            <button type="button" class="buy-button">Buy!</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

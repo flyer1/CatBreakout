@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionStorageService, SessionStorageKeys } from '../../core/storage/session-storage.service';
 
-import { Game } from '../models/game.model';
+import { Game, GameState } from '../models/game.model';
 import { Player } from '../models/player.model';
 
 const PADDLE_HEIGHT = 20;
@@ -18,7 +18,7 @@ const BRICK_OFFSET_LEFT = 30;
 })
 export class GameComponent implements OnInit {
 
-  BRICK_ROW_COUNT = 12; // TODO: why is this not called col count?
+  BRICK_COL_COUNT = 1; // 12; 
 
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
@@ -32,12 +32,14 @@ export class GameComponent implements OnInit {
   paddleX: number;
   rightPressed: boolean;
   leftPressed: boolean;
-  brickColumnCount: number;
+  brickRowCount: number;
   game: Game;
   player: Player;
   rainbow = ['#80F31F', '#A5DE0B', '#C7C101', '#E39E03', '#F6780F', '#FE5326', '#FB3244', '#ED1868', '#D5078E', '#B601B3', '#9106D3', '#6B16EC', '#472FFA', '#2850FE', '#1175F7', '#039BE5', '#01BECA', '#0ADCA8'];
   isInitialized = false;
   coinValueChanged = false;
+  
+  GameState = GameState;
 
   //////////////////////////////////////////////////////////////////
   constructor(private sessionStorageService: SessionStorageService) { }
@@ -47,7 +49,7 @@ export class GameComponent implements OnInit {
     this.ctx = this.canvas.getContext('2d');
     this.ball = document.getElementById('catHead') as HTMLImageElement;
     this.paddleX = (this.canvas.width - PADDLE_WIDTH) / 2;
-    this.brickColumnCount = 11;
+    this.brickRowCount = 1;  // 11
 
     this.player = this.sessionStorageService.get(SessionStorageKeys.PLAYER_STATE) || Player.resetPlayer();
     this.initGame();
@@ -61,9 +63,9 @@ export class GameComponent implements OnInit {
     this.game.gameOn();
 
     // Init data structure for bricks
-    for (let c = 0; c < this.brickColumnCount; c++) {
+    for (let c = 0; c < this.brickRowCount; c++) {
       this.bricks[c] = [];
-      for (let r = 0; r < this.BRICK_ROW_COUNT; r++) {
+      for (let r = 0; r < this.BRICK_COL_COUNT; r++) {
         this.bricks[c][r] = {
           x: 0,
           y: 0,
@@ -112,8 +114,8 @@ export class GameComponent implements OnInit {
   // #endregion
 
   collisionDetection() {
-    for (let c = 0; c < this.brickColumnCount; c++) {
-      for (let r = 0; r < this.BRICK_ROW_COUNT; r++) {
+    for (let c = 0; c < this.brickRowCount; c++) {
+      for (let r = 0; r < this.BRICK_COL_COUNT; r++) {
         const b = this.bricks[c][r];
         if (b.status === 1) {
           if (this.x > b.x && this.x < b.x + BRICK_WIDTH && this.y > b.y && this.y < b.y + BRICK_HEIGHT) {
@@ -131,11 +133,13 @@ export class GameComponent implements OnInit {
             // audio = null;
 
             // WON GAME!
-            if (this.game.score === this.BRICK_ROW_COUNT * this.brickColumnCount) {
+            if (this.game.score === this.BRICK_COL_COUNT * this.brickRowCount) {
               this.game.wonGame();
 
               const video = document.getElementById('catCelebration') as HTMLVideoElement;
               video.play();
+              // We know the video is 11 seconds long. Reset state after it is done.
+              setTimeout(_ => this.game.resetGame(), 12000);
             }
 
             this.sessionStorageService.set(SessionStorageKeys.PLAYER_STATE, this.player);
@@ -176,8 +180,8 @@ export class GameComponent implements OnInit {
 
   drawBricks() {
     let rainbowIndex = 0;
-    for (let c = 0; c < this.brickColumnCount; c++) {
-      for (let r = 0; r < this.BRICK_ROW_COUNT; r++) {
+    for (let c = 0; c < this.brickRowCount; c++) {
+      for (let r = 0; r < this.BRICK_COL_COUNT; r++) {
         if (this.bricks[c][r].status === 1) {
           const brickX = (r * (BRICK_WIDTH + BRICK_PADDING)) + BRICK_OFFSET_LEFT;
           const brickY = (c * (BRICK_HEIGHT + BRICK_PADDING)) + BRICK_OFFSET_TOP;

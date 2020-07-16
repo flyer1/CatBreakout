@@ -11,7 +11,7 @@
     </div>
 
     <div class="right">
-      <img id="catHead" class="cat-head" [src]="player.avatar.skin">
+      <app-avatar></app-avatar>
       <a class="style-button" href="store">
         <img src="../../../assets/images/game-ui/dressup.png">
       </a>
@@ -27,16 +27,21 @@
     </div>
 
     <div class="game-surface">
-      <div *ngIf="!game.isActive" class="play-button-wrapper">
+      <div *ngIf="!game.isActive && game.state !== GameState.GameReward" class="play-button-wrapper">
         <div class="button-panel">
-          <div *ngIf="game.isWinner === null">
+          <div *ngIf="game.state === GameState.NewGame">
             <h2>😃</h2>
             <p>Ready to play?</p>
           </div>
-          <div *ngIf="game.isWinner !== null">
+          <div *ngIf="game.state === GameState.LostGame">
             <h2>Game over!!! 😢</h2>
             <p>Want to play again?</p>
           </div>
+          <div *ngIf="game.state === GameState.PlayAgain">
+            <h2>😃</h2>
+            <p>Want to play again?</p>
+          </div>
+
           <button class="play-button" type="button" (click)="play()">Play!</button>
         </div>
       </div>

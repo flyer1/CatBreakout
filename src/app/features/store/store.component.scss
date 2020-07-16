@@ -1,5 +1,170 @@
 .store {
-  .avatar {}
+  display: grid;
+  grid-template-areas:
+    "header"
+    "title"
+    "inventory";
+  grid-template-rows: auto auto 1fr;
+  height: calc(100vh - 40px);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
 
-  .inventory {}
+  .store-header {
+    display: flex;
+    justify-content: space-between;
+
+    .left {
+      h1 {
+        color: #c1b1fa;
+        font-size: 70px;
+        font-weight: 500;
+      }
+
+      .back {}
+    }
+  }
+
+  h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #fbfafa5e;
+    font-weight: 400;
+  }
+
+  .inventory {
+    position: relative;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid black;
+
+    .items {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      overflow-y: scroll;
+      position: absolute;
+      top: 18px;
+      bottom: 10px;
+
+      .card {
+        border: 1px solid #c1b1fa00;
+        margin-right: 30px;
+        margin-bottom: 30px;
+        background: rgba(255, 255, 255, 0.534);
+        overflow-y: auto;
+        border-radius: 10px;
+
+        .card-preview {
+          position: relative;
+          padding: 20px;
+          border-bottom: 1px solid rgba(0, 0, 0, .12);
+          // background: #ee08fe; // #66ede7 #662e79 #c1b1fa
+
+          .image-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fffefed6;
+            border-radius: 100%;
+            width: 120px;
+            height: 120px;
+            margin-right: 5px;
+            padding: 20px;
+
+            img {
+              width: 100px;
+            }
+          }
+
+          .price {
+            position: absolute;
+            right: 0;
+            top: 9px;
+            background: #0606068a;
+            border-radius: 10px 0px 0 10px;
+            font-size: 14px;
+            line-height: 29px;
+            padding-right: 12px;
+            padding-left: 35px;
+
+            img {
+              position: absolute;
+              width: 25px;
+              left: 7px;
+              top: 2px;
+            }
+
+            .coin-value {
+              color: #e6c97a;
+            }
+          }
+        }
+
+        .card-title {
+          padding: 10px 14px;
+          font-size: 20px;
+          font-weight: 600;
+          color: rgba(0, 0, 0, .87);
+        }
+
+        .card-summary {
+          display: flex;
+          justify-content: space-between;
+          padding: 0 15px 8px 15px;
+          min-height: 2.4em;
+          font-size: 15px;
+
+          label {
+            position: relative;
+
+            &:after {
+              content: "";
+              position: absolute;
+              left: -16px;
+              width: 10px;
+              height: 30px;
+              top: -5px;
+            }
+
+            &.Common {
+              &:after {
+                background: #ee08fe; // #66ede7 #662e79 #c1b1fa
+              }
+            }
+
+            &.Rare {
+              &:after {
+                background: #66ede7;
+              }
+            }
+
+            &.Legendary {
+              &:after {
+                background: #662e79;
+              }
+            }
+
+            &.UltraRare {
+              &:after {
+                background: #c1b1fa
+              }
+            }
+          }
+
+          .buy-button {
+            background: #199617;
+            color: white;
+            border: none;
+            padding: 4px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            height: 28px;
+            width: 76px;
+          }
+        }
+      }
+    }
+  }
 }
