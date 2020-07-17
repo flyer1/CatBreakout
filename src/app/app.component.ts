@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AvatarService } from './shared/avatar/avatar.service';
+import { StoreService } from './features/store/store.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +10,10 @@ import { AvatarService } from './shared/avatar/avatar.service';
 export class AppComponent implements OnInit {
   title = 'CatBreakout';
 
-  constructor(private avatarService: AvatarService) { }
+  constructor(private storeService: StoreService, private avatarService: AvatarService) { }
 
   ngOnInit() {
     this.avatarService.init();
+    this.storeService.init();
   }
 }

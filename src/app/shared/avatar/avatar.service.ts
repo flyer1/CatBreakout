@@ -13,4 +13,8 @@ export class AvatarService {
     init() {
         this.player = this.sessionStorageService.get(SessionStorageKeys.PLAYER_STATE) || Player.resetPlayer();
     }
+
+    updateStorage() {
+        this.sessionStorageService.set(SessionStorageKeys.PLAYER_STATE, this.player);
+    }
 }

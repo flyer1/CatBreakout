@@ -1,8 +1,8 @@
-import { StoreItem } from '../models/store.model';
+import { Accessory } from '../models/store.model';
 
 export class Avatar {
     skin: string;
-    accessories: StoreItem[];
+    accessories: string[];
 
     static resetAvatar(): Avatar {
         return {

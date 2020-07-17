@@ -1,9 +1,10 @@
 export class Store {
-    inventory: StoreItem[];
+    accessories: Accessory[];
     skins: Skin[];
 }
 
-export class StoreItem {
+export class Accessory {
+    key: string;
     category: ItemCategory;
     imagePath: string;
     imageWidth?: number
@@ -21,6 +22,7 @@ export class ItemCategory {
 }
 
 export class Skin {
+    key: string;
     name: string;
     imagePath: string;
     purchased?: boolean;
