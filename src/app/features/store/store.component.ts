@@ -13,6 +13,7 @@ export class StoreComponent implements OnInit {
 
   store: Store;
   player: Player;
+  activeTab: TabCode = 'accessories';
 
   ///////////////////////////////
   constructor(private storeService: StoreService, private sessionStorageService: SessionStorageService) { }
@@ -35,4 +36,11 @@ export class StoreComponent implements OnInit {
     item.purchased = true;
     item.confirmPurchase = false;
   }
+
+  selectTab(key: TabCode) {
+    this.activeTab = key;
+  }
+
 }
+
+declare type TabCode = 'accessories' | 'skins';

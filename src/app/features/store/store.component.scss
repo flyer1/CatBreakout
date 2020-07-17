@@ -3,8 +3,9 @@
   grid-template-areas:
     "header"
     "title"
-    "inventory";
-  grid-template-rows: auto auto 1fr;
+    "inventory"
+    "close";
+  grid-template-rows: auto auto 1fr 50px;
   height: calc(100vh - 40px);
   padding-top: 20px;
   padding-bottom: 20px;
@@ -35,15 +36,14 @@
           }
         }
       }
-
-      .back {}
     }
   }
 
   .tabs {
     display: flex;
+    margin-top: 20px;
 
-    h3 {
+    a {
       font-size: 24px;
       color: #fbfafa5e;
       font-weight: 400;
@@ -57,7 +57,7 @@
     }
   }
 
-  .inventory {
+  .tabpage {
     position: relative;
     border-radius: 10px;
     padding: 20px;
@@ -87,7 +87,6 @@
           justify-content: center;
           padding: 20px;
           border-bottom: 1px solid rgba(0, 0, 0, .12);
-          // background: #ee08fe; // #66ede7 #662e79 #c1b1fa
 
           .image-wrapper {
             display: flex;
@@ -188,7 +187,7 @@
                   }
                 }
 
-                &.UltraRare {
+                &.Ultra {
                   &:after {
                     background: #c1b1fa
                   }
@@ -222,6 +221,34 @@
             }
           }
         }
+      }
+    }
+  }
+
+  .close {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 100%;
+      width: 40px;
+      height: 40px;
+      border: 4px solid #1dd7ee3b;
+      cursor: pointer;
+      box-shadow: 0 0 4px #1c323d, 0 0 1px black inset;
+      background: #ffffff9e;
+      font-size: 20px;
+      text-decoration: none;
+      color: #00000096;
+      font-weight: 600;
+      transition: background-color .3s ease;
+
+      &:hover {
+        background-color: #fff;
       }
     }
   }

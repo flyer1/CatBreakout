@@ -3,18 +3,18 @@
   <div class="store-header">
     <div class="left">
       <h1>Cat <span class="sub-title"><img src="../../../assets/images/game-ui/whiskers.png">Store</span></h1>
-      <a>Back</a>
     </div>
     <app-avatar>
     </app-avatar>
   </div>
 
   <div class="tabs">
-    <h3 class="is-active">Accessories</h3>
-    <h3>Skins</h3>
+    <a [class.is-active]="activeTab === 'accessories'" (click)="selectTab('accessories')">Accessories</a>
+    <a [class.is-active]="activeTab === 'skins'" (click)="selectTab('skins')">Skins</a>
   </div>
 
-  <div class="inventory">
+  <!-- ACCESSORIES TAB -->
+  <div *ngIf="activeTab === 'accessories'" class="tabpage">
     <div class="items">
       <div *ngFor="let item of store.inventory" class="card">
         <div class="card-preview">
@@ -51,5 +51,50 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- SKINS TAB -->
+  <div *ngIf="activeTab === 'skins'" class="tabpage">
+    <div class="items">
+      <div *ngFor="let item of store.skins" class="card">
+      
+        <div class="card-preview">
+          <!-- <span class="price">
+            <img src="../../../assets/images/game-ui/coin.png">
+            <span class="coin-value">9393</span>
+          </span> -->
+          <div class="image-wrapper">
+             <img [src]="item.imagePath">
+          </div>
+        </div>
+
+        <div class="details" [class.confirm-purchase]="item.confirmPurchase">
+          <div class="inner-details">
+            <div class="item-info">
+              <div class="card-title">{{item.name}}</div>
+              <div class="card-summary">
+                <!-- <label [ngClass]="item.category">{{item.category}}</label> -->
+                <button *ngIf="!item.purchased" type="button" class="buy-button"
+                  (click)="confirmPurchase(item)">Buy!</button>
+                <span *ngIf="item.purchased" class="equip">
+                  <a class="link" (click)="cancelPurchase(item)">Try on!</a>
+                </span>
+              </div>
+            </div>
+            <div class="confirm-purchase">
+              <div class="card-title">You sure you want to buy this item?</div>
+              <div class="card-summary">
+                <button type="button" class="buy-button" (click)="purchaseItem(item)">Yes</button>
+                <a class="link" (click)="cancelPurchase(item)">Cancel</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="close">
+    <a href="/game">X</a>
   </div>
 </div>

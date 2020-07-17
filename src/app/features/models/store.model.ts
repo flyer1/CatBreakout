@@ -1,5 +1,6 @@
 export class Store {
     inventory: StoreItem[];
+    skins: Skin[];
 }
 
 export class StoreItem {
@@ -16,13 +17,12 @@ export class ItemCategory {
     static common = 'Common';
     static rare = 'Rare';
     static legendary = 'Legendary';
-    static ultraRare = 'UltraRare';
+    static ultraRare = 'Ultra Rare';
 }
 
-// declare type ItemCategory = 'common' | 'rare' | 'legendary' | 'ultraRare';
-// export enum ItemCategory2 {
-//     Common = 0,
-//     Rare = 1,
-//     Legendary = 2,
-//     UltraRare = 3
-// }
+export class Skin {
+    name: string;
+    imagePath: string;
+    purchased?: boolean;
+    confirmPurchase?: boolean;
+}

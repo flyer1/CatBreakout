@@ -67,6 +67,16 @@ export class StoreService {
                     price: 20,
                     name: 'Extremely Cute Unicorn Horn', imageWidth: 35
                 },
+            ],
+            skins: [
+                { 
+                    name: 'default',
+                    imagePath: '../../../assets/images/avatar/skins/default.png',
+                },
+                { 
+                    name: 'Nyan Cat',
+                    imagePath: '../../../assets/images/avatar/skins/nyan-cat.gif',
+                },
             ]
         };
 
