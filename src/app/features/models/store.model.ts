@@ -9,6 +9,7 @@ export class StoreItem {
     price: number;
     name: string;
     purchased?: boolean;
+    confirmPurchase?: boolean;
 }
 
 export class ItemCategory {

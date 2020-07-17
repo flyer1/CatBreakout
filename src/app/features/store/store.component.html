@@ -23,11 +23,22 @@
           </div>
         </div>
 
-        <div class="details">
-          <div class="card-title">foo</div>
-          <div class="card-summary">
-            <label [ngClass]="item.category">{{item.category}}</label>
-            <button type="button" class="buy-button">Buy!</button>
+        <div class="details" [class.confirm-purchase]="item.confirmPurchase">
+          <div class="inner-details">
+            <div class="item-info">
+              <div class="card-title">{{item.name}}</div>
+              <div class="card-summary">
+                <label [ngClass]="item.category">{{item.category}}</label>
+                <button type="button" class="buy-button" (click)="confirmPurchase(item)">Buy!</button>
+              </div>
+            </div>
+            <div class="confirm-purchase">
+              <div class="card-title">You sure you want to buy this item?</div>
+              <div class="card-summary">
+                <button type="button" class="buy-button">Yes</button>
+                <a class="link" (click)="cancelPurchase(item)">Cancel</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>

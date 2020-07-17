@@ -49,6 +49,7 @@
       bottom: 10px;
 
       .card {
+        width: 205px;
         border: 1px solid #c1b1fa00;
         margin-right: 30px;
         margin-bottom: 30px;
@@ -58,6 +59,8 @@
 
         .card-preview {
           position: relative;
+          display: flex;
+          justify-content: center;
           padding: 20px;
           border-bottom: 1px solid rgba(0, 0, 0, .12);
           // background: #ee08fe; // #66ede7 #662e79 #c1b1fa
@@ -102,66 +105,99 @@
           }
         }
 
-        .card-title {
-          padding: 10px 14px;
-          font-size: 20px;
-          font-weight: 600;
-          color: rgba(0, 0, 0, .87);
-        }
+        .details {
+          overflow: hidden;
+          height: 91px;
 
-        .card-summary {
-          display: flex;
-          justify-content: space-between;
-          padding: 0 15px 8px 15px;
-          min-height: 2.4em;
-          font-size: 15px;
+          .inner-details {
+            transition: transform 300ms ease-out;
 
-          label {
-            position: relative;
-
-            &:after {
-              content: "";
-              position: absolute;
-              left: -16px;
-              width: 10px;
-              height: 30px;
-              top: -5px;
+            .card-title {
+              padding: 0;
+              display: flex;
+              height: 48px;
+              align-items: center;
+              padding-left: 14px;
+              padding-right: 14px;
+              font-size: 18px;
+              font-weight: 600;
+              color: rgba(0, 0, 0, .87);
             }
 
-            &.Common {
-              &:after {
-                background: #ee08fe; // #66ede7 #662e79 #c1b1fa
+            .card-summary {
+              display: flex;
+              justify-content: space-between;
+              padding: 0 15px 8px 15px;
+              min-height: 2.4em;
+              font-size: 15px;
+
+              label {
+                position: relative;
+                padding-left: 13px;
+                padding-top: 8px;
+
+                &:after {
+                  content: "";
+                  position: absolute;
+                  left: -3px;
+                  width: 10px;
+                  height: 10px;
+                  top: 12px;
+                  border-radius: 100%;
+                }
+
+                &.Common {
+                  &:after {
+                    background: #ee08fe; // #66ede7 #662e79 #c1b1fa
+                  }
+                }
+
+                &.Rare {
+                  &:after {
+                    background: #66ede7;
+                  }
+                }
+
+                &.Legendary {
+                  &:after {
+                    background: #662e79;
+                  }
+                }
+
+                &.UltraRare {
+                  &:after {
+                    background: #c1b1fa
+                  }
+                }
+              }
+
+              .buy-button {
+                background: #199617;
+                color: white;
+                border: none;
+                padding: 4px 15px;
+                border-radius: 8px;
+                cursor: pointer;
+                height: 34px;
+                width: 76px;
               }
             }
 
-            &.Rare {
-              &:after {
-                background: #66ede7;
-              }
-            }
-
-            &.Legendary {
-              &:after {
-                background: #662e79;
-              }
-            }
-
-            &.UltraRare {
-              &:after {
-                background: #c1b1fa
+            .confirm-purchase {
+              .link {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                width: 70px;
               }
             }
           }
 
-          .buy-button {
-            background: #199617;
-            color: white;
-            border: none;
-            padding: 4px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            height: 28px;
-            width: 76px;
+          &.confirm-purchase {
+            .inner-details {
+              transform: translateY(-90px);
+            }
           }
         }
       }

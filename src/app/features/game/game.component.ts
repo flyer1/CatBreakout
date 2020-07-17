@@ -18,7 +18,7 @@ const BRICK_OFFSET_LEFT = 30;
 })
 export class GameComponent implements OnInit {
 
-  BRICK_COL_COUNT = 1; // 12; 
+  BRICK_COL_COUNT = 12; // 12; 
 
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
@@ -49,7 +49,7 @@ export class GameComponent implements OnInit {
     this.ctx = this.canvas.getContext('2d');
     this.ball = document.getElementById('catHead') as HTMLImageElement;
     this.paddleX = (this.canvas.width - PADDLE_WIDTH) / 2;
-    this.brickRowCount = 1;  // 11
+    this.brickRowCount = 11;  // 11
 
     this.player = this.sessionStorageService.get(SessionStorageKeys.PLAYER_STATE) || Player.resetPlayer();
     this.initGame();
@@ -128,9 +128,9 @@ export class GameComponent implements OnInit {
 
             this.calculateCoins();
 
-            // let audio = new Audio('../../../assets/audio/catMeow.mp3');
-            // audio.play();
-            // audio = null;
+            let audio = new Audio('../../../assets/audio/catMeow.mp3');
+            audio.play();
+            audio = null;
 
             // WON GAME!
             if (this.game.score === this.BRICK_COL_COUNT * this.brickRowCount) {
