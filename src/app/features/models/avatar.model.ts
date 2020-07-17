@@ -1,13 +1,13 @@
+import { StoreItem } from '../models/store.model';
+
 export class Avatar {
     skin: string;
-    hasUnicornHorn: boolean;
-    hasGlasses: boolean;
+    accessories: StoreItem[];
 
     static resetAvatar(): Avatar {
         return {
             skin: '../../../assets/images/avatar/skins/default.png',
-            hasUnicornHorn: false,
-            hasGlasses: false,
+            accessories: []
         };
     }
 }

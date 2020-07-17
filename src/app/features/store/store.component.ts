@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store, StoreItem } from '../models/store.model';
 import { Player } from '../models/player.model';
 import { StoreService } from './store.service';
-import { SessionStorageService, SessionStorageKeys } from 'src/app/core/storage/session-storage.service';
+import { AvatarService } from 'src/app/shared/avatar/avatar.service';
 
 @Component({
   templateUrl: './store.component.html',
@@ -16,11 +16,11 @@ export class StoreComponent implements OnInit {
   activeTab: TabCode = 'accessories';
 
   ///////////////////////////////
-  constructor(private storeService: StoreService, private sessionStorageService: SessionStorageService) { }
+  constructor(private storeService: StoreService, private avatarService: AvatarService) { }
 
   ngOnInit(): void {
     this.store = this.storeService.getInventory();
-    this.player = this.sessionStorageService.get(SessionStorageKeys.PLAYER_STATE) || Player.resetPlayer();
+    this.player = this.avatarService.player;
   }
 
   confirmPurchase(item: StoreItem) {
@@ -35,6 +35,7 @@ export class StoreComponent implements OnInit {
   purchaseItem(item: StoreItem) {
     item.purchased = true;
     item.confirmPurchase = false;
+    this.player.avatar.accessories.push(item);
   }
 
   selectTab(key: TabCode) {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Player } from '../../features/models/player.model';
-import { SessionStorageService, SessionStorageKeys } from '../../core/storage/session-storage.service';
+import { AvatarService } from '../avatar/avatar.service';
 
 @Component({
     selector: 'app-avatar',
@@ -12,9 +12,9 @@ export class AvatarComponent implements OnInit {
 
     player: Player;
 
-    constructor(private sessionStorageService: SessionStorageService) { }
+    constructor(private avatarService: AvatarService) { }
 
     ngOnInit() {
-        this.player = this.sessionStorageService.get(SessionStorageKeys.PLAYER_STATE) || Player.resetPlayer();
+        this.player = this.avatarService.player;
     }
 }
