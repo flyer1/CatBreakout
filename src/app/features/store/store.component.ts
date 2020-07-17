@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store, Accessory } from '../models/store.model';
 import { Player } from '../models/player.model';
 import { StoreService } from './store.service';
-import { AvatarService } from 'src/app/shared/avatar/avatar.service';
+import { PlayerService } from 'src/app/shared/avatar/avatar.service';
 
 @Component({
   templateUrl: './store.component.html',
@@ -16,18 +16,12 @@ export class StoreComponent implements OnInit {
   activeTab: TabCode = 'accessories';
 
   ///////////////////////////////
-  constructor(private storeService: StoreService, private avatarService: AvatarService) { }
+  constructor(private storeService: StoreService, private playerService: PlayerService) { }
 
   ngOnInit(): void {
     this.store = this.storeService.store;
-    this.player = this.avatarService.player;
+    this.player = this.playerService.player;
 
-    this.init()
-  }
-
-  init() {
-    // Merge the purchased items with the inventory
-    // this.store.inventory.forEach(item => item.purchased = )
   }
 
   confirmPurchase(item: Accessory) {
@@ -41,9 +35,15 @@ export class StoreComponent implements OnInit {
 
   purchaseItem(item: Accessory) {
     item.purchased = true;
+    item.isActive = true;
     item.confirmPurchase = false;
     this.player.avatar.accessories.push(item.key);
-    this.avatarService.updateStorage();
+    this.playerService.updateStorage();
+  }
+
+  toggleAccessory(item: Accessory) {
+    item.isActive = !item.isActive;
+    this.playerService.updateStorage();
   }
 
   selectTab(key: TabCode) {

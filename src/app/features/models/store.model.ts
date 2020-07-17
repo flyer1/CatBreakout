@@ -7,11 +7,14 @@ export class Accessory {
     key: string;
     category: ItemCategory;
     imagePath: string;
-    imageWidth?: number
+    imageTop: string;
+    imageLeft: string;
+    imageWidth?: string;
     price: number;
     name: string;
     purchased?: boolean;
     confirmPurchase?: boolean;
+    isActive?: boolean;
 }
 
 export class ItemCategory {

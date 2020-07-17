@@ -3,6 +3,7 @@ import { SessionStorageService, SessionStorageKeys } from '../../core/storage/se
 
 import { Game, GameState } from '../models/game.model';
 import { Player } from '../models/player.model';
+import { PlayerService } from 'src/app/shared/avatar/avatar.service';
 
 const PADDLE_HEIGHT = 20;
 const PADDLE_WIDTH = 175;
@@ -42,20 +43,21 @@ export class GameComponent implements OnInit {
   GameState = GameState;
 
   //////////////////////////////////////////////////////////////////
-  constructor(private sessionStorageService: SessionStorageService) { }
+  constructor(private playerService: PlayerService) { }
 
   ngOnInit(): void {
     this.canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
     this.ctx = this.canvas.getContext('2d');
-    this.ball = document.getElementById('catHead') as HTMLImageElement;
     this.paddleX = (this.canvas.width - PADDLE_WIDTH) / 2;
     this.brickRowCount = 11;  // 11
+    this.player = this.playerService.player;
 
-    this.player = this.sessionStorageService.get(SessionStorageKeys.PLAYER_STATE) || Player.resetPlayer();
     this.initGame();
   }
 
   play() {
+    this.ball = document.getElementById('catHead') as HTMLImageElement;
+
     this.x = this.canvas.width / 2;
     this.y = this.canvas.height - 60;
 
@@ -78,6 +80,7 @@ export class GameComponent implements OnInit {
   }
 
   initGame() {
+
     this.game = new Game();
 
     if (!this.isInitialized) {
@@ -142,7 +145,7 @@ export class GameComponent implements OnInit {
               setTimeout(_ => this.game.resetGame(), 12000);
             }
 
-            this.sessionStorageService.set(SessionStorageKeys.PLAYER_STATE, this.player);
+            this.playerService.updateStorage();
 
             return this.game.isWinner;
           }

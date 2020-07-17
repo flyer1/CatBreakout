@@ -4,7 +4,7 @@ import { Player } from '../../features/models/player.model';
 import { SessionStorageService, SessionStorageKeys } from '../../core/storage/session-storage.service';
 
 @Injectable({ providedIn: 'root' })
-export class AvatarService {
+export class PlayerService {
 
     player: Player;
 

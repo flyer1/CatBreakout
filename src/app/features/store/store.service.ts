@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Store, ItemCategory } from '../models/store.model';
 import { Player } from '../models/player.model';
-import { AvatarService } from 'src/app/shared/avatar/avatar.service';
+import { PlayerService } from 'src/app/shared/avatar/avatar.service';
 
 @Injectable({ providedIn: 'root' })
 export class StoreService {
 
     store: Store;
 
-    constructor(private avatarService: AvatarService) { }
+    constructor(private playerService: PlayerService) { }
 
     init() {
         this.store = {
@@ -18,63 +18,89 @@ export class StoreService {
                     category: ItemCategory.common,
                     imagePath: '../../../assets/images/avatar/accessories/crown-gold.png',
                     price: 20,
-                    name: 'Golden Crown'
+                    name: 'Golden Crown',
+                    imageTop: '12px',
+                    imageLeft: '42px',
+                    imageWidth: '107px'
                 },
                 {
                     key: 'funnyMask',
                     category: ItemCategory.common,
                     imagePath: '../../../assets/images/avatar/accessories/funny-glasses.png',
                     price: 20,
-                    name: 'Funny Mask'
+                    name: 'Funny Mask',
+                    imageTop: '95px',
+                    imageLeft: '48px',
+                    imageWidth: '100px'
                 },
                 {
                     key: 'rainbowBow',
                     category: ItemCategory.rare,
                     imagePath: '../../../assets/images/avatar/accessories/hair-bow-rainbow.png',
                     price: 20,
-                    name: 'Rainbow Bow'
+                    name: 'Rainbow Bow',
+                    imageTop: '20px',
+                    imageLeft: '90px',
+                    imageWidth: '90px',
                 },
                 {
                     key: 'cuteGlasses',
                     category: ItemCategory.rare,
                     imagePath: '../../../assets/images/avatar/accessories/heart-glasses.png',
                     price: 20,
-                    name: 'Cute Glasses'
+                    name: 'Cute Glasses',
+                    imageTop: '80px',
+                    imageLeft: '43px',
+                    imageWidth: '110px'
                 },
                 {
                     key: 'tiaria',
                     category: ItemCategory.ultraRare,
                     imagePath: '../../../assets/images/avatar/accessories/princess-crown.png',
                     price: 20,
-                    name: 'Tiaria'
+                    name: 'Tiaria',
+                    imageTop: '0px',
+                    imageLeft: '0px',
                 },
                 {
                     key: 'reallyCuteGlasses',
                     category: ItemCategory.ultraRare,
                     imagePath: '../../../assets/images/avatar/accessories/rainbow-heart-glasses.png',
                     price: 20,
-                    name: 'Really Cute Glasses'
+                    name: 'Really Cute Glasses',
+                    imageTop: '100px',
+                    imageLeft: '43px',
+                    imageWidth: '110px'
                 },
                 {
                     key: 'coolShades',
                     category: ItemCategory.legendary,
                     imagePath: '../../../assets/images/avatar/accessories/sunglasses.png',
                     price: 20,
-                    name: 'Cool Shades'
+                    name: 'Cool Shades',
+                    imageTop: '109px',
+                    imageLeft: '43px',
+                    imageWidth: '110px'
                 },
                 {
                     key: 'shades',
                     category: ItemCategory.legendary,
                     imagePath: '../../../assets/images/avatar/accessories/sunglasses-aviator.png',
                     price: 20,
-                    name: 'Shades'
+                    name: 'Shades',
+                    imageTop: '65px',
+                    imageLeft: '42px',
+                    imageWidth: '110px'
                 },
                 {
                     key: 'harryPotterGlasses',
                     category: ItemCategory.legendary,
                     imagePath: '../../../assets/images/avatar/accessories/sunglasses-swirls.png',
                     price: 20,
-                    name: 'Harry Potter Glasses'
+                    name: 'Harry Potter Glasses',
+                    imageTop: '107px',
+                    imageLeft: '42px',
+                    imageWidth: '110px'
                 },
                 {
                     key: 'extremelyCuteUnicornHorn',
@@ -82,7 +108,19 @@ export class StoreService {
                     imagePath: '../../../assets/images/avatar/accessories/unicorn-horn.png',
                     price: 20,
                     name: 'Extremely Cute Unicorn Horn',
-                    imageWidth: 35
+                    imageTop: '-20px',
+                    imageLeft: '82px',
+                    imageWidth: '35px'
+                },
+                {
+                    key: 'donut',
+                    category: ItemCategory.legendary,
+                    imagePath: '../../../assets/images/avatar/accessories/donut.png',
+                    price: 20,
+                    name: 'Donut Pet',
+                    imageTop: '133px',
+                    imageLeft: '105px',
+                    imageWidth: '100px'
                 },
             ],
             skins: [
@@ -99,7 +137,7 @@ export class StoreService {
             ]
         };
 
-        this.resolvePurchases(this.avatarService.player);
+        this.resolvePurchases(this.playerService.player);
     }
 
     /** Figure out which items that user has currently purchased */

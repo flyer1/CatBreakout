@@ -23,7 +23,7 @@
             <span class="coin-value">9393</span>
           </span>
           <div class="image-wrapper">
-            <img [src]="item.imagePath" [ngStyle]="{width: item.imageWidth + 'px'}" />
+            <img [src]="item.imagePath" [ngStyle]="{width: item.imageWidth }" />
           </div>
         </div>
 
@@ -36,7 +36,7 @@
                 <button *ngIf="!item.purchased" type="button" class="buy-button"
                   (click)="confirmPurchase(item)">Buy!</button>
                 <span *ngIf="item.purchased" class="equip">
-                  <a class="link" (click)="cancelPurchase(item)">Try on!</a>
+                  <a class="link" (click)="toggleAccessory(item)">Try on!</a>
                 </span>
               </div>
             </div>
@@ -77,7 +77,7 @@
                 <button *ngIf="!item.purchased" type="button" class="buy-button"
                   (click)="confirmPurchase(item)">Buy!</button>
                 <span *ngIf="item.purchased" class="equip">
-                  <a class="link" (click)="cancelPurchase(item)">Try on!</a>
+                  <a class="link" (click)="toggleAccessory(item)">Try on!</a>
                 </span>
               </div>
             </div>

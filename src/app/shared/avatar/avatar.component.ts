@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Player } from '../../features/models/player.model';
-import { AvatarService } from '../avatar/avatar.service';
+import { PlayerService } from '../avatar/avatar.service';
+import { StoreService } from 'src/app/features/store/store.service';
+import { Store } from 'src/app/features/models/store.model';
 
 @Component({
     selector: 'app-avatar',
@@ -11,10 +13,14 @@ import { AvatarService } from '../avatar/avatar.service';
 export class AvatarComponent implements OnInit {
 
     player: Player;
+    store: Store;
 
-    constructor(private avatarService: AvatarService) { }
+    //TODO: get control of change detection cycle.
+
+    constructor(private playerService: PlayerService, private storeService: StoreService) { }
 
     ngOnInit() {
-        this.player = this.avatarService.player;
+        this.player = this.playerService.player;
+        this.store = this.storeService.store;
     }
 }
