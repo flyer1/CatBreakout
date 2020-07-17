@@ -20,17 +20,41 @@
         color: #c1b1fa;
         font-size: 70px;
         font-weight: 500;
+
+        .sub-title {
+          position: absolute;
+          padding-top: 24px;
+          margin-left: 5px;
+          font-size: 78px;
+
+          img {
+            position: absolute;
+            top: 27px;
+            left: 39px;
+            width: 106px;
+          }
+        }
       }
 
       .back {}
     }
   }
 
-  h3 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: #fbfafa5e;
-    font-weight: 400;
+  .tabs {
+    display: flex;
+
+    h3 {
+      font-size: 24px;
+      color: #fbfafa5e;
+      font-weight: 400;
+      margin: 0 15px 25px 15px;
+      cursor: pointer;
+
+      &.is-active {
+        border-bottom: 2px solid white;
+        color: white;
+      }
+    }
   }
 
   .inventory {
@@ -183,14 +207,12 @@
               }
             }
 
-            .confirm-purchase {
-              .link {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                cursor: pointer;
-                width: 70px;
-              }
+            .link {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              cursor: pointer;
+              width: 70px;
             }
           }
 
