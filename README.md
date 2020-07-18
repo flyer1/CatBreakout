@@ -22,8 +22,14 @@ npm ci
 (if npm command is not found, then it is not part of your path (or you haven't restarted a console in order to let the path updates take effect)).
 
 #### 3. Run the game
-From the top level folder of the source code (ie: you will see the src & node_modules folders) type `ng serve` in order to build and host the angular app.
- Navigate to `http://localhost:4200/` in your browser to play the game!
+From the top level folder of the source code (ie: you will see the src & node_modules folders) type 
+
+```
+ng serve
+```
+
+This will build and host the angular app.
+Navigate to `http://localhost:4200/` in your browser to play the game!
 
 
 This project was made with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.2.
