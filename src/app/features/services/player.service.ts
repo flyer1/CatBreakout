@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Player } from '../../features/models/player.model';
+import { Player } from '../models/player.model';
 import { SessionStorageService, SessionStorageKeys } from '../../core/storage/session-storage.service';
 
 @Injectable({ providedIn: 'root' })

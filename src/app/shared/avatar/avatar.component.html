@@ -1,6 +1,8 @@
 <div *ngIf="player" class="avatar">
   <img id="catHead" class="cat-head" [src]="player.avatar.skin">
   <span *ngFor="let accessory of store.accessories" class="accessory">
-    <img *ngIf="accessory.isActive" [src]="accessory.imagePath" [ngStyle]="{'top': accessory.imageTop, 'left': accessory.imageLeft, 'width': accessory.imageWidth}">
+    <img *ngIf="accessory.isActive" 
+         [src]="accessory.imagePath" 
+         [ngStyle]="{'top': accessory.imageTop, 'left': accessory.imageLeft, 'width': accessory.imageWidth}">
   </span>
 </div>

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { Store, Accessory } from '../models/store.model';
 import { Player } from '../models/player.model';
-import { StoreService } from './store.service';
-import { PlayerService } from 'src/app/shared/avatar/avatar.service';
+import { StoreService } from '../services/store.service';
+import { PlayerService } from 'src/app/features/services/player.service';
 
 @Component({
   templateUrl: './store.component.html',
@@ -37,13 +37,18 @@ export class StoreComponent implements OnInit {
     item.purchased = true;
     item.isActive = true;
     item.confirmPurchase = false;
-    this.player.avatar.accessories.push(item.key);
+    this.player.avatar.accessories.push({ key: item.key, isActive: true});
     this.playerService.updateStorage();
   }
 
   toggleAccessory(item: Accessory) {
     item.isActive = !item.isActive;
-    this.playerService.updateStorage();
+    
+    const found = this.player.avatar.accessories.find(accessory => accessory.key === item.key);
+    if (found) { 
+      found.isActive = item.isActive;
+      this.playerService.updateStorage();
+    }
   }
 
   selectTab(key: TabCode) {

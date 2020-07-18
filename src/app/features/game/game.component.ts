@@ -3,7 +3,7 @@ import { SessionStorageService, SessionStorageKeys } from '../../core/storage/se
 
 import { Game, GameState } from '../models/game.model';
 import { Player } from '../models/player.model';
-import { PlayerService } from 'src/app/shared/avatar/avatar.service';
+import { PlayerService } from 'src/app/features/services/player.service';
 
 const PADDLE_HEIGHT = 20;
 const PADDLE_WIDTH = 175;

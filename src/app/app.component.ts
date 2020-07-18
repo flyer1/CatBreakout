@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PlayerService } from './shared/avatar/avatar.service';
-import { StoreService } from './features/store/store.service';
+import { PlayerService } from './features/services/player.service';
+import { StoreService } from './features/services/store.service';
 
 @Component({
   selector: 'app-root',

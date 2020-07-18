@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store, ItemCategory } from '../models/store.model';
 import { Player } from '../models/player.model';
-import { PlayerService } from 'src/app/shared/avatar/avatar.service';
+import { PlayerService } from 'src/app/features/services/player.service';
 
 @Injectable({ providedIn: 'root' })
 export class StoreService {
@@ -142,6 +142,15 @@ export class StoreService {
 
     /** Figure out which items that user has currently purchased */
     resolvePurchases(player: Player) {
-        this.store.accessories.forEach(item => item.purchased = player.avatar.accessories.indexOf(item.key) >= 0);
+        this.store.accessories.forEach(accessory => {
+            const found = player.avatar.accessories.find(item => accessory.key === item.key);
+
+            if (found) {
+                accessory.purchased = true;
+                accessory.isActive = found.isActive;
+            } else {
+                accessory.purchased = false;
+            }
+        });
     }
 }

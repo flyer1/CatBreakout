@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Player } from '../../features/models/player.model';
-import { PlayerService } from '../avatar/avatar.service';
-import { StoreService } from 'src/app/features/store/store.service';
+import { PlayerService } from '../../features/services/player.service';
+import { StoreService } from 'src/app/features/services/store.service';
 import { Store } from 'src/app/features/models/store.model';
 
 @Component({

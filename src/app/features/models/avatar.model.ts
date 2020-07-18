@@ -2,7 +2,7 @@ import { Accessory } from '../models/store.model';
 
 export class Avatar {
     skin: string;
-    accessories: string[];
+    accessories: AvatarAccessory[];
 
     static resetAvatar(): Avatar {
         return {
@@ -10,4 +10,9 @@ export class Avatar {
             accessories: []
         };
     }
+}
+
+export class AvatarAccessory {
+    key: string;
+    isActive: boolean;
 }
