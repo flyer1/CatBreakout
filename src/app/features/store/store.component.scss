@@ -3,9 +3,8 @@
   grid-template-areas:
     "header"
     "title"
-    "inventory"
-    "close";
-  grid-template-rows: auto auto 1fr 50px;
+    "inventory";
+  grid-template-rows: auto auto 1fr;
   height: calc(100vh - 40px);
   padding-top: 20px;
   padding-bottom: 20px;
@@ -204,6 +203,17 @@
                 height: 34px;
                 width: 76px;
               }
+
+              .switch-control {
+                display: inline-block;
+                direction: ltr;
+                height: 28px;
+                vertical-align: middle;
+
+                input {
+                  display: none;
+                }
+              }
             }
 
             .link {
@@ -229,6 +239,8 @@
     display: flex;
     justify-content: center;
     margin-top: 12px;
+    position: absolute;
+    left: 50%;
 
     a {
       display: flex;

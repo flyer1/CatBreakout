@@ -1,5 +1,8 @@
 <div class="store">
   <div class="store-header">
+    <div class="close">
+      <a href="/game">X</a>
+    </div>
     <div class="left">
       <h1>Cat <span class="sub-title"><img src="../../../assets/images/game-ui/whiskers.png">Store</span></h1>
     </div>
@@ -35,7 +38,15 @@
                 <button *ngIf="!item.purchased" type="button" class="buy-button"
                   (click)="confirmPurchase(item)">Buy!</button>
                 <span *ngIf="item.purchased" class="equip">
-                  <a class="link" (click)="toggleAccessory(item)">Try on!</a>
+                  <!-- Normally I'd made this into an angular component with data binding features but this'll be a quick n dirty approach since I only need to use in 1 place in the app -->
+                  <a class="switch-control" (click)="toggleAccessory(item)">
+                    <input type="checkbox" [value]="item.isActive" autocomplete="off" />
+                    <div class="switch" [ngClass]="item.isActive ? 'switch-on': 'switch-off'">
+                      <div class="cursor"></div>
+                      <div class="label label-on">On</div>
+                      <div class="label label-off">Off</div>
+                    </div>
+                  </a>
                 </span>
               </div>
             </div>
@@ -56,14 +67,14 @@
   <div *ngIf="activeTab === 'skins'" class="tabpage">
     <div class="items">
       <div *ngFor="let item of store.skins" class="card">
-      
+
         <div class="card-preview">
           <!-- <span class="price">
             <img src="../../../assets/images/game-ui/coin.png">
             <span class="coin-value">9393</span>
           </span> -->
           <div class="image-wrapper">
-             <img [src]="item.imagePath">
+            <img [src]="item.imagePath">
           </div>
         </div>
 
@@ -91,9 +102,5 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="close">
-    <a href="/game">X</a>
   </div>
 </div>

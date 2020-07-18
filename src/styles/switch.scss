@@ -1,0 +1,84 @@
+.switch {
+  display: inline-block;
+  position: relative;
+  width: 73px;
+  height: 28px;
+  border-radius: 30px;
+  background: #8e8e8e52;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid #ffffffcc;
+
+  .cursor {
+    display: inline-block;
+    position: absolute;
+    top: 3px;
+    width: 22px;
+    height: 22px;
+    border-radius: 100%;
+    background: #fff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    transition: all .2s linear;
+  }
+
+  .label {
+    font-size: 12px;
+    letter-spacing: 1px;
+    line-height: 18px;
+    color: #fff;
+    font-weight: 600;
+    position: absolute;
+    width: 33px;
+    top: 5px;
+    overflow: hidden;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 500ms ease;
+
+    &.label-on {
+      left: 10px;
+      opacity: 1;
+    }
+
+    &.label-off {
+      right: 8px;
+      z-index: 5;
+    }
+  }
+
+  &.switch-on {
+    background: #75b936;
+    box-shadow: 0 0 2px #579022 inset;
+
+    .cursor {
+      left: 48px;
+    }
+
+    .label-on {
+      opacity: 1;
+    }
+
+    .label-off {
+      opacity: 0;
+    }
+  }
+
+  &.switch-off {
+    background: #b2b2b2;
+    box-shadow: 0px 0px 2px #a4a4a4 inset;
+
+    .cursor {
+      left: 3px;
+    }
+
+    .label-on {
+      opacity: 0;
+    }
+
+    .label-off {
+      opacity: 1;
+    }
+  }
+}
