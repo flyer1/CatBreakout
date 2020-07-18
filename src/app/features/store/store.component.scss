@@ -35,12 +35,21 @@
           }
         }
       }
+
+      &:after {
+        content: "";
+        position: absolute;
+        border-bottom: 2px solid #ffffff42;
+        width: 310px;
+        top: 137px;
+      }
     }
   }
 
   .tabs {
     display: flex;
-    margin-top: 20px;
+    margin-top: 30px;
+    position: relative;
 
     a {
       font-size: 24px;
@@ -52,6 +61,28 @@
       &.is-active {
         border-bottom: 2px solid white;
         color: white;
+      }
+    }
+
+    .meta-data {
+      position: absolute;
+      right: 20px;
+      bottom: 0;
+      font-size: 21px;
+      color: white;
+
+      .coins {
+        img {
+          width: 25px;
+          left: 7px;
+          top: 2px;
+        }
+
+        label {
+          margin-right: 2px;
+        }
+
+        .coin-value {}
       }
     }
   }

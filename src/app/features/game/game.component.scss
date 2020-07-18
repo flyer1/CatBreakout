@@ -43,7 +43,7 @@
 
     .right {
       position: relative;
-     
+
       .style-button {
         position: absolute;
         top: -30px;
@@ -206,10 +206,15 @@
     }
 
     .play-footer {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+      position: absolute;
+      bottom: 7px;
+      left: 12px;
+      width: 100%;
+
       .score {
-        position: absolute;
-        bottom: 7px;
-        left: 12px;
 
         label {
           font-weight: 600;
@@ -218,6 +223,31 @@
 
         .score-value {
           font-size: 30px;
+        }
+      }
+
+      .audio {
+        position: relative;
+        padding-right: 20px;
+        padding-top: 5px;
+        font-size: 19px;
+        cursor: pointer;
+        user-select: none;
+
+        &:after {
+          content: "";
+          position: absolute;
+          border: 1px solid red;
+          transform: rotate(45deg);
+          width: 24px;
+          left: -1px;
+          top: 19px;
+        }
+
+        &.sound-effects {
+          &:after {
+            border-color: transparent;
+          }
         }
       }
     }

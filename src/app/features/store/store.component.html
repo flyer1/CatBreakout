@@ -13,6 +13,14 @@
   <div class="tabs">
     <a [class.is-active]="activeTab === 'accessories'" (click)="selectTab('accessories')">Accessories</a>
     <a [class.is-active]="activeTab === 'skins'" (click)="selectTab('skins')">Skins</a>
+    <div class="meta-data">
+      <span>Level 1</span>
+      <span class="coins">
+        <img src="../../../assets/images/game-ui/coin.png">
+        <label>Coins</label>
+        <span class="coin-value">232</span>
+      </span>
+    </div>
   </div>
 
   <!-- ACCESSORIES TAB -->
@@ -22,7 +30,7 @@
         <div class="card-preview">
           <span class="price">
             <img src="../../../assets/images/game-ui/coin.png">
-            <span class="coin-value">9393</span>
+            <span class="coin-value">{{item.price | number}}</span>
           </span>
           <div class="image-wrapper">
             <img [src]="item.imagePath" [ngStyle]="{width: item.imageWidth }" />

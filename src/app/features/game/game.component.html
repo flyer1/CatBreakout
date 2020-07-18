@@ -62,6 +62,8 @@
         <label>Score:</label>
         <span class="score-value">{{game.score}}</span>
       </span>
+
+      <a class="audio" [class.sound-effects]="player.soundEffects" (click)="toggleSoundEffects()">🔔</a>
     </div>
   </div>
 </div>

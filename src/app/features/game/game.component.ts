@@ -39,7 +39,6 @@ export class GameComponent implements OnInit {
   rainbow = ['#80F31F', '#A5DE0B', '#C7C101', '#E39E03', '#F6780F', '#FE5326', '#FB3244', '#ED1868', '#D5078E', '#B601B3', '#9106D3', '#6B16EC', '#472FFA', '#2850FE', '#1175F7', '#039BE5', '#01BECA', '#0ADCA8'];
   isInitialized = false;
   coinValueChanged = false;
-  
   GameState = GameState;
 
   //////////////////////////////////////////////////////////////////
@@ -131,9 +130,11 @@ export class GameComponent implements OnInit {
 
             this.calculateCoins();
 
-            let audio = new Audio('../../../assets/audio/catMeow.mp3');
-            audio.play();
-            audio = null;
+            if (this.player.soundEffects) {
+              let audio = new Audio('../../../assets/audio/catMeow.mp3');
+              audio.play();
+              audio = null;
+            }
 
             // WON GAME!
             if (this.game.score === this.BRICK_COL_COUNT * this.brickRowCount) {
@@ -249,5 +250,10 @@ export class GameComponent implements OnInit {
     if (this.game.isActive) {
       requestAnimationFrame(_ => this.draw());
     }
+  }
+
+  toggleSoundEffects() {
+    this.player.soundEffects = !this.player.soundEffects;
+    this.playerService.updateStorage();
   }
 }
