@@ -29,7 +29,7 @@ ng serve
 ```
 
 This will build and host the angular app.
-Navigate to `http://localhost:4200/` in your browser to play the game!
+Navigate to (http://localhost:4200/) in your browser to play the game!
 
 
 This project was made with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.2.
