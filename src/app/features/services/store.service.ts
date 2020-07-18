@@ -21,7 +21,9 @@ export class StoreService {
                     name: 'Golden Crown',
                     imageTop: '2px',
                     imageLeft: '22px',
-                    imageWidth: '107px'
+                    imageWidth: '107px',
+                    rawWidth: 590,
+                    rawHeight: 352
                 },
                 {
                     key: 'funnyMask',
@@ -31,7 +33,9 @@ export class StoreService {
                     name: 'Funny Mask',
                     imageTop: '85px',
                     imageLeft: '28px',
-                    imageWidth: '100px'
+                    imageWidth: '100px',
+                    rawWidth: 250,
+                    rawHeight: 188
                 },
                 {
                     key: 'rainbowBow',
@@ -42,6 +46,8 @@ export class StoreService {
                     imageTop: '10px',
                     imageLeft: '70px',
                     imageWidth: '90px',
+                    rawWidth: 911,
+                    rawHeight: 713
                 },
                 {
                     key: 'cuteGlasses',
@@ -51,7 +57,9 @@ export class StoreService {
                     name: 'Cute Glasses',
                     imageTop: '90px',
                     imageLeft: '23px',
-                    imageWidth: '110px'
+                    imageWidth: '110px',
+                    rawWidth: 238,
+                    rawHeight: 102
                 },
                 {
                     key: 'tiaria',
@@ -61,6 +69,8 @@ export class StoreService {
                     name: 'Tiaria',
                     imageTop: '0px',
                     imageLeft: '0px',
+                    rawWidth: 457,
+                    rawHeight: 246
                 },
                 {
                     key: 'reallyCuteGlasses',
@@ -70,7 +80,9 @@ export class StoreService {
                     name: 'Really Cute Glasses',
                     imageTop: '90px',
                     imageLeft: '23px',
-                    imageWidth: '110px'
+                    imageWidth: '110px',
+                    rawWidth: 1395,
+                    rawHeight: 579
                 },
                 {
                     key: 'coolShades',
@@ -80,7 +92,9 @@ export class StoreService {
                     name: 'Cool Shades',
                     imageTop: '99px',
                     imageLeft: '23px',
-                    imageWidth: '110px'
+                    imageWidth: '110px',
+                    rawWidth: 6073,
+                    rawHeight: 2235
                 },
                 {
                     key: 'shades',
@@ -90,7 +104,9 @@ export class StoreService {
                     name: 'Shades',
                     imageTop: '95px',
                     imageLeft: '22px',
-                    imageWidth: '110px'
+                    imageWidth: '110px',
+                    rawWidth: 456,
+                    rawHeight: 173
                 },
                 {
                     key: 'harryPotterGlasses',
@@ -100,7 +116,9 @@ export class StoreService {
                     name: 'Harry Potter Glasses',
                     imageTop: '97px',
                     imageLeft: '22px',
-                    imageWidth: '110px'
+                    imageWidth: '110px',
+                    rawWidth: 1038,
+                    rawHeight: 340
                 },
                 {
                     key: 'extremelyCuteUnicornHorn',
@@ -110,7 +128,9 @@ export class StoreService {
                     name: 'Extremely Cute Unicorn Horn',
                     imageTop: '-30px',
                     imageLeft: '62px',
-                    imageWidth: '35px'
+                    imageWidth: '35px',
+                    rawWidth: 900,
+                    rawHeight: 2464
                 },
                 {
                     key: 'donut',
@@ -120,7 +140,9 @@ export class StoreService {
                     name: 'Donut Pet',
                     imageTop: '123px',
                     imageLeft: '85px',
-                    imageWidth: '100px'
+                    imageWidth: '100px',
+                    rawWidth: 793,
+                    rawHeight: 785
                 },
             ],
             skins: [
@@ -128,11 +150,15 @@ export class StoreService {
                     key: 'default',
                     name: 'default',
                     imagePath: '../../../assets/images/avatar/skins/default.png',
+                    rawWidth: 437, 
+                    rawHeight: 516
                 },
                 {
                     key: 'nyanCat',
                     name: 'Nyan Cat',
                     imagePath: '../../../assets/images/avatar/skins/nyan-cat.gif',
+                    rawWidth: 437, 
+                    rawHeight: 516
                 },
             ]
         });

@@ -4,7 +4,7 @@ import { Game, GameState } from '../models/game.model';
 import { Player } from '../models/player.model';
 import { PlayerService } from 'src/app/features/services/player.service';
 import { StoreService } from '../services/store.service';
-import { Store, Accessory } from '../models/store.model';
+import { Store, Accessory, Skin } from '../models/store.model';
 
 const PADDLE_HEIGHT = 20;
 const PADDLE_WIDTH = 175;
@@ -39,6 +39,7 @@ export class GameComponent implements OnInit {
   game: Game;
   player: Player;
   store: Store;
+  skin: Skin;
   rainbow = ['#80F31F', '#A5DE0B', '#C7C101', '#E39E03', '#F6780F', '#FE5326', '#FB3244', '#ED1868', '#D5078E', '#B601B3', '#9106D3', '#6B16EC', '#472FFA', '#2850FE', '#1175F7', '#039BE5', '#01BECA', '#0ADCA8'];
   isInitialized = false;
   coinValueChanged = false;
@@ -60,6 +61,8 @@ export class GameComponent implements OnInit {
 
   play() {
     this.ball = document.getElementById('catHead') as HTMLImageElement;
+    // TODO: for now just pick the default skin
+    this.skin = this.store.skins[0];
 
     this.activeAccessories = [...this.store.accessories.filter(accessory => accessory.isActive)];
     this.activeAccessories.forEach(accessory => accessory.domElement = document.getElementById('accessory-' + accessory.key) as HTMLImageElement);
@@ -177,7 +180,7 @@ export class GameComponent implements OnInit {
   }
 
   drawBall() {
-    this.ctx.drawImage(this.ball, 0, 0, 437, 516, this.x, this.y, 60, 60);
+    this.ctx.drawImage(this.ball, 0, 0, this.skin.rawWidth, this.skin.rawHeight, this.x, this.y, 60, 60);
     this.activeAccessories.forEach(accessory => {
       // 1) Truncate out transparent pixels from each accessory (and skin)
       // 2) Add width/height to accessory class and input those values for each.
@@ -185,7 +188,7 @@ export class GameComponent implements OnInit {
       //    is when we paint the ball, we will be using the same offset.
       // 4) In the next line, use the same top, left offset that is used by the avatar component.
       // 5) I'm not sure about the target width/height???? dw, dh.
-      this.ctx.drawImage(accessory.domElement, 0, 0, 437, 516, this.x, this.y, 60, 60);
+      this.ctx.drawImage(accessory.domElement, 0, 0, accessory.rawWidth, accessory.rawHeight, this.x, this.y, 60, 60);
     })
     return;
   }
@@ -271,5 +274,6 @@ export class GameComponent implements OnInit {
   toggleSoundEffects() {
     this.player.soundEffects = !this.player.soundEffects;
     this.playerService.updateStorage();
+    this.game.isActive = false;
   }
 }

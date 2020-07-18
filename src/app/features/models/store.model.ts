@@ -15,6 +15,8 @@ export interface Accessory {
     imageTop: string;
     imageLeft: string;
     imageWidth?: string;
+    rawWidth: number;
+    rawHeight: number;
     price: number;
     name: string;
     purchased?: boolean;
@@ -34,6 +36,8 @@ export interface Skin {
     key: string;
     name: string;
     imagePath: string;
+    rawWidth: number;
+    rawHeight: number;
     purchased?: boolean;
     confirmPurchase?: boolean;
 }
