@@ -21,7 +21,6 @@ export class StoreComponent implements OnInit {
   ngOnInit(): void {
     this.store = this.storeService.store;
     this.player = this.playerService.player;
-
   }
 
   confirmPurchase(item: Accessory) {
