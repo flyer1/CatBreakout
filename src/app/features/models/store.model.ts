@@ -1,9 +1,14 @@
 export class Store {
     accessories: Accessory[];
     skins: Skin[];
+
+    constructor(data: Store) {
+        Object.assign(this, data);
+    }
+
 }
 
-export class Accessory {
+export interface Accessory {
     key: string;
     category: ItemCategory;
     imagePath: string;
@@ -15,6 +20,7 @@ export class Accessory {
     purchased?: boolean;
     confirmPurchase?: boolean;
     isActive?: boolean;
+    domElement?: HTMLImageElement;
 }
 
 export class ItemCategory {
@@ -24,7 +30,7 @@ export class ItemCategory {
     static ultraRare = 'Ultra Rare';
 }
 
-export class Skin {
+export interface Skin {
     key: string;
     name: string;
     imagePath: string;

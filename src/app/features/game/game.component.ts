@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionStorageService, SessionStorageKeys } from '../../core/storage/session-storage.service';
 
 import { Game, GameState } from '../models/game.model';
 import { Player } from '../models/player.model';
 import { PlayerService } from 'src/app/features/services/player.service';
+import { StoreService } from '../services/store.service';
+import { Store, Accessory } from '../models/store.model';
 
 const PADDLE_HEIGHT = 20;
 const PADDLE_WIDTH = 175;
@@ -24,6 +25,7 @@ export class GameComponent implements OnInit {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
   ball: HTMLImageElement;
+  activeAccessories: Accessory[];
   bricks = [];
   ballRadius = 15;
   x: number;
@@ -36,13 +38,14 @@ export class GameComponent implements OnInit {
   brickRowCount: number;
   game: Game;
   player: Player;
+  store: Store;
   rainbow = ['#80F31F', '#A5DE0B', '#C7C101', '#E39E03', '#F6780F', '#FE5326', '#FB3244', '#ED1868', '#D5078E', '#B601B3', '#9106D3', '#6B16EC', '#472FFA', '#2850FE', '#1175F7', '#039BE5', '#01BECA', '#0ADCA8'];
   isInitialized = false;
   coinValueChanged = false;
   GameState = GameState;
 
   //////////////////////////////////////////////////////////////////
-  constructor(private playerService: PlayerService) { }
+  constructor(private playerService: PlayerService, private storeService: StoreService) { }
 
   ngOnInit(): void {
     this.canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
@@ -50,12 +53,16 @@ export class GameComponent implements OnInit {
     this.paddleX = (this.canvas.width - PADDLE_WIDTH) / 2;
     this.brickRowCount = 11;  // 11
     this.player = this.playerService.player;
+    this.store = this.storeService.store;
 
     this.initGame();
   }
 
   play() {
     this.ball = document.getElementById('catHead') as HTMLImageElement;
+
+    this.activeAccessories = [...this.store.accessories.filter(accessory => accessory.isActive)];
+    this.activeAccessories.forEach(accessory => accessory.domElement = document.getElementById('accessory-' + accessory.key) as HTMLImageElement);
 
     this.x = this.canvas.width / 2;
     this.y = this.canvas.height - 60;
@@ -171,6 +178,15 @@ export class GameComponent implements OnInit {
 
   drawBall() {
     this.ctx.drawImage(this.ball, 0, 0, 437, 516, this.x, this.y, 60, 60);
+    this.activeAccessories.forEach(accessory => {
+      // 1) Truncate out transparent pixels from each accessory (and skin)
+      // 2) Add width/height to accessory class and input those values for each.
+      // 3) In the avatar, create a nested DOM that means we can put the cat/skin at 0,0. What this gives us 
+      //    is when we paint the ball, we will be using the same offset.
+      // 4) In the next line, use the same top, left offset that is used by the avatar component.
+      // 5) I'm not sure about the target width/height???? dw, dh.
+      this.ctx.drawImage(accessory.domElement, 0, 0, 437, 516, this.x, this.y, 60, 60);
+    })
     return;
   }
 

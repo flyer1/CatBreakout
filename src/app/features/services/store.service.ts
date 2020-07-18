@@ -11,7 +11,7 @@ export class StoreService {
     constructor(private playerService: PlayerService) { }
 
     init() {
-        this.store = {
+        this.store = new Store({
             accessories: [
                 {
                     key: 'goldenCrown',
@@ -19,8 +19,8 @@ export class StoreService {
                     imagePath: '../../../assets/images/avatar/accessories/crown-gold.png',
                     price: 230,
                     name: 'Golden Crown',
-                    imageTop: '12px',
-                    imageLeft: '42px',
+                    imageTop: '2px',
+                    imageLeft: '22px',
                     imageWidth: '107px'
                 },
                 {
@@ -29,8 +29,8 @@ export class StoreService {
                     imagePath: '../../../assets/images/avatar/accessories/funny-glasses.png',
                     price: 2340,
                     name: 'Funny Mask',
-                    imageTop: '95px',
-                    imageLeft: '48px',
+                    imageTop: '85px',
+                    imageLeft: '28px',
                     imageWidth: '100px'
                 },
                 {
@@ -39,8 +39,8 @@ export class StoreService {
                     imagePath: '../../../assets/images/avatar/accessories/hair-bow-rainbow.png',
                     price: 2110,
                     name: 'Rainbow Bow',
-                    imageTop: '20px',
-                    imageLeft: '90px',
+                    imageTop: '10px',
+                    imageLeft: '70px',
                     imageWidth: '90px',
                 },
                 {
@@ -49,8 +49,8 @@ export class StoreService {
                     imagePath: '../../../assets/images/avatar/accessories/heart-glasses.png',
                     price: 220,
                     name: 'Cute Glasses',
-                    imageTop: '80px',
-                    imageLeft: '43px',
+                    imageTop: '90px',
+                    imageLeft: '23px',
                     imageWidth: '110px'
                 },
                 {
@@ -68,8 +68,8 @@ export class StoreService {
                     imagePath: '../../../assets/images/avatar/accessories/rainbow-heart-glasses.png',
                     price: 20,
                     name: 'Really Cute Glasses',
-                    imageTop: '100px',
-                    imageLeft: '43px',
+                    imageTop: '90px',
+                    imageLeft: '23px',
                     imageWidth: '110px'
                 },
                 {
@@ -78,8 +78,8 @@ export class StoreService {
                     imagePath: '../../../assets/images/avatar/accessories/sunglasses.png',
                     price: 20,
                     name: 'Cool Shades',
-                    imageTop: '109px',
-                    imageLeft: '43px',
+                    imageTop: '99px',
+                    imageLeft: '23px',
                     imageWidth: '110px'
                 },
                 {
@@ -88,8 +88,8 @@ export class StoreService {
                     imagePath: '../../../assets/images/avatar/accessories/sunglasses-aviator.png',
                     price: 20,
                     name: 'Shades',
-                    imageTop: '65px',
-                    imageLeft: '42px',
+                    imageTop: '95px',
+                    imageLeft: '22px',
                     imageWidth: '110px'
                 },
                 {
@@ -98,8 +98,8 @@ export class StoreService {
                     imagePath: '../../../assets/images/avatar/accessories/sunglasses-swirls.png',
                     price: 20,
                     name: 'Harry Potter Glasses',
-                    imageTop: '107px',
-                    imageLeft: '42px',
+                    imageTop: '97px',
+                    imageLeft: '22px',
                     imageWidth: '110px'
                 },
                 {
@@ -108,8 +108,8 @@ export class StoreService {
                     imagePath: '../../../assets/images/avatar/accessories/unicorn-horn.png',
                     price: 20,
                     name: 'Extremely Cute Unicorn Horn',
-                    imageTop: '-20px',
-                    imageLeft: '82px',
+                    imageTop: '-30px',
+                    imageLeft: '62px',
                     imageWidth: '35px'
                 },
                 {
@@ -118,8 +118,8 @@ export class StoreService {
                     imagePath: '../../../assets/images/avatar/accessories/donut.png',
                     price: 20,
                     name: 'Donut Pet',
-                    imageTop: '133px',
-                    imageLeft: '105px',
+                    imageTop: '123px',
+                    imageLeft: '85px',
                     imageWidth: '100px'
                 },
             ],
@@ -135,7 +135,7 @@ export class StoreService {
                     imagePath: '../../../assets/images/avatar/skins/nyan-cat.gif',
                 },
             ]
-        };
+        });
 
         this.resolvePurchases(this.playerService.player);
     }
