@@ -5,6 +5,7 @@ import { Player } from '../models/player.model';
 import { PlayerService } from 'src/app/features/services/player.service';
 import { StoreService } from '../services/store.service';
 import { Store, Accessory, Skin } from '../models/store.model';
+import { ThrowStmt } from '@angular/compiler';
 
 const PADDLE_HEIGHT = 20;
 const PADDLE_WIDTH = 175;
@@ -57,6 +58,9 @@ export class GameComponent implements OnInit {
     this.store = this.storeService.store;
 
     this.initGame();
+
+    // Use this next line to pause the game during building of inventory
+    // this.workshop();
   }
 
   play() {
@@ -69,6 +73,7 @@ export class GameComponent implements OnInit {
 
     this.x = this.canvas.width / 2;
     this.y = this.canvas.height - 60;
+
 
     this.game.initGame();
     this.game.gameOn();
@@ -153,6 +158,8 @@ export class GameComponent implements OnInit {
               const video = document.getElementById('catCelebration') as HTMLVideoElement;
               video.play();
               // We know the video is 11 seconds long. Reset state after it is done.
+              // TODO: See if this event can be used instead:
+              // v.addEventListener('ended',function() {clearInterval(i);},false);
               setTimeout(_ => this.game.resetGame(), 12000);
             }
 
@@ -180,15 +187,11 @@ export class GameComponent implements OnInit {
   }
 
   drawBall() {
-    this.ctx.drawImage(this.ball, 0, 0, this.skin.rawWidth, this.skin.rawHeight, this.x, this.y, 60, 60);
+    const aspectRatio = this.skin.rawWidth / this.skin.rawHeight;
+    this.ctx.drawImage(this.ball, 0, 0, this.skin.rawWidth, this.skin.rawHeight, this.x, this.y, 60, 60 / aspectRatio);
     this.activeAccessories.forEach(accessory => {
-      // 1) Truncate out transparent pixels from each accessory (and skin)
-      // 2) Add width/height to accessory class and input those values for each.
-      // 3) In the avatar, create a nested DOM that means we can put the cat/skin at 0,0. What this gives us 
-      //    is when we paint the ball, we will be using the same offset.
-      // 4) In the next line, use the same top, left offset that is used by the avatar component.
-      // 5) I'm not sure about the target width/height???? dw, dh.
-      this.ctx.drawImage(accessory.domElement, 0, 0, accessory.rawWidth, accessory.rawHeight, this.x, this.y, 60, 60);
+      // Note: Using the same aspect ratio method when drawing to the canvas does not work for image of various sizes.
+      this.ctx.drawImage(accessory.domElement, 0, 0, accessory.image.rawWidth, accessory.image.rawHeight, this.x + accessory.image.ballLeft, this.y + accessory.image.ballTop, accessory.image.ballWidth, accessory.image.ballHeight);
     })
     return;
   }
@@ -274,6 +277,14 @@ export class GameComponent implements OnInit {
   toggleSoundEffects() {
     this.player.soundEffects = !this.player.soundEffects;
     this.playerService.updateStorage();
-    this.game.isActive = false;
+  }
+
+  /** Use this method to pause the game such that you can set the meta-data for the accessories */
+  workshop() {
+    setTimeout(() => {
+      this.play();
+      this.y = 500;
+      this.game.isActive = false;
+    }, 200);
   }
 }

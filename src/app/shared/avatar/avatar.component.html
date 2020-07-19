@@ -4,8 +4,8 @@
     <span *ngFor="let accessory of store.accessories" class="accessory">
       <img *ngIf="accessory.isActive" 
           [attr.id]="'accessory-' + accessory.key"
-          [src]="accessory.imagePath" 
-          [ngStyle]="{'top': accessory.imageTop, 'left': accessory.imageLeft, 'width': accessory.imageWidth}">
+          [src]="accessory.image.imagePath" 
+          [ngStyle]="{'top': accessory.image.avatarTop + 'px', 'left': accessory.image.avatarLeft+ 'px', 'width': accessory.image.avatarWidth + 'px'}">
     </span>
   </div>
 </div>

@@ -11,12 +11,18 @@ export class Store {
 export interface Accessory {
     key: string;
     category: ItemCategory;
-    imagePath: string;
-    imageTop: string;
-    imageLeft: string;
-    imageWidth?: string;
-    rawWidth: number;
-    rawHeight: number;
+    image: {
+        imagePath: string;
+        avatarTop: number;
+        avatarLeft: number;
+        avatarWidth: number;
+        ballTop: number;
+        ballLeft: number;
+        ballWidth: number;
+        ballHeight: number;
+        rawWidth: number;
+        rawHeight: number;
+    },
     price: number;
     name: string;
     purchased?: boolean;

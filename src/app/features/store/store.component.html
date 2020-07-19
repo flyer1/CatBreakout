@@ -33,7 +33,7 @@
             <span class="coin-value">{{item.price | number}}</span>
           </span>
           <div class="image-wrapper">
-            <img [src]="item.imagePath" [ngStyle]="{width: item.imageWidth }" />
+            <img [src]="item.image.imagePath" [ngStyle]="{width: item.image.avatarWidth + 'px' }" />
           </div>
         </div>
 
