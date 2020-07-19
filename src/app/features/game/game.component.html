@@ -26,7 +26,7 @@
       </span>
     </div>
 
-    <div class="game-surface">
+    <div class="game-surface" #gameSurface>
       <div *ngIf="!game.isActive && game.state !== GameState.GameReward" class="play-button-wrapper">
         <div class="button-panel">
           <div *ngIf="game.state === GameState.NewGame">

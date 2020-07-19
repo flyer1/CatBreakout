@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { Game, GameState } from '../models/game.model';
 import { Player } from '../models/player.model';
 import { PlayerService } from 'src/app/features/services/player.service';
 import { StoreService } from '../services/store.service';
 import { Store, Accessory, Skin } from '../models/store.model';
-import { ThrowStmt } from '@angular/compiler';
 
 const PADDLE_HEIGHT = 20;
 const PADDLE_WIDTH = 175;
@@ -21,7 +20,7 @@ const BRICK_OFFSET_LEFT = 30;
 })
 export class GameComponent implements OnInit {
 
-  BRICK_COL_COUNT = 12; // 12; 
+  BRICK_COL_COUNT = 12;
 
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
@@ -47,23 +46,29 @@ export class GameComponent implements OnInit {
   GameState = GameState;
 
   //////////////////////////////////////////////////////////////////
+
+  @ViewChild('gameSurface', { static: false }) gameSurface: ElementRef<HTMLDivElement>;
+
+  //////////////////////////////////////////////////////////////////
   constructor(private playerService: PlayerService, private storeService: StoreService) { }
 
   ngOnInit(): void {
     this.canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
     this.ctx = this.canvas.getContext('2d');
     this.paddleX = (this.canvas.width - PADDLE_WIDTH) / 2;
-    this.brickRowCount = 11;  // 11
+    this.brickRowCount = 11;
     this.player = this.playerService.player;
     this.store = this.storeService.store;
 
-    this.initGame();
+    this.game = new Game();
 
     // Use this next line to pause the game during building of inventory
     // this.workshop();
   }
 
   play() {
+    this.initGame();
+
     this.ball = document.getElementById('catHead') as HTMLImageElement;
     // TODO: for now just pick the default skin
     this.skin = this.store.skins[0];
@@ -73,7 +78,6 @@ export class GameComponent implements OnInit {
 
     this.x = this.canvas.width / 2;
     this.y = this.canvas.height - 60;
-
 
     this.game.initGame();
     this.game.gameOn();
@@ -95,12 +99,11 @@ export class GameComponent implements OnInit {
 
   initGame() {
 
-    this.game = new Game();
-
     if (!this.isInitialized) {
       document.addEventListener('keydown', (e) => this.keyDownHandler(e), false);
       document.addEventListener('keyup', (e) => this.keyUpHandler(e), false);
-      document.addEventListener('mousemove', (e) => this.mouseMoveHandler(e), false);
+      this.gameSurface.nativeElement.addEventListener('mousemove', (e) => this.mouseMoveHandler(e), false);
+      this.isInitialized = true;
     }
   }
 
@@ -122,10 +125,7 @@ export class GameComponent implements OnInit {
   }
 
   mouseMoveHandler(e) {
-    const relativeX = e.clientX - this.canvas.offsetLeft;
-    if (relativeX > 0 && relativeX < this.canvas.width) {
-      this.paddleX = relativeX - PADDLE_WIDTH / 2;
-    }
+    this.paddleX = e.offsetX - PADDLE_WIDTH / 2;
   }
 
   // #endregion
@@ -155,12 +155,17 @@ export class GameComponent implements OnInit {
             if (this.game.score === this.BRICK_COL_COUNT * this.brickRowCount) {
               this.game.wonGame();
 
-              const video = document.getElementById('catCelebration') as HTMLVideoElement;
+              let video = document.getElementById('catCelebration') as HTMLVideoElement;
               video.play();
-              // We know the video is 11 seconds long. Reset state after it is done.
               // TODO: See if this event can be used instead:
-              // v.addEventListener('ended',function() {clearInterval(i);},false);
-              setTimeout(_ => this.game.resetGame(), 12000);
+              video.addEventListener('ended', _ => {
+                console.log('your video has ended')
+              }, false);
+              // We know the video is 11 seconds long. Reset state after it is done.
+              setTimeout(_ => {
+                this.game.resetGame();
+                video = null;
+              }, 12000);
             }
 
             this.playerService.updateStorage();
@@ -287,4 +292,5 @@ export class GameComponent implements OnInit {
       this.game.isActive = false;
     }, 200);
   }
+
 }
