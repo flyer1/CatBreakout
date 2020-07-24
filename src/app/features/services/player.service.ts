@@ -20,6 +20,7 @@ export class PlayerService {
     }
 
     updateStorage() {
+        Player.computeLevel(this.player);
         this.sessionStorageService.set(SessionStorageKeys.PLAYER_STATE, this.player);
         this.playerChanged.next();
     }

@@ -23,6 +23,7 @@ export class AvatarComponent implements OnInit, AfterViewInit, OnDestroy {
     // Level progress variables
     svg: Selection<BaseType, {}, HTMLElement, any>;
     g: Selection<BaseType, {}, HTMLElement, any>;
+    progress: Selection<SVGGElement, {}, HTMLElement, any>;
     arcGenerator: Arc<any, DefaultArcObject>;
     radius = 125;
 
@@ -40,6 +41,7 @@ export class AvatarComponent implements OnInit, AfterViewInit, OnDestroy {
         this.playerService.playerChanged$
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(_ => {
+                this.updateProgress();
                 // Tell Angular to update the data binding
                 this.cdr.markForCheck();
             });
@@ -65,26 +67,30 @@ export class AvatarComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.addDefs();
 
-        const dialSelection = this.g
+        this.progress = this.g
             .append('g')
             .attr('class', 'progress-dial');
 
-        const percentage = 23;
-
-        const arcGenerator = arc()
+        this.arcGenerator = arc()
             .startAngle(0)
-            .endAngle(_ => percentage / 100 * τ)
+            .endAngle(_ => this.player.levelPercentComplete / 100 * τ)
             .innerRadius(this.radius * 0.9)         // This is the size of the donut hole
             .outerRadius(this.radius)
             .cornerRadius(10)
             .padAngle(.02);
 
-        dialSelection
+        this.progress
             .append('path')
-            .attr('d', (d: any) => arcGenerator({ innerRadius: 100, outerRadius: 120, startAngle: 0, endAngle: Math.PI * 2 }))
+            .attr('d', (d: any) => this.arcGenerator(d))
             .attr('fill', '#ff00006e')
             .style('stroke-width', '3px')
             .style('fill', 'url(#gradient0)');
+    }
+
+    updateProgress() {
+        if (!this.progress) { return; }
+
+        this.progress.select('path').attr('d', (d: any) => this.arcGenerator(d));
     }
 
     addDefs() {
@@ -109,6 +115,7 @@ export class AvatarComponent implements OnInit, AfterViewInit, OnDestroy {
         gradient.append('svg:stop').attr('offset', '100%').attr('stop-color', '#ff718a').attr('stop-opacity', '.9')
 
     }
+
     ngOnDestroy(): void {
         this.unsubscribe.next();
         this.unsubscribe.complete();
