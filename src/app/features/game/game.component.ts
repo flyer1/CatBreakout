@@ -30,8 +30,10 @@ export class GameComponent implements OnInit {
   ballRadius = 15;
   x: number;
   y: number;
-  dx = 8;
-  dy = -15;
+  dx = 5;
+  dy = -7;
+  speedHorizontal = 5;
+  speedVertical = -7;
   paddleX: number;
   rightPressed: boolean;
   leftPressed: boolean;
@@ -98,6 +100,7 @@ export class GameComponent implements OnInit {
   }
 
   initGame() {
+    this.dy = this.calculateDy();
 
     if (!this.isInitialized) {
       document.addEventListener('keydown', (e) => this.keyDownHandler(e), false);
@@ -259,8 +262,8 @@ export class GameComponent implements OnInit {
 
         this.x = this.canvas.width / 2;
         this.y = this.canvas.height - 60;
-        this.dx = 8;
-        this.dy = -15;
+        this.dx = this.speedHorizontal;
+        this.dy = this.calculateDy();
         this.paddleX = (this.canvas.width - PADDLE_WIDTH) / 2;
       }
     }
@@ -282,6 +285,16 @@ export class GameComponent implements OnInit {
   toggleSoundEffects() {
     this.player.soundEffects = !this.player.soundEffects;
     this.playerService.updateStorage();
+  }
+
+  onSpeedChanged($event) {
+    this.player.speed = +$event.target.value;
+    this.dy = this.calculateDy();
+    this.playerService.updateStorage();
+  }
+
+  calculateDy() {
+    return this.speedVertical - this.player.speed;
   }
 
   /** Use this method to pause the game such that you can set the meta-data for the accessories */

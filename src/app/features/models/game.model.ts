@@ -19,7 +19,6 @@ export class Game {
     ///////////////////////////////////////////////////////
     constructor() {
         this.initGame();
-
     }
 
     initGame() {
