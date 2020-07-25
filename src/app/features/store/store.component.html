@@ -14,11 +14,10 @@
     <a [class.is-active]="activeTab === 'accessories'" (click)="selectTab('accessories')">Accessories</a>
     <a [class.is-active]="activeTab === 'skins'" (click)="selectTab('skins')">Skins</a>
     <div class="meta-data">
-      <span>Level 1</span>
       <span class="coins">
         <img src="../../../assets/images/game-ui/coin.png">
         <label>Coins</label>
-        <span class="coin-value">232</span>
+        <span class="coin-value">{{player.coins}}</span>
       </span>
     </div>
   </div>
