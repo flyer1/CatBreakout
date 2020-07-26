@@ -7,18 +7,23 @@ export class Player {
     coins: number;
     speed: number;
     soundEffects: boolean;
-    avatar: Avatar;
+    // The list of purchased skins from the store
+    avatars: Avatar[];
+
+    activeAvatar?: Avatar;
 
     static resetPlayer(): Player {
-        return {
+        const result: Player = {
             totalPoints: 0,
             level: 0,
             levelPercentComplete: 0,
             coins: 0,
             speed: 5,
             soundEffects: true,
-            avatar: Avatar.resetAvatar()
-        }
+            avatars: [Avatar.resetAvatar()]
+        };
+        result.activeAvatar = result.avatars.find(avatar => avatar.isActive);
+        return result;
     }
 
     static computeLevel(player: Player) {

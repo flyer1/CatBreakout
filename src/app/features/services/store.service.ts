@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Store, ItemCategory } from '../models/store.model';
+
+import { Store, ItemCategory, Skin } from '../models/store.model';
 import { Player } from '../models/player.model';
 import { PlayerService } from 'src/app/features/services/player.service';
 
@@ -11,7 +12,43 @@ export class StoreService {
     constructor(private playerService: PlayerService) { }
 
     init() {
-        this.store = new Store({
+        this.store = new Store([this.addDefaultSkin()]);
+
+        this.resolvePurchases(this.playerService.player);
+    }
+
+    /** Figure out which items that user has currently purchased */
+    resolvePurchases(player: Player) {
+        this.store.skins.forEach(storeSkin => {
+            const purchasedAvatar = player.avatars.find(avatar => avatar.skinKey === storeSkin.key);
+
+            if (!purchasedAvatar) { return; }
+
+            if (purchasedAvatar.isActive) { 
+                this.store.activeSkin = storeSkin;
+                player.activeAvatar = purchasedAvatar;
+            }
+
+            storeSkin.accessories.forEach(storeAccessory => {
+                const found = purchasedAvatar.accessories.find(purchasedAccessory => storeAccessory.key === purchasedAccessory.key);
+
+                if (found) {
+                    storeAccessory.isPurchased = true;
+                    storeAccessory.isActive = found.isActive;
+                } else {
+                    storeAccessory.isPurchased = false;
+                }
+            });
+        });
+    }
+
+    addDefaultSkin(): Skin {
+        return {
+            key: 'default',
+            name: 'default',
+            imagePath: '../../../assets/images/avatar/skins/default.png',
+            rawWidth: 437,
+            rawHeight: 516,
             accessories: [
                 {
                     key: 'goldenCrown',
@@ -19,7 +56,7 @@ export class StoreService {
                     price: 230,
                     name: 'Golden Crown',
                     image: {
-                        imagePath: '../../../assets/images/avatar/accessories/crown-gold.png',
+                        path: '../../../assets/images/avatar/accessories/crown-gold.png',
                         avatarTop: 11,
                         avatarLeft: 34,
                         avatarWidth: 85,
@@ -37,7 +74,7 @@ export class StoreService {
                     price: 2340,
                     name: 'Funny Mask',
                     image: {
-                        imagePath: '../../../assets/images/avatar/accessories/funny-glasses.png',
+                        path: '../../../assets/images/avatar/accessories/funny-glasses.png',
                         avatarTop: 85,
                         avatarLeft: 28,
                         avatarWidth: 100,
@@ -56,7 +93,7 @@ export class StoreService {
                     price: 2110,
                     name: 'Rainbow Bow',
                     image: {
-                        imagePath: '../../../assets/images/avatar/accessories/hair-bow-rainbow.png',
+                        path: '../../../assets/images/avatar/accessories/hair-bow-rainbow.png',
                         avatarTop: 10,
                         avatarLeft: 110,
                         avatarWidth: 60,
@@ -74,7 +111,7 @@ export class StoreService {
                     price: 220,
                     name: 'Cute Glasses',
                     image: {
-                        imagePath: '../../../assets/images/avatar/accessories/heart-glasses.png',
+                        path: '../../../assets/images/avatar/accessories/heart-glasses.png',
                         avatarTop: 90,
                         avatarLeft: 23,
                         avatarWidth: 110,
@@ -92,7 +129,7 @@ export class StoreService {
                     price: 420,
                     name: 'Tiaria',
                     image: {
-                        imagePath: '../../../assets/images/avatar/accessories/princess-crown.png',
+                        path: '../../../assets/images/avatar/accessories/princess-crown.png',
                         avatarTop: 28,
                         avatarLeft: 33,
                         avatarWidth: 90,
@@ -110,7 +147,7 @@ export class StoreService {
                     price: 20,
                     name: 'Really Cute Glasses',
                     image: {
-                        imagePath: '../../../assets/images/avatar/accessories/rainbow-heart-glasses.png',
+                        path: '../../../assets/images/avatar/accessories/rainbow-heart-glasses.png',
                         avatarTop: 90,
                         avatarLeft: 23,
                         avatarWidth: 110,
@@ -128,7 +165,7 @@ export class StoreService {
                     price: 20,
                     name: 'Cool Shades',
                     image: {
-                        imagePath: '../../../assets/images/avatar/accessories/sunglasses.png',
+                        path: '../../../assets/images/avatar/accessories/sunglasses.png',
                         avatarTop: 99,
                         avatarLeft: 23,
                         avatarWidth: 110,
@@ -146,7 +183,7 @@ export class StoreService {
                     price: 20,
                     name: 'Shades',
                     image: {
-                        imagePath: '../../../assets/images/avatar/accessories/sunglasses-aviator.png',
+                        path: '../../../assets/images/avatar/accessories/sunglasses-aviator.png',
                         avatarTop: 95,
                         avatarLeft: 22,
                         avatarWidth: 110,
@@ -164,7 +201,7 @@ export class StoreService {
                     price: 20,
                     name: 'Harry Potter Glasses',
                     image: {
-                        imagePath: '../../../assets/images/avatar/accessories/sunglasses-swirls.png',
+                        path: '../../../assets/images/avatar/accessories/sunglasses-swirls.png',
                         avatarTop: 97,
                         avatarLeft: 22,
                         avatarWidth: 110,
@@ -182,7 +219,7 @@ export class StoreService {
                     price: 20,
                     name: 'Extremely Cute Unicorn Horn',
                     image: {
-                        imagePath: '../../../assets/images/avatar/accessories/unicorn-horn.png',
+                        path: '../../../assets/images/avatar/accessories/unicorn-horn.png',
                         avatarTop: -30,
                         avatarLeft: 62,
                         avatarWidth: 35,
@@ -200,7 +237,7 @@ export class StoreService {
                     price: 20,
                     name: 'Donut Pet',
                     image: {
-                        imagePath: '../../../assets/images/avatar/accessories/donut.png',
+                        path: '../../../assets/images/avatar/accessories/donut.png',
                         avatarTop: 139,
                         avatarLeft: 85,
                         avatarWidth: 80,
@@ -213,38 +250,15 @@ export class StoreService {
                     },
                 },
             ],
-            skins: [
-                {
-                    key: 'default',
-                    name: 'default',
-                    imagePath: '../../../assets/images/avatar/skins/default.png',
-                    rawWidth: 437,
-                    rawHeight: 516
-                },
-                {
-                    key: 'nyanCat',
-                    name: 'Nyan Cat',
-                    imagePath: '../../../assets/images/avatar/skins/nyan-cat.gif',
-                    rawWidth: 437,
-                    rawHeight: 516
-                },
-            ]
-        });
-
-        this.resolvePurchases(this.playerService.player);
-    }
-
-    /** Figure out which items that user has currently purchased */
-    resolvePurchases(player: Player) {
-        this.store.accessories.forEach(accessory => {
-            const found = player.avatar.accessories.find(item => accessory.key === item.key);
-
-            if (found) {
-                accessory.purchased = true;
-                accessory.isActive = found.isActive;
-            } else {
-                accessory.purchased = false;
-            }
-        });
+        };
     }
 }
+
+
+// {
+//     key: 'nyanCat',
+//     name: 'Nyan Cat',
+//     path: '../../../assets/images/avatar/skins/nyan-cat.gif',
+//     rawWidth: 437,
+//     rawHeight: 516
+// },

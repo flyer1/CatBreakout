@@ -21,7 +21,9 @@ export class PlayerService {
 
     updateStorage() {
         Player.computeLevel(this.player);
-        this.sessionStorageService.set(SessionStorageKeys.PLAYER_STATE, this.player);
+        const playerToSave = Object.assign({}, this.player);
+        delete playerToSave.activeAvatar;
+        this.sessionStorageService.set(SessionStorageKeys.PLAYER_STATE, playerToSave);
         this.playerChanged.next();
     }
 }

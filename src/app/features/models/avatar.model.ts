@@ -1,12 +1,12 @@
-import { Accessory } from '../models/store.model';
-
 export class Avatar {
-    skin: string;
+    skinKey: string;
+    isActive: boolean;
     accessories: AvatarAccessory[];
 
     static resetAvatar(): Avatar {
         return {
-            skin: '../../../assets/images/avatar/skins/default.png',
+            skinKey: 'default',
+            isActive: true,
             accessories: []
         };
     }
@@ -17,7 +17,7 @@ export class Avatar {
  * Therefore we only store a key and indicator if the accessory it active (shown on the avatar).
  * We want to make sure that the information from the store is the only place that contains all of the details about each accessory.
  */
-export class AvatarAccessory {
+export interface AvatarAccessory {
     key: string;
     isActive: boolean;
 }

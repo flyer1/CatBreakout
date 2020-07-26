@@ -72,10 +72,9 @@ export class GameComponent implements OnInit {
     this.initGame();
 
     this.ball = document.getElementById('catHead') as HTMLImageElement;
-    // TODO: for now just pick the default skin
-    this.skin = this.store.skins[0];
+    this.skin = this.store.activeSkin;
 
-    this.activeAccessories = [...this.store.accessories.filter(accessory => accessory.isActive)];
+    this.activeAccessories = [...this.skin.accessories.filter(accessory => accessory.isActive)];
     this.activeAccessories.forEach(accessory => accessory.domElement = document.getElementById('accessory-' + accessory.key) as HTMLImageElement);
 
     this.x = this.canvas.width / 2;
@@ -162,13 +161,9 @@ export class GameComponent implements OnInit {
               video.play();
               // TODO: See if this event can be used instead:
               video.addEventListener('ended', _ => {
-                console.log('your video has ended')
-              }, false);
-              // We know the video is 11 seconds long. Reset state after it is done.
-              setTimeout(_ => {
                 this.game.resetGame();
                 video = null;
-              }, 12000);
+              }, false);
             }
 
             this.playerService.updateStorage();

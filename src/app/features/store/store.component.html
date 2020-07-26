@@ -25,14 +25,14 @@
   <!-- ACCESSORIES TAB -->
   <div *ngIf="activeTab === 'accessories'" class="tabpage">
     <div class="items">
-      <div *ngFor="let item of store.accessories" class="card">
+      <div *ngFor="let item of store.activeSkin.accessories" class="card">
         <div class="card-preview">
           <span class="price">
             <img src="../../../assets/images/game-ui/coin.png">
             <span class="coin-value">{{item.price | number}}</span>
           </span>
           <div class="image-wrapper">
-            <img [src]="item.image.imagePath" [ngStyle]="{width: item.image.avatarWidth + 'px' }" />
+            <img [src]="item.image.path" [ngStyle]="{width: item.image.avatarWidth + 'px' }" />
           </div>
         </div>
 
@@ -42,9 +42,9 @@
               <div class="card-title">{{item.name}}</div>
               <div class="card-summary">
                 <label [ngClass]="item.category">{{item.category}}</label>
-                <button *ngIf="!item.purchased" type="button" class="buy-button"
+                <button *ngIf="!item.isPurchased" type="button" class="buy-button"
                   (click)="confirmPurchase(item)">Buy!</button>
-                <span *ngIf="item.purchased" class="equip">
+                <span *ngIf="item.isPurchased" class="equip">
                   <!-- Normally I'd made this into an angular component with data binding features but this'll be a quick n dirty approach since I only need to use in 1 place in the app -->
                   <a class="switch-control" (click)="toggleAccessory(item)">
                     <input type="checkbox" [value]="item.isActive" autocomplete="off" />
