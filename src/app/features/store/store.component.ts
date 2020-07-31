@@ -4,6 +4,7 @@ import { Store, Accessory } from '../models/store.model';
 import { Player } from '../models/player.model';
 import { StoreService } from '../services/store.service';
 import { PlayerService } from 'src/app/features/services/player.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   templateUrl: './store.component.html',
@@ -16,9 +17,10 @@ export class StoreComponent implements OnInit {
   activeTab: TabCode = 'accessories';
 
   ///////////////////////////////
-  constructor(private storeService: StoreService, private playerService: PlayerService) { }
+  constructor(private route: ActivatedRoute, private storeService: StoreService, private playerService: PlayerService) { }
 
   ngOnInit(): void {
+    console.log(this.route.snapshot);
     this.store = this.storeService.store;
     this.player = this.playerService.player;
   }

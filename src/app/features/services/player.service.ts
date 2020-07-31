@@ -11,12 +11,17 @@ export class PlayerService {
     playerChanged$ = this.playerChanged.asObservable();
 
     player: Player;
+    isInitialized: boolean;
 
     ////////////////////////////////////////////////////////////
     constructor(private sessionStorageService: SessionStorageService) { }
 
-    init() {
+    /** This is called by the routing resolver so it'll be called on every route change */
+    public init() {
+        if (this.isInitialized) { return; }
+
         this.player = this.sessionStorageService.get(SessionStorageKeys.PLAYER_STATE) || Player.resetPlayer();
+        this.isInitialized = true;
     }
 
     updateStorage() {

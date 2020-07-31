@@ -1,19 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { PlayerService } from './features/services/player.service';
-import { StoreService } from './features/services/store.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  template: `<div class="shell">
+                <router-outlet></router-outlet>
+             </div>`
 })
-export class AppComponent implements OnInit {
-  title = 'CatBreakout';
-
-  constructor(private storeService: StoreService, private playerService: PlayerService) { }
-
-  ngOnInit() {
-    this.playerService.init();
-    this.storeService.init();
-  }
-}
+export class AppComponent { }
