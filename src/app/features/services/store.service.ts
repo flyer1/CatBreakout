@@ -52,6 +52,8 @@ export class StoreService {
                 this.store.activeSkin = storeSkin;
                 this.store.activeSkin.isActive = true;
                 player.activeAvatar = purchasedAvatar;
+            } else {
+                storeSkin.isActive = false;
             }
 
             storeSkin.accessories.forEach(storeAccessory => {
@@ -62,22 +64,17 @@ export class StoreService {
                     storeAccessory.isActive = found.isActive;
                 } else {
                     storeAccessory.isPurchased = false;
+                    storeAccessory.isActive = false;
                 }
             });
         });
+        this.skinChanged.next(this.store.activeSkin);
     }
 
     purchaseAccessory(accessory: Accessory) {
         accessory.isPurchased = true;
         accessory.isActive = true;
         accessory.confirmPurchase = false;
-    }
-
-    makeSkinDefault(skin: Skin) {
-        this.store.skins.forEach(s => s.isActive = false);
-        skin.isActive = true;
-        this.store.activeSkin = skin;
-        this.skinChanged.next(skin);
     }
 }
 

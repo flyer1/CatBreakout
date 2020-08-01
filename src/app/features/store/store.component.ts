@@ -52,8 +52,8 @@ export class StoreComponent implements OnInit {
   }
 
   makeSkinDefault(skin: Skin) {
-    this.storeService.makeSkinDefault(skin);
     this.player.avatars.forEach(avatar => avatar.isActive = (avatar.skinKey === skin.key));
+    this.storeService.resolvePurchases(this.player);
     this.playerService.updateStorage();
   }
 
