@@ -13,13 +13,18 @@ export class Store {
 export interface Skin {
     key: string;
     name: string;
+    aboutMe: string;
+    unlockLevel: number;
     imagePath: string;
     avatarTop: number;
     rawWidth: number;
     rawHeight: number;
+    accessories: Accessory[];
+
+    // The player data affects the next properties
+    isActive?: boolean;
     purchased?: boolean;
     confirmPurchase?: boolean;
-    accessories: Accessory[];
 }
 
 export interface Accessory {
@@ -29,9 +34,11 @@ export interface Accessory {
     name: string;
     image: AccessoryImage;
 
+    // The player data affects the next properties
     isActive?: boolean;
     isPurchased?: boolean;
     confirmPurchase?: boolean;
+    
     domElement?: HTMLImageElement;
 }
 

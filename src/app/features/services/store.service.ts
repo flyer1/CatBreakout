@@ -22,14 +22,17 @@ export class StoreService {
                 resolve();
             }
 
+            // Load up all of the skins into the store
             forkJoin([
                 this.http.get('./assets/data/default.skin.json'),
                 this.http.get('./assets/data/nyan-cat.skin.json'),
             ]).subscribe((data: any) => {
                 this.store = new Store(data);
+
+                // Figure out what the player has already purchased from the store.
                 this.resolvePurchases(this.playerService.player);
-                resolve();
                 this.isInitialized = true;
+                resolve();
             });
         });
     }
@@ -43,6 +46,7 @@ export class StoreService {
 
             if (purchasedAvatar.isActive) {
                 this.store.activeSkin = storeSkin;
+                this.store.activeSkin.isActive = true;
                 player.activeAvatar = purchasedAvatar;
             }
 

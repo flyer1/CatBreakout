@@ -1,6 +1,8 @@
 {
   "key": "nyan",
   "name": "Nyan Cat",
+  "aboutMe": "I like to fly around all day with a rainbow that I will say I like to spend my time in space but I will win every race.",
+  "unlockLevel": 5,
   "imagePath": "../../../assets/images/avatar/skins/nyan-cat.gif",
   "avatarTop": 30,
   "rawWidth": 272,

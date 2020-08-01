@@ -53,6 +53,9 @@ export class StoreComponent implements OnInit {
     }
   }
 
+  makeSkinDefault(item: any) {
+    
+  }
   selectTab(key: TabCode) {
     this.activeTab = key;
   }

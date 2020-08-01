@@ -24,7 +24,7 @@
 
   <!-- ACCESSORIES TAB -->
   <div *ngIf="activeTab === 'accessories'" class="tabpage">
-    <div class="items">
+    <div class="items small-scrollbar">
       <div *ngFor="let item of store.activeSkin.accessories" class="card">
         <div class="card-preview">
           <span class="price">
@@ -42,7 +42,7 @@
               <div class="card-title">{{item.name}}</div>
               <div class="card-summary">
                 <label [ngClass]="item.category">{{item.category}}</label>
-                <button *ngIf="!item.isPurchased" type="button" class="buy-button"
+                <button *ngIf="!item.isPurchased" type="button" class="btn"
                   (click)="confirmPurchase(item)">Buy!</button>
                 <span *ngIf="item.isPurchased" class="equip">
                   <!-- Normally I'd made this into an angular component with data binding features but this'll be a quick n dirty approach since I only need to use in 1 place in the app -->
@@ -60,7 +60,7 @@
             <div class="confirm-purchase">
               <div class="card-title">You sure you want to buy this item?</div>
               <div class="card-summary">
-                <button type="button" class="buy-button" (click)="purchaseItem(item)">Yes</button>
+                <button type="button" class="btn" (click)="purchaseItem(item)">Yes</button>
                 <a class="link" (click)="cancelPurchase(item)">Cancel</a>
               </div>
             </div>
@@ -70,10 +70,11 @@
     </div>
   </div>
 
+
   <!-- SKINS TAB -->
   <div *ngIf="activeTab === 'skins'" class="tabpage">
-    <div class="items">
-      <div *ngFor="let item of store.skins" class="card">
+    <div class="items small-scrollbar">
+      <div *ngFor="let item of store.skins" class="card full-size">
 
         <div class="card-preview">
           <!-- <span class="price">
@@ -83,28 +84,16 @@
           <div class="image-wrapper">
             <img [src]="item.imagePath">
           </div>
-        </div>
-
-        <div class="details" [class.confirm-purchase]="item.confirmPurchase">
-          <div class="inner-details">
-            <div class="item-info">
-              <div class="card-title">{{item.name}}</div>
-              <div class="card-summary">
-                <!-- <label [ngClass]="item.category">{{item.category}}</label> -->
-                <button *ngIf="!item.purchased" type="button" class="buy-button"
-                  (click)="confirmPurchase(item)">Buy!</button>
-                <span *ngIf="item.purchased" class="equip">
-                  <a class="link" (click)="toggleAccessory(item)">Try on!</a>
-                </span>
-              </div>
-            </div>
-            <div class="confirm-purchase">
-              <div class="card-title">You sure you want to buy this item?</div>
-              <div class="card-summary">
-                <button type="button" class="buy-button" (click)="purchaseItem(item)">Yes</button>
-                <a class="link" (click)="cancelPurchase(item)">Cancel</a>
-              </div>
-            </div>
+          <div>
+            <h3>{{item.name}}</h3>
+            <h5>About Me</h5>
+            <p>{{item.aboutMe}}</p>
+            <p class="unlock-level">Unlocks at level: <strong>{{item.unlockLevel}}</strong></p>
+          </div>
+          <div>
+            <span *ngIf="item.isActive" class="">Active</span>
+            <button *ngIf="!item.isActive" type="button" class="make-default btn" (click)="makeSkinDefault(item)">Make
+              Default</button>
           </div>
         </div>
       </div>

@@ -1,6 +1,8 @@
 {
   "key": "default",
-  "name": "default",
+  "name": "Pinkie Pie",
+  "aboutMe": "I like to meow and I'm really picky and when you see me I will be all licky. Everyday I run and hide but when I'm with you I feel warm inside.",
+  "unlockLevel": 0,
   "imagePath": "../../../assets/images/avatar/skins/default.png",
   "avatarTop": 0,
   "rawWidth": 437,
