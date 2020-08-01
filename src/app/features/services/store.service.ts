@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin } from 'rxjs';
+import { forkJoin, BehaviorSubject } from 'rxjs';
 
-import { Store } from '../models/store.model';
+import { Store, Accessory, Skin } from '../models/store.model';
 import { Player } from '../models/player.model';
 import { PlayerService } from 'src/app/features/services/player.service';
 
@@ -11,6 +11,10 @@ export class StoreService {
 
     store: Store;
     isInitialized: boolean;
+
+    private skinChanged = new BehaviorSubject<Skin>(null);
+    // skinChanged$: Observable<Skin>;
+    skinChanged$ = this.skinChanged.asObservable();
 
     ////////////////////////////////////////////////////////////
     constructor(private playerService: PlayerService, private http: HttpClient) { }
@@ -61,6 +65,19 @@ export class StoreService {
                 }
             });
         });
+    }
+
+    purchaseAccessory(accessory: Accessory) {
+        accessory.isPurchased = true;
+        accessory.isActive = true;
+        accessory.confirmPurchase = false;
+    }
+
+    makeSkinDefault(skin: Skin) {
+        this.store.skins.forEach(s => s.isActive = false);
+        skin.isActive = true;
+        this.store.activeSkin = skin;
+        this.skinChanged.next(skin);
     }
 }
 

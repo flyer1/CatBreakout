@@ -45,6 +45,13 @@ export class AvatarComponent implements OnInit, AfterViewInit, OnDestroy {
                 // Tell Angular to update the data binding
                 this.cdr.markForCheck();
             });
+
+        this.storeService.skinChanged$
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(_ => {
+                // Tell Angular to update the data binding
+                this.cdr.markForCheck();
+            });
     }
 
     ngAfterViewInit() {

@@ -20,7 +20,7 @@ export class Player {
             coins: 0,
             speed: 5,
             soundEffects: true,
-            avatars: [Avatar.resetAvatar()]
+            avatars: [Avatar.resetAvatar(), { skinKey: 'nyan', isActive: false, accessories: []}]
         };
         result.activeAvatar = result.avatars.find(avatar => avatar.isActive);
         return result;

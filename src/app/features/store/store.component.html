@@ -77,23 +77,19 @@
       <div *ngFor="let item of store.skins" class="card full-size">
 
         <div class="card-preview">
-          <!-- <span class="price">
-            <img src="../../../assets/images/game-ui/coin.png">
-            <span class="coin-value">9393</span>
-          </span> -->
           <div class="image-wrapper">
             <img [src]="item.imagePath">
           </div>
-          <div>
+          <div class="description">
             <h3>{{item.name}}</h3>
             <h5>About Me</h5>
             <p>{{item.aboutMe}}</p>
             <p class="unlock-level">Unlocks at level: <strong>{{item.unlockLevel}}</strong></p>
           </div>
-          <div>
-            <span *ngIf="item.isActive" class="">Active</span>
+          <div class="actions">
+            <span *ngIf="item.isActive" class="">Active ✔️</span>
             <button *ngIf="!item.isActive" type="button" class="make-default btn" (click)="makeSkinDefault(item)">Make
-              Default</button>
+              Active</button>
           </div>
         </div>
       </div>

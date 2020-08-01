@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import { Store, Accessory } from '../models/store.model';
+import { Store, Accessory, Skin } from '../models/store.model';
 import { Player } from '../models/player.model';
 import { StoreService } from '../services/store.service';
 import { PlayerService } from 'src/app/features/services/player.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   templateUrl: './store.component.html',
@@ -36,9 +36,7 @@ export class StoreComponent implements OnInit {
 
   // TODO: Move these store actions to the store.service
   purchaseItem(item: Accessory) {
-    item.isPurchased = true;
-    item.isActive = true;
-    item.confirmPurchase = false;
+    this.storeService.purchaseAccessory(item);
     this.player.activeAvatar.accessories.push({ key: item.key, isActive: true});
     this.playerService.updateStorage();
   }
@@ -53,9 +51,12 @@ export class StoreComponent implements OnInit {
     }
   }
 
-  makeSkinDefault(item: any) {
-    
+  makeSkinDefault(skin: Skin) {
+    this.storeService.makeSkinDefault(skin);
+    this.player.avatars.forEach(avatar => avatar.isActive = (avatar.skinKey === skin.key));
+    this.playerService.updateStorage();
   }
+
   selectTab(key: TabCode) {
     this.activeTab = key;
   }

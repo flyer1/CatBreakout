@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 import { Player } from '../models/player.model';
 import { SessionStorageService, SessionStorageKeys } from '../../core/storage/session-storage.service';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PlayerService {
