@@ -14,6 +14,7 @@ export interface Skin {
     key: string;
     name: string;
     imagePath: string;
+    avatarTop: number;
     rawWidth: number;
     rawHeight: number;
     purchased?: boolean;

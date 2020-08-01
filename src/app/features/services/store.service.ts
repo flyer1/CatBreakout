@@ -24,6 +24,7 @@ export class StoreService {
 
             forkJoin([
                 this.http.get('./assets/data/default.skin.json'),
+                this.http.get('./assets/data/nyan-cat.skin.json'),
             ]).subscribe((data: any) => {
                 this.store = new Store(data);
                 this.resolvePurchases(this.playerService.player);
