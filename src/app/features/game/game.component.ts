@@ -159,7 +159,6 @@ export class GameComponent implements OnInit {
 
               let video = document.getElementById('catCelebration') as HTMLVideoElement;
               video.play();
-              // TODO: See if this event can be used instead:
               video.addEventListener('ended', _ => {
                 this.game.resetGame();
                 video = null;
@@ -190,8 +189,7 @@ export class GameComponent implements OnInit {
   }
 
   drawBall() {
-    const aspectRatio = this.skin.rawWidth / this.skin.rawHeight;
-    this.ctx.drawImage(this.ball, 0, 0, this.skin.rawWidth, this.skin.rawHeight, this.x, this.y, 60, 60 / aspectRatio);
+    this.ctx.drawImage(this.ball, 0, 0, this.skin.rawWidth, this.skin.rawHeight, this.x, this.y, this.skin.ballWidth, this.skin.ballHeight);
     this.activeAccessories.forEach(accessory => {
       // Note: Using the same aspect ratio method when drawing to the canvas does not work for image of various sizes.
       this.ctx.drawImage(accessory.domElement, 0, 0, accessory.image.rawWidth, accessory.image.rawHeight, this.x + accessory.image.ballLeft, this.y + accessory.image.ballTop, accessory.image.ballWidth, accessory.image.ballHeight);

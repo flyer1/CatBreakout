@@ -34,7 +34,6 @@ export class StoreComponent implements OnInit {
     item.confirmPurchase = false;
   }
 
-  // TODO: Move these store actions to the store.service
   purchaseItem(item: Accessory) {
     this.storeService.purchaseAccessory(item);
     this.player.activeAvatar.accessories.push({ key: item.key, isActive: true});

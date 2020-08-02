@@ -5,6 +5,8 @@
   "unlockLevel": 0,
   "imagePath": "../../../assets/images/avatar/skins/default.png",
   "avatarTop": 0,
+  "ballWidth": 60,
+  "ballHeight": 71,
   "rawWidth": 437,
   "rawHeight": 516,
   "accessories": [{

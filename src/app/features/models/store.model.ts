@@ -17,6 +17,8 @@ export interface Skin {
     unlockLevel: number;
     imagePath: string;
     avatarTop: number;
+    ballWidth: number;
+    ballHeight: number;
     rawWidth: number;
     rawHeight: number;
     accessories: Accessory[];
