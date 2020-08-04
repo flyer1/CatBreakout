@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, AfterViewInit } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, skip } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Selection, BaseType, select } from 'd3-selection';
 import { arc, Arc, DefaultArcObject } from 'd3-shape';
@@ -27,6 +27,8 @@ export class AvatarComponent implements OnInit, AfterViewInit, OnDestroy {
     arcGenerator: Arc<any, DefaultArcObject>;
     radius = 125;
 
+    leveledUp: boolean;
+
     protected unsubscribe = new Subject();
 
     //////////////////////////////
@@ -43,6 +45,15 @@ export class AvatarComponent implements OnInit, AfterViewInit, OnDestroy {
             .subscribe(_ => {
                 this.updateProgress();
                 // Tell Angular to update the data binding
+                this.cdr.markForCheck();
+            });
+
+        this.playerService.levelChanged$
+            .pipe(skip(1), takeUntil(this.unsubscribe))
+            .subscribe(_ => {
+                // Draw attention to the fact that the user just leveled up!
+                this.leveledUp = true;
+                setTimeout(_ => this.leveledUp = false, 4000);
                 this.cdr.markForCheck();
             });
 

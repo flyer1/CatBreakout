@@ -29,6 +29,7 @@
       bottom: 10px;
       font-size: 44px;
       color: white;
+      animation-duration: 1s;
       text-shadow: 0 0 12px #00000091;
     }
 
@@ -38,6 +39,30 @@
       left: -10px;
       right: -10px;
       bottom: -10px;
+    }
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    top: 0px;
+    border-radius: 100%;
+    left: 0px;
+    opacity: 0;
+    animation-duration: 1s;
+  }
+
+  &.leveled-up {
+    .player-level {
+      label {
+        animation-name: tada;
+      }
+    }
+
+    &:after {
+      animation-name: levelUpAnimation;
     }
   }
 }

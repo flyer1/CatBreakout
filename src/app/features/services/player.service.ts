@@ -10,6 +10,9 @@ export class PlayerService {
     private playerChanged = new BehaviorSubject<void>(null);
     playerChanged$ = this.playerChanged.asObservable();
 
+    private levelChanged = new BehaviorSubject<number>(null);
+    levelChanged$ = this.levelChanged.asObservable();
+
     player: Player;
     isInitialized: boolean;
 
@@ -25,7 +28,13 @@ export class PlayerService {
     }
 
     updateStorage() {
+        const prevLevel = this.player.level;
         Player.computeLevel(this.player);
+
+        if (prevLevel !== this.player.level) {
+            this.levelChanged.next(this.player.level);
+        }
+
         const playerToSave = Object.assign({}, this.player);
         delete playerToSave.activeAvatar;
         this.sessionStorageService.set(SessionStorageKeys.PLAYER_STATE, playerToSave);
