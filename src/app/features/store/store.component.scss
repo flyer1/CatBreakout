@@ -78,7 +78,7 @@
         font-size: 15px;
         min-width: 116px;
         text-align: center;
-        line-height: 31px;
+        line-height: 30px;
         font-weight: 600;
         font-family: Helvetica;
         border: 1px solid black;
@@ -102,7 +102,7 @@
         .coin-value {
           display: inline-block;
           font-weight: 500;
-          font-size: 20px;
+          font-size: 18px;
           vertical-align: -2px;
         }
       }
@@ -246,6 +246,14 @@
                   &:after {
                     background: #c1b1fa
                   }
+                }
+              }
+
+              .btn {
+                &[disabled] {
+                  background: gainsboro;
+                  color: #0000006e;
+                  cursor: default;
                 }
               }
 

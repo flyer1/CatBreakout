@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, BehaviorSubject } from 'rxjs';
 
-import { Store, Accessory, Skin } from '../models/store.model';
+import { Store, Accessory, Skin, ItemCategory } from '../models/store.model';
 import { Player } from '../models/player.model';
 import { PlayerService } from 'src/app/features/services/player.service';
 
@@ -73,10 +73,13 @@ export class StoreService {
         this.skinChanged.next(this.store.activeSkin);
     }
 
-    purchaseAccessory(accessory: Accessory) {
+    purchaseAccessory(accessory: Accessory, player: Player) {
         accessory.isPurchased = true;
         accessory.isActive = true;
         accessory.confirmPurchase = false;
+
+        player.activeAvatar.accessories.push({ key: accessory.key, isActive: true });
+        player.coins -= accessory.price;
     }
 }
 

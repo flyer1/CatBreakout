@@ -35,8 +35,8 @@ export class StoreComponent implements OnInit {
   }
 
   purchaseItem(item: Accessory) {
-    this.storeService.purchaseAccessory(item);
-    this.player.activeAvatar.accessories.push({ key: item.key, isActive: true});
+    this.storeService.purchaseAccessory(item, this.player);
+    
     this.playerService.updateStorage();
   }
 

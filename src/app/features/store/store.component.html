@@ -43,7 +43,7 @@
               <div class="card-summary">
                 <label [ngClass]="item.category">{{item.category}}</label>
                 <button *ngIf="!item.isPurchased" type="button" class="btn"
-                  (click)="confirmPurchase(item)">Buy!</button>
+                  (click)="confirmPurchase(item)" [disabled]="player.coins < item.price">Buy!</button>
                 <span *ngIf="item.isPurchased" class="equip">
                   <!-- Normally I'd made this into an angular component with data binding features but this'll be a quick n dirty approach since I only need to use in 1 place in the app -->
                   <a class="switch-control" (click)="toggleAccessory(item)">
@@ -69,7 +69,6 @@
       </div>
     </div>
   </div>
-
 
   <!-- SKINS TAB -->
   <div *ngIf="activeTab === 'skins'" class="tabpage">
