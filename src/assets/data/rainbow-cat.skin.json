@@ -1,0 +1,14 @@
+{
+  "key": "rainbowCat",
+  "name": "Rainbow Cat",
+  "aboutMe": "TODO",
+  "unlockLevel": 15,
+  "imagePath": "../../../assets/images/avatar/skins/rainbow-cat.gif",
+  "avatarTop": 30,
+  "ballWidth": 90,
+  "ballHeight": 60,
+  "rawWidth": 272,
+  "rawHeight": 168,
+  "accessories": []
+}
+

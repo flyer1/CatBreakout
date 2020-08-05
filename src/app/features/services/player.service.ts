@@ -30,6 +30,7 @@ export class PlayerService {
     updateStorage() {
         const prevLevel = this.player.level;
         Player.computeLevel(this.player);
+        Player.unlockSkin(this.player);
 
         if (prevLevel !== this.player.level) {
             this.levelChanged.next(this.player.level);

@@ -25,11 +25,14 @@
   .player-level {
     label {
       position: absolute;
-      left: 10px;
+      left: -10px;
+      text-align: center;
+      width: 50px;
       bottom: 10px;
       font-size: 44px;
       color: white;
       animation-duration: 1s;
+      z-index: 9;
       text-shadow: 0 0 12px #00000091;
     }
 

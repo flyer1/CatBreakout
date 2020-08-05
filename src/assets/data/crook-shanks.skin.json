@@ -1,0 +1,14 @@
+{
+  "key": "crookShanks",
+  "name": "Crookshanks",
+  "aboutMe": "TODO",
+  "unlockLevel": 10,
+  "imagePath": "../../../assets/images/avatar/skins/crook-shanks.gif",
+  "avatarTop": 30,
+  "ballWidth": 90,
+  "ballHeight": 60,
+  "rawWidth": 272,
+  "rawHeight": 168,
+  "accessories": []
+}
+

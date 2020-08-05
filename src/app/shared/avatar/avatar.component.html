@@ -1,16 +1,17 @@
 <div *ngIf="player" class="avatar" [class.leveled-up]="leveledUp">
-  <div class="player-level">
-    <span class="level-progress">
-      <!-- svg gets added here via d3-->
-    </span>
-    <label>{{player.level}}</label>
-  </div>
   <div class="inner-avatar">
     <img id="catHead" class="cat-head" [src]="store.activeSkin.imagePath" [ngStyle]="{'padding-top': store.activeSkin.avatarTop + 'px'}">
     <span *ngFor="let accessory of store.activeSkin.accessories" class="accessory">
       <img *ngIf="accessory.isActive" [attr.id]="'accessory-' + accessory.key" [src]="accessory.image.path"
         [ngStyle]="{'top': accessory.image.avatarTop + 'px', 'left': accessory.image.avatarLeft+ 'px', 'width': accessory.image.avatarWidth + 'px'}">
     </span>
+  </div>
+
+  <div class="player-level">
+    <span class="level-progress">
+      <!-- svg gets added here via d3-->
+    </span>
+    <label>{{player.level}}</label>
   </div>
 </div>
 

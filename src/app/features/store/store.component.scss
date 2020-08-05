@@ -326,6 +326,16 @@
               .btn {
                 width: unset;
               }
+
+              .locked {
+                background: #060606;
+                color: white;
+                padding: 7px 14px;
+                border-radius: 4px;
+                padding: 4px 15px;
+                border-radius: 8px;
+                height: 25px;
+              }
             }
           }
         }

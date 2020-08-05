@@ -178,7 +178,7 @@ export class GameComponent implements OnInit {
 
   calculateCoins() {
     const previousValue = this.player.coins;
-    this.player.coins = Math.trunc(this.player.totalPoints / 10);
+    Player.calculateCoins(this.player);
 
     if (previousValue === this.player.coins) { return; }
 

@@ -30,6 +30,8 @@ export class StoreService {
             forkJoin([
                 this.http.get('./assets/data/default.skin.json'),
                 this.http.get('./assets/data/nyan-cat.skin.json'),
+                this.http.get('./assets/data/crook-shanks.skin.json'),
+                this.http.get('./assets/data/rainbow-cat.skin.json'),
             ]).subscribe((data: any) => {
                 this.store = new Store(data);
 
