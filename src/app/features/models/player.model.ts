@@ -45,7 +45,6 @@ export class Player {
         Player.checkSkin(player, 5, 'nyan');
         Player.checkSkin(player, 10, 'crookShanks');
         Player.checkSkin(player, 15, 'rainbowCat');
-        Player.checkSkin(player, 20, 'ella');
     }
 
     static checkSkin(player: Player, level: number, key: string) {

@@ -88,8 +88,7 @@
           <div class="actions">
             <span *ngIf="item.isActive" class="">Active ✔️</span>
             <button *ngIf="!item.isActive && item.unlockLevel <= player.level" type="button" class="make-default btn"
-              (click)="makeSkinDefault(item)">Make
-              Active</button>
+              (click)="makeSkinDefault(item)">Select Skin</button>
             <span *ngIf="item.unlockLevel > player.level" class="locked">Locked 🔒</span>
           </div>
         </div>

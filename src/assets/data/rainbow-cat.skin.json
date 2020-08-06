@@ -3,12 +3,222 @@
   "name": "Rainbow Cat",
   "aboutMe": "TODO",
   "unlockLevel": 15,
-  "imagePath": "../../../assets/images/avatar/skins/rainbow-cat.gif",
-  "avatarTop": 30,
-  "ballWidth": 90,
-  "ballHeight": 60,
-  "rawWidth": 272,
-  "rawHeight": 168,
-  "accessories": []
+  "imagePath": "../../../assets/images/avatar/skins/ella-head.png",
+  "avatarTop": 0,
+  "ballWidth": 83,
+  "ballHeight": 110,
+  "rawWidth": 674,
+  "rawHeight": 899,
+  "accessories": [{
+      "key": "goldenCrown",
+      "category": "Common",
+      "price": 10,
+      "name": "Golden Crown",
+      "image": {
+        "path": "../../../assets/images/avatar/accessories/crown-gold.png",
+        "avatarTop": -22,
+        "avatarLeft": 27,
+        "avatarWidth": 91,
+        "ballTop": -7,
+        "ballLeft": 19,
+        "ballWidth": 45,
+        "ballHeight": 28,
+        "rawWidth": 590,
+        "rawHeight": 352
+      },
+      "isPurchased": true,
+      "isActive": true
+    },
+    {
+      "key": "funnyMask",
+      "category": "Common",
+      "price": 10,
+      "name": "Funny Mask",
+      "image": {
+        "path": "../../../assets/images/avatar/accessories/funny-glasses.png",
+        "avatarTop": 85,
+        "avatarLeft": 28,
+        "avatarWidth": 100,
+        "ballTop": 46,
+        "ballLeft": 13,
+        "ballWidth": 54,
+        "ballHeight": 35,
+        "rawWidth": 250,
+        "rawHeight": 188
+      },
+      "isPurchased": true,
+      "isActive": true
+    },
+    {
+      "key": "rainbowBow",
+      "category": "Rare",
+      "price": 10,
+      "name": "Rainbow Bow",
+      "image": {
+        "path": "../../../assets/images/avatar/accessories/hair-bow-rainbow.png",
+        "avatarTop": 10,
+        "avatarLeft": 80,
+        "avatarWidth": 60,
+        "ballTop": 7,
+        "ballLeft": 48,
+        "ballWidth": 30,
+        "ballHeight": 24,
+        "rawWidth": 911,
+        "rawHeight": 713
+      },
+      "isPurchased": false
+    },
+    {
+      "key": "cuteGlasses",
+      "category": "Rare",
+      "price": 20,
+      "name": "Cute Glasses",
+      "image": {
+        "path": "../../../assets/images/avatar/accessories/heart-glasses.png",
+        "avatarTop": 93,
+        "avatarLeft": 29,
+        "avatarWidth": 90,
+        "ballTop": 50,
+        "ballLeft": 13,
+        "ballWidth": 55,
+        "ballHeight": 25,
+        "rawWidth": 238,
+        "rawHeight": 102
+      },
+      "isPurchased": false
+    },
+    {
+      "key": "tiaria",
+      "category": "Ultra Rare",
+      "price": 30,
+      "name": "Tiaria",
+      "image": {
+        "path": "../../../assets/images/avatar/accessories/princess-crown.png",
+        "avatarTop": 31,
+        "avatarLeft": 24,
+        "avatarWidth": 100,
+        "ballTop": 15,
+        "ballLeft": 16,
+        "ballWidth": 52,
+        "ballHeight": 25,
+        "rawWidth": 457,
+        "rawHeight": 246
+      },
+      "isPurchased": false
+    },
+    {
+      "key": "reallyCuteGlasses",
+      "category": "Ultra Rare",
+      "price": 40,
+      "name": "Really Cute Glasses",
+      "image": {
+        "path": "../../../assets/images/avatar/accessories/rainbow-heart-glasses.png",
+        "avatarTop": 93,
+        "avatarLeft": 29,
+        "avatarWidth": 90,
+        "ballTop": 50,
+        "ballLeft": 17,
+        "ballWidth": 47,
+        "ballHeight": 22,
+        "rawWidth": 1395,
+        "rawHeight": 579
+      },
+      "isPurchased": false
+    },
+    {
+      "key": "coolShades",
+      "category": "Legendary",
+      "price": 50,
+      "name": "Cool Shades",
+      "image": {
+        "path": "../../../assets/images/avatar/accessories/sunglasses.png",
+        "avatarTop": 93,
+        "avatarLeft": 29,
+        "avatarWidth": 90,
+        "ballTop": 50,
+        "ballLeft": 15,
+        "ballWidth": 52,
+        "ballHeight": 20,
+        "rawWidth": 6073,
+        "rawHeight": 2235
+      },
+      "isPurchased": false
+    },
+    {
+      "key": "shades",
+      "category": "Legendary",
+      "price": 60,
+      "name": "Shades",
+      "image": {
+        "path": "../../../assets/images/avatar/accessories/sunglasses-aviator.png",
+        "avatarTop": 93,
+        "avatarLeft": 29,
+        "avatarWidth": 90,
+        "ballTop": 50,
+        "ballLeft": 15,
+        "ballWidth": 52,
+        "ballHeight": 20,
+        "rawWidth": 456,
+        "rawHeight": 173
+      },
+      "isPurchased": false
+    },
+    {
+      "key": "harryPotterGlasses",
+      "category": "Legendary",
+      "price": 70,
+      "name": "Harry Potter Glasses",
+      "image": {
+        "path": "../../../assets/images/avatar/accessories/sunglasses-swirls.png",
+        "avatarTop": 93,
+        "avatarLeft": 18,
+        "avatarWidth": 110,
+        "ballTop": 52,
+        "ballLeft": 13,
+        "ballWidth": 56,
+        "ballHeight": 20,
+        "rawWidth": 1038,
+        "rawHeight": 340
+      },
+      "isPurchased": false
+    },
+    {
+      "key": "extremelyCuteUnicornHorn",
+      "category": "Legendary",
+      "price": 10,
+      "name": "Extremely Cute Unicorn Horn",
+      "image": {
+        "path": "../../../assets/images/avatar/accessories/unicorn-horn.png",
+        "avatarTop": -19,
+        "avatarLeft": 62,
+        "avatarWidth": 25,
+        "ballTop": -15,
+        "ballLeft": 34,
+        "ballWidth": 15,
+        "ballHeight": 40,
+        "rawWidth": 900,
+        "rawHeight": 2464
+      },
+      "isPurchased": false
+    },
+    {
+      "key": "donut",
+      "category": "Legendary",
+      "price": 10,
+      "name": "Donut Pet",
+      "image": {
+        "path": "../../../assets/images/avatar/accessories/donut.png",
+        "avatarTop": 139,
+        "avatarLeft": 93,
+        "avatarWidth": 80,
+        "ballTop": 80,
+        "ballLeft": 52,
+        "ballWidth": 37,
+        "ballHeight": 37,
+        "rawWidth": 793,
+        "rawHeight": 785
+      },
+      "isPurchased": false
+    }
+  ]
 }
-
