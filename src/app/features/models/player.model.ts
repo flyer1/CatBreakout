@@ -14,7 +14,8 @@ export class Player {
 
     static resetPlayer(): Player {
         const result: Player = {
-            totalPoints: 0,
+            // totalPoints: 0,
+            totalPoints: 100000,
             level: 1,
             levelPercentComplete: 0,
             coins: 0,
