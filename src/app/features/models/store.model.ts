@@ -15,6 +15,7 @@ export interface Skin {
     name: string;
     aboutMe: string;
     unlockLevel: number;
+    
     imagePath: string;
     avatarTop: number;
     ballWidth: number;
