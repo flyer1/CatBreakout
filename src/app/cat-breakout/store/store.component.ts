@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, Accessory, Skin } from '../models/store.model';
 import { Player } from '../models/player.model';
 import { StoreService } from '../services/store.service';
-import { PlayerService } from 'src/app/features/services/player.service';
+import { PlayerService } from 'src/app/cat-breakout/services/player.service';
 
 @Component({
   templateUrl: './store.component.html',

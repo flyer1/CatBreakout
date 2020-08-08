@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { Store } from './features/models/store.model';
-import { PlayerService } from './features/services/player.service';
-import { StoreService } from './features/services/store.service';
+import { Store } from './cat-breakout/models/store.model';
+import { PlayerService } from './cat-breakout/services/player.service';
+import { StoreService } from './cat-breakout/services/store.service';
 
 @Injectable({ providedIn: 'root' })
 export class AppResolve implements Resolve<Store> {

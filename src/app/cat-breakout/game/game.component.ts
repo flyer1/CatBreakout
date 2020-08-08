@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { Game, GameState } from '../models/game.model';
 import { Player } from '../models/player.model';
-import { PlayerService } from 'src/app/features/services/player.service';
+import { PlayerService } from 'src/app/cat-breakout/services/player.service';
 import { StoreService } from '../services/store.service';
 import { Store, Accessory, Skin } from '../models/store.model';
 

@@ -5,9 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { GameComponent } from './features/game/game.component';
-import { StoreComponent } from './features/store/store.component';
-import { AvatarComponent } from './shared/avatar/avatar.component';
+import { GameComponent } from './cat-breakout/game/game.component';
+import { StoreComponent } from './cat-breakout/store/store.component';
+import { AvatarComponent } from './cat-breakout/common/avatar/avatar.component';
 
 @NgModule({
   declarations: [

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, BehaviorSubject } from 'rxjs';
 
-import { Store, Accessory, Skin, ItemCategory } from '../models/store.model';
+import { Store, Accessory, Skin } from '../models/store.model';
 import { Player } from '../models/player.model';
-import { PlayerService } from 'src/app/features/services/player.service';
+import { PlayerService } from 'src/app/cat-breakout/services/player.service';
 
 @Injectable({ providedIn: 'root' })
 export class StoreService {

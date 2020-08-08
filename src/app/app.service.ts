@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { PlayerService } from './features/services/player.service';
-import { StoreService } from './features/services/store.service';
+import { PlayerService } from './cat-breakout/services/player.service';
+import { StoreService } from './cat-breakout/services/store.service';
 
 @Injectable({ providedIn: 'root' })
 export class AppService {

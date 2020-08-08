@@ -4,10 +4,10 @@ import { Subject } from 'rxjs';
 import { Selection, BaseType, select } from 'd3-selection';
 import { arc, Arc, DefaultArcObject } from 'd3-shape';
 
-import { Player } from '../../features/models/player.model';
-import { PlayerService } from '../../features/services/player.service';
-import { StoreService } from 'src/app/features/services/store.service';
-import { Store } from 'src/app/features/models/store.model';
+import { Player } from '../../../cat-breakout/models/player.model';
+import { PlayerService } from '../../../cat-breakout/services/player.service';
+import { StoreService } from '../../services/store.service';
+import { Store } from '../../models/store.model';
 
 @Component({
     selector: 'app-avatar',
