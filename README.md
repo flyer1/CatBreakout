@@ -1,5 +1,6 @@
 # Cat Breakout!!!
-A fun cat themed breakount game.
+A fun cat themed breakount game written in Typescript on Angular.
+Earn points to level up and unlock additional skins. Points also earn coins that can be used in the store to buy accessories for your avatar.
 
 Screenshot:
 ![Game](https://github.com/flyer1/CatBreakout/blob/master/screenshot.png "Game Screenshot")
