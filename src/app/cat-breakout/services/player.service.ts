@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { Player } from '../models/player.model';
-import { SessionStorageService, SessionStorageKeys } from '../../core/storage/session-storage.service';
+import { CookieStorageService, CookieStorageKeys } from '../../core/storage/cookie-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class PlayerService {
@@ -17,13 +17,13 @@ export class PlayerService {
     isInitialized: boolean;
 
     ////////////////////////////////////////////////////////////
-    constructor(private sessionStorageService: SessionStorageService) { }
+    constructor(private cookieStorageService: CookieStorageService) { }
 
     /** This is called by the routing resolver so it'll be called on every route change */
     public init() {
         if (this.isInitialized) { return; }
 
-        this.player = this.sessionStorageService.get(SessionStorageKeys.PLAYER_STATE) || Player.resetPlayer();
+        this.player = this.cookieStorageService.get(CookieStorageKeys.PLAYER_STATE) || Player.resetPlayer();
         this.isInitialized = true;
     }
 
@@ -38,7 +38,7 @@ export class PlayerService {
 
         const playerToSave = Object.assign({}, this.player);
         delete playerToSave.activeAvatar;
-        this.sessionStorageService.set(SessionStorageKeys.PLAYER_STATE, playerToSave);
+        this.cookieStorageService.set({name: CookieStorageKeys.PLAYER_STATE, value: playerToSave, session: true});
         this.playerChanged.next();
     }
 }
