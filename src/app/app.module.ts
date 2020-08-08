@@ -9,12 +9,19 @@ import { GameComponent } from './cat-breakout/game/game.component';
 import { StoreComponent } from './cat-breakout/store/store.component';
 import { AvatarComponent } from './cat-breakout/common/avatar/avatar.component';
 
+import { CovidTrackerComponent } from './covid-tracker/home/covid-tracker.component';
+
 @NgModule({
   declarations: [
     AppComponent,
+    
+    /////// GAME ////////
     AvatarComponent,
     GameComponent,
     StoreComponent,
+
+    /////// COVID TRACKER ////////
+    CovidTrackerComponent,
   ],
   imports: [
     BrowserModule,
