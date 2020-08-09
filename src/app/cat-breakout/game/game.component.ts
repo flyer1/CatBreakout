@@ -1,10 +1,13 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation, Renderer2, AfterViewInit } from '@angular/core';
+import { takeUntil, skip } from 'rxjs/operators';
 
 import { Game, GameState } from '../models/game.model';
 import { Player } from '../models/player.model';
 import { PlayerService } from 'src/app/cat-breakout/services/player.service';
 import { StoreService } from '../services/store.service';
 import { Store, Accessory, Skin } from '../models/store.model';
+import { ViewportService } from '../../core/browser/viewport.service';
+import { BaseComponent } from '../../core/infrastructure/base-component';
 
 const PADDLE_HEIGHT = 20;
 const PADDLE_WIDTH = 175;
@@ -16,9 +19,10 @@ const BRICK_OFFSET_LEFT = 30;
 
 @Component({
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.scss']
+  styleUrls: ['./game.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class GameComponent implements OnInit {
+export class GameComponent extends BaseComponent implements OnInit, AfterViewInit {
 
   BRICK_COL_COUNT = 12;
 
@@ -50,22 +54,39 @@ export class GameComponent implements OnInit {
   //////////////////////////////////////////////////////////////////
 
   @ViewChild('gameSurface', { static: false }) gameSurface: ElementRef<HTMLDivElement>;
+  @ViewChild('gameCanvas', { static: false }) gameCanvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('winnerVideo', { static: false }) winnerVideo: ElementRef<HTMLVideoElement>;
 
   //////////////////////////////////////////////////////////////////
-  constructor(private playerService: PlayerService, private storeService: StoreService) { }
+  constructor(private viewportService: ViewportService, private playerService: PlayerService, private storeService: StoreService,
+    private renderer: Renderer2) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
-    this.ctx = this.canvas.getContext('2d');
-    this.paddleX = (this.canvas.width - PADDLE_WIDTH) / 2;
     this.brickRowCount = 11;
     this.player = this.playerService.player;
     this.store = this.storeService.store;
 
     this.game = new Game();
 
+    this.canvas = document.getElementById('my-canvas') as HTMLCanvasElement;
+    this.ctx = this.canvas.getContext('2d');
+    this.paddleX = (this.canvas.width - PADDLE_WIDTH) / 2;
+
+
+    this.viewportService.shellResized$
+      .pipe(takeUntil(this.unsubscribe), skip(1))
+      .subscribe(e => {
+        this.resizeCanvas();
+      });
+
     // Use this next line to pause the game during building of inventory
     // this.workshop();
+  }
+
+  ngAfterViewInit() {
+    this.resizeCanvas();
   }
 
   play() {
@@ -96,6 +117,13 @@ export class GameComponent implements OnInit {
     }
 
     this.draw();
+  }
+
+  /** Be responsive in the size of the canvas */
+  resizeCanvas() {
+    const width = this.gameSurface.nativeElement.clientWidth;
+    this.renderer.setAttribute(this.gameCanvas.nativeElement, 'width', width + '');
+    this.renderer.setAttribute(this.winnerVideo.nativeElement, 'width', width + '');
   }
 
   initGame() {
