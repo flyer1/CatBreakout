@@ -138,7 +138,11 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
     if (!this.isInitialized) {
       document.addEventListener('keydown', (e) => this.keyDownHandler(e), false);
       document.addEventListener('keyup', (e) => this.keyUpHandler(e), false);
-      this.gameSurface.nativeElement.addEventListener('mousemove', (e) => this.mouseMoveHandler(e), false);
+
+      // TODO: I really should be destroying these event listeners on destroy
+      this.gameSurface.nativeElement.addEventListener('mousemove', (e) => this.moveHandler(e), false);
+      this.gameSurface.nativeElement.addEventListener('touchmove', (e: TouchEvent) => this.moveHandler(e), false);
+
       this.isInitialized = true;
     }
   }
@@ -160,8 +164,9 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
     }
   }
 
-  mouseMoveHandler(e) {
-    this.paddleX = e.offsetX - PADDLE_WIDTH / 2;
+  moveHandler(e) {
+    const offsetX = e.touches && e.touches.length ? e.touches[0].clientX : e.offsetX;
+    this.paddleX = offsetX - PADDLE_WIDTH / 2;
   }
 
   // #endregion
