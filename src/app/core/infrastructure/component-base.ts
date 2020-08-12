@@ -1,7 +1,10 @@
-import { OnDestroy } from '@angular/core';
+import { OnDestroy, Component } from '@angular/core';
 import { Subject } from 'rxjs';
 
-export abstract class BaseComponent implements OnDestroy {
+@Component({
+    template: ''
+})
+export abstract class ComponentBase implements OnDestroy {
 
     protected unsubscribe = new Subject();
 

@@ -58,9 +58,9 @@ export class SchoolService {
 
         const newClass: Class = {
             id: grade === 'K' ? '0-' + padLeft(index, 2) : grade + '-' + padLeft(index, 2),
-            name: grade,
             teacher: null,
-            grade: grade === 'K' ? 'K' + index : 'G' + grade,
+            name: grade === 'K' ? 'K' + index : 'G' + grade,
+            grade: grade,
             gradeInstance: index,
             students: []
         };

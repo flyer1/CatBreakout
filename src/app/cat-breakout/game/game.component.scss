@@ -48,7 +48,7 @@
 
       .style-button {
         position: absolute;
-        bottom: -10px;
+        bottom: 0;
         right: -2px;
         background: #ffffff;
         border: 3px solid green;
@@ -82,6 +82,7 @@
 
   .play-area {
     position: relative;
+    margin-top: -11px;
 
     .play-header {
       display: flex;
@@ -181,8 +182,6 @@
       }
 
       .game-canvas {
-        max-height: 620px;
-        max-width: 1130px;
         background: #eee;
         display: block;
         border: 4px solid black;
@@ -264,14 +263,14 @@
   .speed-control-wrapper {
     display: flex;
     justify-content: flex-end;
-    margin-top: 13px;
+    margin-top: 8px;
 
     .speed-control {
       width: 140px;
       z-index: 1;
       background: #ffffff7a;
       border-radius: 10px;
-      padding: 6px 20px 10px 20px;
+      padding: 4px 18px 8px 18px;
 
       .speed-header {
         display: flex;
@@ -279,15 +278,15 @@
         font-size: 12px;
 
         label {
-          width: 100%;
           display: block;
+          width: 100%;
           text-align: right;
-          font-size: 11px;
+          font-size: 10px;
           margin-bottom: 4px;
         }
 
         .current {
-          font-size: 14px;
+          font-size: 13px;
           font-weight: 600;
         }
       }
