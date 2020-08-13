@@ -35,14 +35,6 @@
           }
         }
       }
-
-      &:after {
-        content: "";
-        position: absolute;
-        border-bottom: 2px solid #ffffff42;
-        width: 310px;
-        top: 137px;
-      }
     }
   }
 
@@ -55,7 +47,7 @@
       font-size: 24px;
       color: #fbfafa5e;
       font-weight: 400;
-      margin: 0 15px 25px 15px;
+      margin: 0 15px 13px 15px;
       cursor: pointer;
 
       &.is-active {
