@@ -123,9 +123,9 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
   /** Be responsive in the size of the canvas */
   resizeCanvas(resizeInfo: ShellResizedInfo) {
     console.log(resizeInfo)
-    const margin = 65;
-    this.renderer.setAttribute(this.gameCanvas.nativeElement, 'width', resizeInfo.viewportWidth - margin + '');
-    this.renderer.setAttribute(this.winnerVideo.nativeElement, 'width', resizeInfo.viewportWidth - margin + '');
+    const width = Math.min(1130, resizeInfo.viewportWidth - 65);
+    this.renderer.setAttribute(this.gameCanvas.nativeElement, 'width', width + '');
+    this.renderer.setAttribute(this.winnerVideo.nativeElement, 'width', width + '');
 
     const height = document.documentElement.clientHeight;
     this.renderer.setAttribute(this.gameCanvas.nativeElement, 'height', resizeInfo.viewportHeight - GAME_HEADER_HEIGHT + '');
@@ -136,36 +136,17 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
     this.dy = this.calculateDy();
 
     if (!this.isInitialized) {
-      document.addEventListener('keydown', (e) => this.keyDownHandler(e), false);
-      document.addEventListener('keyup', (e) => this.keyUpHandler(e), false);
-
       // TODO: I really should be destroying these event listeners on destroy
-      this.gameSurface.nativeElement.addEventListener('mousemove', (e) => this.moveHandler(e), false);
-      this.gameSurface.nativeElement.addEventListener('touchmove', (e: TouchEvent) => this.moveHandler(e), false);
+      this.canvas.addEventListener('mousemove', (e) => this.moveHandler(e), false);
+      this.canvas.addEventListener('touchmove', (e: TouchEvent) => this.moveHandler(e), false);
 
       this.isInitialized = true;
     }
   }
 
   // #region EVENT HANDLERS
-  keyDownHandler(e) {
-    if (e.keyCode === 39) {
-      this.rightPressed = true;
-    } else if (e.keyCode === 37) {
-      this.leftPressed = true;
-    }
-  }
-
-  keyUpHandler(e) {
-    if (e.keyCode === 39) {
-      this.rightPressed = false;
-    } else if (e.keyCode === 37) {
-      this.leftPressed = false;
-    }
-  }
-
   moveHandler(e) {
-    const offsetX = e.touches && e.touches.length ? e.touches[0].clientX : e.offsetX;
+    const offsetX = e.touches && e.touches.length ? e.touches[0].clientX -  this.el.nativeElement.firstChild.offsetLeft : e.offsetX;
     this.paddleX = offsetX - PADDLE_WIDTH / 2;
   }
 
