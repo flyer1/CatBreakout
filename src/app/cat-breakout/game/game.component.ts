@@ -129,6 +129,7 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
 
     const height = document.documentElement.clientHeight;
     this.renderer.setAttribute(this.gameCanvas.nativeElement, 'height', resizeInfo.viewportHeight - GAME_HEADER_HEIGHT + '');
+    this.renderer.setAttribute(this.winnerVideo.nativeElement, 'height', resizeInfo.viewportHeight - GAME_HEADER_HEIGHT + '');
 
   }
 
@@ -174,7 +175,7 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
             }
 
             // WON GAME!
-            if (this.game.score === this.BRICK_COL_COUNT * this.brickRowCount) {
+            if (true || this.game.score === this.BRICK_COL_COUNT * this.brickRowCount) {
               this.game.wonGame();
 
               let video = document.getElementById('catCelebration') as HTMLVideoElement;
