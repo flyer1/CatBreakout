@@ -52,9 +52,7 @@
       <canvas id="my-canvas" class="game-canvas" width="1130" height="620" #gameCanvas></canvas>
 
       <!-- Celebration Video -->
-      <video id="catCelebration" width="1130" height="620" playsinline="true" muted="false" #winnerVideo>
-        <source src="../../../assets/videos/catCelebration.mp4" type="video/mp4">
-      </video>
+      <video id="catCelebration" width="1130" height="620" playsinline="true" muted="false" src="../../../assets/videos/catCelebration.mp4" #winnerVideo></video>
     </div>
 
     <div *ngIf="game.isActive" class="side-bar">

@@ -147,7 +147,7 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
 
   // #region EVENT HANDLERS
   moveHandler(e) {
-    const offsetX = e.touches && e.touches.length ? e.touches[0].clientX -  this.el.nativeElement.firstChild.offsetLeft : e.offsetX;
+    const offsetX = e.touches && e.touches.length ? e.touches[0].clientX - this.el.nativeElement.firstChild.offsetLeft : e.offsetX;
     this.paddleX = offsetX - PADDLE_WIDTH / 2;
   }
 
@@ -179,11 +179,17 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
               this.game.wonGame();
 
               let video = document.getElementById('catCelebration') as HTMLVideoElement;
-              video.play();
-              video.addEventListener('ended', _ => {
-                this.game.resetGame();
-                video = null;
-              }, false);
+              video.muted = false;
+
+              // iOS/Safari have implemented stricter measures when it comes to playing vidoes (since iOS 11). The timeout is one attempt 
+              // to get vidoes to play see: https://stackoverflow.com/questions/46745684/muted-autoplay-videos-stop-playing-in-safari-11-0
+              setTimeout(_ => {
+                video.play();
+                video.addEventListener('ended', _ => {
+                  this.game.resetGame();
+                  video = null;
+                }, false);
+              })
             }
 
             this.playerService.updateStorage();
