@@ -203,14 +203,12 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
 
     this.game.wonGame();
 
-    try {
-      this.video.play();
-    }
-    catch {
-      // iOS/Safari have implemented stricter measures when it comes to playing vidoes. If the video failed to play, this is the likely cause.
-      // enable the flag that plays the video after the user end
-      this.playVideoOnTouchEnd = true;
-    }
+    // iOS/Safari have implemented stricter measures when it comes to playing vidoes. If the video failed to play, this is the likely cause.
+    // enable the flag that plays the video after the user end
+    this.video.play().catch(e => {
+      console.warn('Unable to play video on this device. Waiting for touchEnd event in order to try again');
+      this.playVideoOnTouchEnd = true
+    });
   }
 
   calculateCoins() {
