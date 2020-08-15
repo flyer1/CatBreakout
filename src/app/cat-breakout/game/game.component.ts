@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation, Renderer2, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation, Renderer2, AfterViewInit, OnDestroy } from '@angular/core';
 import { takeUntil, skip } from 'rxjs/operators';
 
 import { Game, GameState } from '../models/game.model';
@@ -23,13 +23,16 @@ const GAME_HEADER_HEIGHT = 300;
   styleUrls: ['./game.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class GameComponent extends ComponentBase implements OnInit, AfterViewInit {
+export class GameComponent extends ComponentBase implements OnInit, AfterViewInit, OnDestroy {
 
   BRICK_COL_COUNT = 12;
 
+  // HTML references
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
   ball: HTMLImageElement;
+  video: HTMLVideoElement;
+
   activeAccessories: Accessory[];
   bricks = [];
   ballRadius = 15;
@@ -51,6 +54,7 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
   isInitialized = false;
   coinValueChanged = false;
   GameState = GameState;
+  playVideoOnTouchEnd: boolean;
 
   //////////////////////////////////////////////////////////////////
 
@@ -74,6 +78,10 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
     this.canvas = document.getElementById('my-canvas') as HTMLCanvasElement;
     this.ctx = this.canvas.getContext('2d');
     this.paddleX = (this.canvas.width - PADDLE_WIDTH) / 2;
+
+    this.video = document.getElementById('catCelebration') as HTMLVideoElement;
+
+    console.log(this.video);
 
     // Use this next line to pause the game during building of inventory
     // this.workshop();
@@ -122,12 +130,10 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
 
   /** Be responsive in the size of the canvas */
   resizeCanvas(resizeInfo: ShellResizedInfo) {
-    console.log(resizeInfo)
     const width = Math.min(1130, resizeInfo.viewportWidth - 65);
     this.renderer.setAttribute(this.gameCanvas.nativeElement, 'width', width + '');
     this.renderer.setAttribute(this.winnerVideo.nativeElement, 'width', width + '');
 
-    const height = document.documentElement.clientHeight;
     this.renderer.setAttribute(this.gameCanvas.nativeElement, 'height', resizeInfo.viewportHeight - GAME_HEADER_HEIGHT + '');
     this.renderer.setAttribute(this.winnerVideo.nativeElement, 'height', resizeInfo.viewportHeight - GAME_HEADER_HEIGHT + '');
 
@@ -137,9 +143,12 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
     this.dy = this.calculateDy();
 
     if (!this.isInitialized) {
-      // TODO: I really should be destroying these event listeners on destroy
-      this.canvas.addEventListener('mousemove', (e) => this.moveHandler(e), false);
-      this.canvas.addEventListener('touchmove', (e: TouchEvent) => this.moveHandler(e), false);
+      this.canvas.addEventListener('mousemove', this.moveHandler.bind(this), false);
+      this.canvas.addEventListener('touchmove', this.moveHandler.bind(this), false);
+      this.canvas.addEventListener('touchend', this.onTouchEnd.bind(this), false);
+
+      // The end of the celebration video resets the game for another round
+      this.video.addEventListener('ended', this.onVideoEnded.bind(this), false);
 
       this.isInitialized = true;
     }
@@ -174,23 +183,7 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
               audio = null;
             }
 
-            // WON GAME!
-            if (true || this.game.score === this.BRICK_COL_COUNT * this.brickRowCount) {
-              this.game.wonGame();
-
-              let video = document.getElementById('catCelebration') as HTMLVideoElement;
-              video.muted = false;
-
-              // iOS/Safari have implemented stricter measures when it comes to playing vidoes (since iOS 11). The timeout is one attempt 
-              // to get vidoes to play see: https://stackoverflow.com/questions/46745684/muted-autoplay-videos-stop-playing-in-safari-11-0
-              setTimeout(_ => {
-                video.play();
-                video.addEventListener('ended', _ => {
-                  this.game.resetGame();
-                  video = null;
-                }, false);
-              })
-            }
+            this.checkForWinner();
 
             this.playerService.updateStorage();
 
@@ -201,6 +194,23 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
     }
 
     return this.game.isWinner;
+  }
+
+  checkForWinner() {
+    if (false && this.game.score !== this.BRICK_COL_COUNT * this.brickRowCount) {
+      return;
+    }
+
+    this.game.wonGame();
+
+    try {
+      this.video.play();
+    }
+    catch {
+      // iOS/Safari have implemented stricter measures when it comes to playing vidoes. If the video failed to play, this is the likely cause.
+      // enable the flag that plays the video after the user end
+      this.playVideoOnTouchEnd = true;
+    }
   }
 
   calculateCoins() {
@@ -313,6 +323,31 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
     this.playerService.updateStorage();
   }
 
+  /** After the celebration video has played, reset the game */
+  onVideoEnded() {
+    this.game.resetGame();
+  }
+
+  /**
+   * iOS is very restrictive about when videos are allowed to be played from code. Only certain events are allowed to call video.play().
+   * Since our game can be won via a touchmove event, this means that the video will not play.
+   * Therefore we wait until the user has lifted their finger after clearing the board before playing the video.
+   * 
+   * It's explained in a blog post from here: https://webkit.org/blog/6784/new-video-policies-for-ios/
+   * The main bit is:
+   * “A note about the user gesture requirement: when we say that an action must have happened “as a result of a user gesture”, we mean that the JavaScript which resulted in the 
+   * call to video.play(), for example, must have directly resulted from a handler for a touchend, click, doubleclick, or keydown event. So, 
+   *    button.addEventListener('click', () => { video.play(); }) 
+   * would satisfy the user gesture requirement. 
+   *    video.addEventListener('canplaythrough', () => { video.play(); }) would not.”
+  */
+  onTouchEnd() {
+    if (this.playVideoOnTouchEnd) {
+      this.video.play();
+      this.playVideoOnTouchEnd = false;
+    }
+  }
+
   calculateDy() {
     return this.speedVertical - this.player.speed;
   }
@@ -326,4 +361,11 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
     }, 200);
   }
 
+  ngOnDestroy() {
+    this.canvas.removeEventListener('mousemove', this.moveHandler.bind(this), false);
+    this.canvas.removeEventListener('touchmove', this.moveHandler.bind(this), false);
+    this.canvas.removeEventListener('touchend', this.onTouchEnd.bind(this), false);
+    this.video.removeEventListener('ended', this.onVideoEnded.bind(this), false);
+    this.video = null;
+  }
 }
