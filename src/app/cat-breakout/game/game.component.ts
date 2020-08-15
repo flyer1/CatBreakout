@@ -203,6 +203,8 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
 
     this.game.wonGame();
 
+    this.video.muted = false;
+    
     // iOS/Safari have implemented stricter measures when it comes to playing vidoes. If the video failed to play, this is the likely cause.
     // enable the flag that plays the video after the user end
     this.video.play().catch(e => {
