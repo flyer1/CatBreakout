@@ -51,8 +51,24 @@
       <!-- Main Canvas! -->
       <canvas id="my-canvas" class="game-canvas" width="1130" height="620" #gameCanvas></canvas>
 
-      <!-- Celebration Video -->
-      <video id="catCelebration" width="1130" height="620" playsinline="true" muted="false" src="../../../assets/videos/catCelebration.mp4" #winnerVideo></video>
+      <div class="winner-video">
+        <!-- Celebration Video -->
+        <video id="catCelebration" width="1130" height="620" playsinline
+          poster="../../../assets/images/game-ui/cat-celebration-poster.PNG" #winnerVideo>
+          <source src="../../../assets/videos/catCelebration.mp4">
+        </video>
+
+        <div *ngIf="!videoPlaying" class="controls">
+          <button class="video-button" aria-pressed="true" aria-label="Play video" type="button" (click)="playVideo()">
+            <svg class="icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+              <title>Play video</title>
+              <path
+                d="M5.85355339,0.853553391 L12.2928932,7.29289322 C12.6834175,7.68341751 12.6834175,8.31658249 12.2928932,8.70710678 L5.85355339,15.1464466 C5.65829124,15.3417088 5.34170876,15.3417088 5.14644661,15.1464466 C5.05267842,15.0526784 5,14.9255015 5,14.7928932 L5,1.20710678 C5,0.930964406 5.22385763,0.707106781 5.5,0.707106781 C5.63260824,0.707106781 5.7597852,0.759785201 5.85355339,0.853553391 Z">
+              </path>
+            </svg>
+          </button>
+        </div>
+      </div>
     </div>
 
     <div *ngIf="game.isActive" class="side-bar">

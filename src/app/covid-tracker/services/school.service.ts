@@ -18,7 +18,7 @@ export class SchoolService {
     init(): School {
         this.createSchool();
         this.flattenStudents();
-        this.createVariousRelationships();
+        this.createAllRelationships();
         console.log(this.school, this.flattenedStudents);
         return this.school;
     }
@@ -110,7 +110,7 @@ export class SchoolService {
     // #region CREATE STUDENT RELATIONSHIPS
 
     // Generate random relationships between students of various types.
-    createVariousRelationships() {
+    createAllRelationships() {
         this.createStudentRelationships(RelationshipType.sibling, getRandom(50, 100));
         this.createStudentRelationships(RelationshipType.daycare, getRandom(40, 60));
         this.createStudentRelationships(RelationshipType.extraCurricular, getRandom(30, 40));

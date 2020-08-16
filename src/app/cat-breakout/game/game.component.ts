@@ -55,7 +55,7 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
   isInitialized = false;
   coinValueChanged = false;
   GameState = GameState;
-  playVideoOnTouchEnd: boolean;
+  videoPlaying: boolean; 
 
   //////////////////////////////////////////////////////////////////
 
@@ -142,11 +142,11 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
 
   initGame() {
     this.dy = this.calculateDy();
+    this.videoPlaying = false;
 
     if (!this.isInitialized) {
       this.canvas.addEventListener('mousemove', this.moveHandler.bind(this), false);
       this.canvas.addEventListener('touchmove', this.moveHandler.bind(this), false);
-      this.canvas.addEventListener('touchend', this.onTouchEnd.bind(this), false);
 
       // The end of the celebration video resets the game for another round
       this.video.addEventListener('ended', this.onVideoEnded.bind(this), false);
@@ -205,15 +205,6 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
     }
 
     this.game.wonGame();
-
-    this.video.muted = false;
-    
-    // iOS/Safari have implemented stricter measures when it comes to playing vidoes. If the video failed to play, this is the likely cause.
-    // enable the flag that plays the video after the user end
-    this.video.play().catch(e => {
-      console.warn('Unable to play video on this device. Waiting for touchEnd event in order to try again');
-      this.playVideoOnTouchEnd = true
-    });
   }
 
   calculateCoins() {
@@ -326,33 +317,21 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
     this.playerService.updateStorage();
   }
 
+  // #region VIDEO
+
+  /** MAJOR FYI: On iOS, playing videos from code is extremely restricted. If you do not trigger the play from a small list
+   * of approved user events (eg: click), then it will throw a not allowed exception.
+   * The touchend event is on the list of approved events but I could not get that to work properly.
+   * So I've decided to let the user control the playing of the celebration video from a click event
+   */
+  playVideo() {
+    this.video.play();
+    this.videoPlaying = true;
+  }
+
   /** After the celebration video has played, reset the game */
   onVideoEnded() {
     this.game.resetGame();
-  }
-
-  /**
-   * iOS is very restrictive about when videos are allowed to be played from code. Only certain events are allowed to call video.play().
-   * Since our game can be won via a touchmove event, this means that the video will not play.
-   * Therefore we wait until the user has lifted their finger after clearing the board before playing the video.
-   * 
-   * It's explained in a blog post from here: https://webkit.org/blog/6784/new-video-policies-for-ios/
-   * The main bit is:
-   * “A note about the user gesture requirement: when we say that an action must have happened “as a result of a user gesture”, we mean that the JavaScript which resulted in the 
-   * call to video.play(), for example, must have directly resulted from a handler for a touchend, click, doubleclick, or keydown event. So, 
-   *    button.addEventListener('click', () => { video.play(); }) 
-   * would satisfy the user gesture requirement. 
-   *    video.addEventListener('canplaythrough', () => { video.play(); }) would not.”
-  */
-  onTouchEnd() {
-    var h1 = document.documentElement.querySelector('h1') as HTMLHeadingElement;
-    h1.innerText = 'ontouchend fired';
-
-    console.log('ontouchend fired');
-    if (this.playVideoOnTouchEnd) {
-      this.video.play();
-      this.playVideoOnTouchEnd = false;
-    }
   }
 
   calculateDy() {
@@ -371,7 +350,6 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
   ngOnDestroy() {
     this.canvas.removeEventListener('mousemove', this.moveHandler.bind(this), false);
     this.canvas.removeEventListener('touchmove', this.moveHandler.bind(this), false);
-    this.canvas.removeEventListener('touchend', this.onTouchEnd.bind(this), false);
     this.video.removeEventListener('ended', this.onVideoEnded.bind(this), false);
     this.video = null;
   }
