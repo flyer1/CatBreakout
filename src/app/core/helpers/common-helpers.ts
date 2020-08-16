@@ -17,3 +17,8 @@ export function padLeft(value, length) {
 export function getRandom(min: number, max: number) {
     return Math.round(Math.random() * (max - min) + min);
 }
+
+/** Concatenate items onto an existing array, muting the source */
+export function concatArray(ary: any[], newItems: any[]) {
+    ary.push(...newItems);
+}

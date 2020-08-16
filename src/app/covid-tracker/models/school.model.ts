@@ -1,8 +1,9 @@
-import { Class } from "./class.model";
+import { Cohort } from "./cohort.model";
 
 export interface School {
     name: string;
-    classes: Class[],
+    cohorts: Cohort[],
+    totalCohorts: number;
     totalClasses: number;
     totalStudents: number;
 }

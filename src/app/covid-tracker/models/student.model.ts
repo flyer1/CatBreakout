@@ -1,4 +1,5 @@
 export interface Student {
+    id: number;
     name: string;
     relationships: StudentRelationship[];
     status: StudentStatus;
@@ -6,7 +7,7 @@ export interface Student {
 }
 
 export interface StudentRelationship {
-    type: string;
+    type: RelationshipType;
     with: Student;
 }
 
