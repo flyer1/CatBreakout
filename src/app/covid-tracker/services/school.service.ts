@@ -18,7 +18,7 @@ export class SchoolService {
     init(): School {
         this.createSchool();
         this.flattenStudents();
-        this.createStudentRelationships();
+        this.createVariousRelationships();
         console.log(this.school, this.flattenedStudents);
         return this.school;
     }
@@ -110,17 +110,17 @@ export class SchoolService {
     // #region CREATE STUDENT RELATIONSHIPS
 
     // Generate random relationships between students of various types.
-    createStudentRelationships() {
-        const siblings = getRandom(50, 100);
-        for (let i = 0; i < siblings; i++) {
-            this.createStudentRelationship(RelationshipType.sibling);
-        }
+    createVariousRelationships() {
+        this.createStudentRelationships(RelationshipType.sibling, getRandom(50, 100));
+        this.createStudentRelationships(RelationshipType.daycare, getRandom(40, 60));
+        this.createStudentRelationships(RelationshipType.extraCurricular, getRandom(30, 40));
+        this.createStudentRelationships(RelationshipType.friend, getRandom(10, 20));
+    }
 
-        const daycare = getRandom(30, 50);
-        for (let i = 0; i < siblings; i++) {
-            this.createStudentRelationship(RelationshipType.daycare);
+    createStudentRelationships(count: number, type: RelationshipType) {
+        for (let i = 0; i < count; i++) {
+            this.createStudentRelationship(type);
         }
-
     }
 
     createStudentRelationship(type: RelationshipType) {
@@ -130,9 +130,9 @@ export class SchoolService {
                 const siblingIds = this.getRandomSiblings();
                 const sibling1 = this.findStudent(siblingIds.sibling1);
                 const sibling2 = this.findStudent(siblingIds.sibling2);
-                
-                sibling1.relationships.push({type: RelationshipType.sibling, with: sibling2});
-                sibling2.relationships.push({type: RelationshipType.sibling, with: sibling1});
+
+                sibling1.relationships.push({ type: RelationshipType.sibling, with: sibling2 });
+                sibling2.relationships.push({ type: RelationshipType.sibling, with: sibling1 });
                 break;
         }
 

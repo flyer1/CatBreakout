@@ -345,6 +345,10 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
    *    video.addEventListener('canplaythrough', () => { video.play(); }) would not.”
   */
   onTouchEnd() {
+    var h1 = document.documentElement.querySelector('h1') as HTMLHeadingElement;
+    h1.innerText = 'ontouchend fired';
+
+    console.log('ontouchend fired');
     if (this.playVideoOnTouchEnd) {
       this.video.play();
       this.playVideoOnTouchEnd = false;
