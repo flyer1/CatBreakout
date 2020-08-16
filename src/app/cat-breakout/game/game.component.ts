@@ -26,6 +26,7 @@ const GAME_HEADER_HEIGHT = 300;
 export class GameComponent extends ComponentBase implements OnInit, AfterViewInit, OnDestroy {
 
   BRICK_COL_COUNT = 12;
+  debugCounter = 0;
 
   // HTML references
   canvas: HTMLCanvasElement;
@@ -197,7 +198,9 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
   }
 
   checkForWinner() {
-    if (false && this.game.score !== this.BRICK_COL_COUNT * this.brickRowCount) {
+    this.debugCounter++;
+
+    if (this.debugCounter < 3 && this.game.score !== this.BRICK_COL_COUNT * this.brickRowCount) {
       return;
     }
 
