@@ -19,7 +19,8 @@ export class SchoolService {
         this.createSchool();
         this.flattenStudents();
         this.createAllRelationships();
-        console.log(this.school, this.flattenedStudents);
+        console.log(this.school, this.flattenedStudents.filter(fs => fs.relationships.length));
+
         return this.school;
     }
 
@@ -117,36 +118,31 @@ export class SchoolService {
         this.createStudentRelationships(RelationshipType.friend, getRandom(10, 20));
     }
 
-    createStudentRelationships(count: number, type: RelationshipType) {
+    createStudentRelationships(type: RelationshipType, count: number) {
         for (let i = 0; i < count; i++) {
             this.createStudentRelationship(type);
         }
     }
 
     createStudentRelationship(type: RelationshipType) {
+        const students = this.getStudentPair();
 
-        switch (type) {
-            case RelationshipType.sibling:
-                const siblingIds = this.getRandomSiblings();
-                const sibling1 = this.findStudent(siblingIds.sibling1);
-                const sibling2 = this.findStudent(siblingIds.sibling2);
-
-                sibling1.relationships.push({ type: RelationshipType.sibling, with: sibling2 });
-                sibling2.relationships.push({ type: RelationshipType.sibling, with: sibling1 });
-                break;
-        }
-
+        students.student1.relationships.push({ type: type, with: students.student2 });
+        students.student2.relationships.push({ type: type, with: students.student1 });
     }
 
-    getRandomSiblings(): { sibling1: number; sibling2: number; } {
-        const sibling1 = this.getRandomStudentId();
-        let sibling2 = this.getRandomStudentId();
+    getStudentPair(): { student1: Student; student2: Student; } {
+        const student1 = this.getRandomStudentId();
+        let student2 = this.getRandomStudentId();
 
         do {
-            sibling2 = this.getRandomStudentId();
-        } while (sibling1 === sibling2)
+            student2 = this.getRandomStudentId();
+        } while (student1 === student2)
 
-        return { sibling1, sibling2 };
+        return {
+            student1: this.findStudent(student1),
+            student2: this.findStudent(student2)
+        };
     }
 
     getRandomStudentId() {
