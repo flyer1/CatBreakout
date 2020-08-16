@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation, Renderer2, AfterViewInit, OnDestroy } from '@angular/core';
-import { takeUntil, skip } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import { Game, GameState } from '../models/game.model';
 import { Player } from '../models/player.model';
@@ -26,7 +26,6 @@ const GAME_HEADER_HEIGHT = 300;
 export class GameComponent extends ComponentBase implements OnInit, AfterViewInit, OnDestroy {
 
   BRICK_COL_COUNT = 12;
-  debugCounter = 0;
 
   // HTML references
   canvas: HTMLCanvasElement;
@@ -198,9 +197,7 @@ export class GameComponent extends ComponentBase implements OnInit, AfterViewIni
   }
 
   checkForWinner() {
-    this.debugCounter++;
-
-    if (this.debugCounter < 3 && this.game.score !== this.BRICK_COL_COUNT * this.brickRowCount) {
+    if (this.game.score !== this.BRICK_COL_COUNT * this.brickRowCount) {
       return;
     }
 

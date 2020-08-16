@@ -81,6 +81,7 @@
   .play-area {
     position: relative;
     margin-top: -11px;
+    user-select: none;
 
     .play-header {
       display: flex;
