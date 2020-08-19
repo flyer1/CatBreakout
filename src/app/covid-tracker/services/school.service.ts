@@ -19,7 +19,7 @@ export class SchoolService {
         this.createSchool();
         this.flattenStudents();
         this.createAllRelationships();
-        console.log(this.school, this.flattenedStudents.filter(fs => fs.relationships.length));
+        console.log(this.school);
 
         return this.school;
     }
@@ -146,7 +146,7 @@ export class SchoolService {
     }
 
     getRandomStudentId() {
-        return getRandom(0, this.nextStudentId);
+        return getRandom(0, this.nextStudentId - 1);
     }
 
     findStudent(studentId: number) {
