@@ -1,3 +1,5 @@
+import { compare } from 'src/app/core/helpers/common-helpers';
+
 export class Store {
     skins: Skin[];
 
@@ -6,7 +8,11 @@ export class Store {
 
     constructor(data: Skin[]) {
         this.skins = [];
-        data.forEach(item => this.skins.push(item));
+
+        data.forEach(item => {
+            item.accessories.sort((a, b) => compare(a.price, b.price, true))
+            this.skins.push(item)
+        });
     }
 }
 
@@ -15,7 +21,7 @@ export interface Skin {
     name: string;
     aboutMe: string;
     unlockLevel: number;
-    
+
     imagePath: string;
     avatarTop: number;
     ballWidth: number;
@@ -41,7 +47,7 @@ export interface Accessory {
     isActive?: boolean;
     isPurchased?: boolean;
     confirmPurchase?: boolean;
-    
+
     domElement?: HTMLImageElement;
 }
 

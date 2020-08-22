@@ -11,8 +11,8 @@
   "rawHeight": 516,
   "accessories": [{
       "key": "goldenCrown",
-      "category": "Common",
-      "price": 10,
+      "category": "Rare",
+      "price": 60,
       "name": "Golden Crown",
       "image": {
         "path": "../../../assets/images/avatar/accessories/crown-gold.png",
@@ -32,7 +32,7 @@
     {
       "key": "funnyMask",
       "category": "Common",
-      "price": 10,
+      "price": 20,
       "name": "Funny Mask",
       "image": {
         "path": "../../../assets/images/avatar/accessories/funny-glasses.png",
@@ -51,8 +51,8 @@
     },
     {
       "key": "rainbowBow",
-      "category": "Rare",
-      "price": 10,
+      "category": "Common",
+      "price": 20,
       "name": "Rainbow Bow",
       "image": {
         "path": "../../../assets/images/avatar/accessories/hair-bow-rainbow.png",
@@ -71,7 +71,7 @@
     {
       "key": "cuteGlasses",
       "category": "Rare",
-      "price": 20,
+      "price": 60,
       "name": "Cute Glasses",
       "image": {
         "path": "../../../assets/images/avatar/accessories/heart-glasses.png",
@@ -90,7 +90,7 @@
     {
       "key": "tiaria",
       "category": "Ultra Rare",
-      "price": 30,
+      "price": 120,
       "name": "Tiaria",
       "image": {
         "path": "../../../assets/images/avatar/accessories/princess-crown.png",
@@ -109,7 +109,7 @@
     {
       "key": "reallyCuteGlasses",
       "category": "Ultra Rare",
-      "price": 40,
+      "price": 120,
       "name": "Really Cute Glasses",
       "image": {
         "path": "../../../assets/images/avatar/accessories/rainbow-heart-glasses.png",
@@ -127,8 +127,8 @@
     },
     {
       "key": "coolShades",
-      "category": "Legendary",
-      "price": 50,
+      "category": "Rare",
+      "price": 60,
       "name": "Cool Shades",
       "image": {
         "path": "../../../assets/images/avatar/accessories/sunglasses.png",
@@ -146,8 +146,8 @@
     },
     {
       "key": "shades",
-      "category": "Legendary",
-      "price": 60,
+      "category": "Common",
+      "price": 20,
       "name": "Shades",
       "image": {
         "path": "../../../assets/images/avatar/accessories/sunglasses-aviator.png",
@@ -166,7 +166,7 @@
     {
       "key": "harryPotterGlasses",
       "category": "Legendary",
-      "price": 70,
+      "price": 170,
       "name": "Harry Potter Glasses",
       "image": {
         "path": "../../../assets/images/avatar/accessories/sunglasses-swirls.png",
@@ -185,7 +185,7 @@
     {
       "key": "extremelyCuteUnicornHorn",
       "category": "Legendary",
-      "price": 10,
+      "price": 170,
       "name": "Extremely Cute Unicorn Horn",
       "image": {
         "path": "../../../assets/images/avatar/accessories/unicorn-horn.png",
@@ -204,7 +204,7 @@
     {
       "key": "donut",
       "category": "Legendary",
-      "price": 10,
+      "price": 170,
       "name": "Donut Pet",
       "image": {
         "path": "../../../assets/images/avatar/accessories/donut.png",
