@@ -26,7 +26,7 @@ export class SchoolService {
 
     // #region CREATE SCHOOL 
     createSchool() {
-        const totalCohorts = 7;
+        const totalCohorts = 10;
         const grades = ['K', '1', '2', '3', '4', '5', '6'];
 
         this.school = {
@@ -51,8 +51,7 @@ export class SchoolService {
             classes: []
         };
 
-        // Go for 3 groups of classes per cohort *gulp*
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 4; i++) {
             newCohort.classes.push(this.createClass(i, grade));
         }
 
@@ -61,7 +60,7 @@ export class SchoolService {
     }
 
     createClass(index: number, grade: string): Class {
-        const classSize = getRandom(24, 30);
+        const classSize = getRandom(15, 20);
         const instance = index + 1;
         const teachers = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
         const teacher = teachers[index % teachers.length];

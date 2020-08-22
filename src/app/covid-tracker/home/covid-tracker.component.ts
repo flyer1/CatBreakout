@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BaseType, Selection, select } from 'd3-selection';
-import { ScaleSequential, scaleSequential, scaleLinear } from 'd3-scale';
-import { interpolateMagma, interpolateGnBu, interpolateYlGn, interpolateSinebow, interpolateOrRd, interpolateBuPu, interpolateInferno, interpolateCubehelixDefault, interpolateRainbow } from 'd3-scale-chromatic';
+import { BaseType, Selection, select, event } from 'd3-selection';
+import { transition } from 'd3-transition';
+import { interpolateZoom } from 'd3-interpolate';
+import { ScaleSequential, scaleSequential } from 'd3-scale';
+import { interpolateMagma } from 'd3-scale-chromatic';
 import { nest } from 'd3-collection';
-import { interpolateHcl } from 'd3-interpolate';
-
 import { pack, hierarchy, HierarchyCircularNode } from 'd3-hierarchy';
+
 import { SchoolService } from '../services/school.service';
 
 @Component({
@@ -17,8 +18,14 @@ export class CovidTrackerComponent implements OnInit {
 
   svg: Selection<BaseType, {}, HTMLElement, any>;
   g: Selection<BaseType, {}, HTMLElement, any>;
+  node: Selection<any, unknown, any, {}>;
+
   packer: (data: any) => HierarchyCircularNode<unknown>;
+
   root: HierarchyCircularNode<unknown>;
+  focus: HierarchyCircularNode<unknown>;
+  view: [number, number, number];
+
   colorScale: ScaleSequential<string>;
 
   width: number;
@@ -41,18 +48,12 @@ export class CovidTrackerComponent implements OnInit {
     this.hierarchicalData = this.stratifyData();
     this.packer = this.createPackFunction();
     this.root = this.packer(this.hierarchicalData);
+    this.focus = this.root;
     console.log({ hierarchicalData: this.hierarchicalData, root: this.root });
   }
 
   createChart() {
-    // this.clearSvg();
-
     this.colorScale = scaleSequential(interpolateMagma).domain([8, 0]);
-    // this.colorScale = scaleLinear()
-    //   .domain([0, 5])
-    //   .range(['hsl(152,80%,80%)', 'hsl(228,30%,40%)'])
-    //   .interpolate(interpolateHcl)
-    // this.colorScale = scaleSequential(interpolateRainbow).domain([5, 0]);
 
     // this.width = +this.el.nativeElement.offsetWidth;
     this.createSvg();
@@ -60,51 +61,64 @@ export class CovidTrackerComponent implements OnInit {
     console.log(nest().key((d: any) => d.height).entries(this.root.descendants()));
 
     // Add some shadows
-    this.svg.append('filter')
-      .attr('id', 'shadow')
-      .append('feDropShadow')
-      .attr('flood-opacity', 0.3)
-      .attr('dx', 0)
-      .attr('dy', 1);
+    // this.svg.append('filter')
+    //   .attr('id', 'shadow')
+    //   .append('feDropShadow')
+    //   .attr('flood-opacity', 0.3)
+    //   .attr('dx', 0)
+    //   .attr('dy', 1);
 
     // Render the circles from the 4 levels of data (school/cohort/class/student)
-    const node = this.g.
-      selectAll('g')
-      .data(nest().key((d: any) => d.height).entries(this.root.descendants()))
-      .join('g')
-      .attr('filter', `url('#shadow')`)
-      .attr('class', 'test')
-      .selectAll('g')
-      .data((d: any) => d.values)
-      .join('g')
-      .attr('transform', (d: any) => `translate(${d.x + 1},${d.y + 1})`);
 
-    node.append('circle')
-      .attr('r', (d: any) => d.r)
-      .attr('fill', (d: any) => this.colorScale(d.height));
+    // Generate out the circles - we don't need to position or size them here b/c the zoom function always takes care of that.
+    this.node = this.g
+      .append('g')
+      .selectAll('circle')
+      .data(this.root.descendants())
+      .join('circle')
+      .attr('fill', d => d.children ? this.colorScale(d.height) : 'white')
+      .attr('pointer-events', d => !d.children ? 'none' : null)
+      .on('mouseover', function () { select(this).attr('stroke', '#000'); })
+      .on('mouseout', function () { select(this).attr('stroke', null); })
+      .on('click', d => this.focus !== d && (this.zoom(d), event.stopPropagation()));
 
+    // this.node = this.g.
+    //   selectAll('g')
+    //   .data(nest().key((d: any) => d.height).entries(this.root.descendants()))
+    //   .join('g')
+    //   .attr('filter', `url('#shadow')`)
+    //   .selectAll('g')
+    //   .data((d: any) => d.values)
+    //   .join('g')
+    //   .attr('transform', (d: any) => `translate(${d.x + 1},${d.y + 1})`);
+
+    // this.node.append('circle')
+    //   .attr('r', (d: any) => d.r)
+    //   .attr('fill', (d: any) => this.colorScale(d.height))
+    //   .on('click', (d: any) => this.focus !== d && (this.zoom(d), event.stopPropagation()));
 
     // This gets a bit messy but we need to create a clipping path for ever circle that has text inside.
     // First make sure the id of each circle is the student's id (data.id)
-    const leaf = node.filter((d: any) => !d.children);
+    // const leaf = this.node.filter((d: any) => !d.children);
 
-    leaf.select('circle')
-      .attr('id', (d: any) => 'circle-' + d.data.data.id);
+    // leaf.select('circle')
+    //   .attr('id', (d: any) => 'circle-' + d.data.data.id);
 
-    // Next add a clipPath for every circle and point to the circle that will contain the text
-    leaf.append('clipPath')
-      .attr('id', (d: any) => 'clip-' + d.data.data.id)
-      .append('use')
-      .attr('xlink:href', (d: any) => '#circle-' + d.data.data.id);
+    // // Next add a clipPath for every circle and point to the circle that will contain the text
+    // leaf.append('clipPath')
+    //   .attr('id', (d: any) => 'clip-' + d.data.data.id)
+    //   .append('use')
+    //   .attr('xlink:href', (d: any) => '#circle-' + d.data.data.id);
 
-    // Lastly add the text that will make use of the clipPath so we don't have text overflowing all over the place.
-    // So point at the clipPath which in turn knows the path to clip b/c it's referring to the circle. 
-    leaf.append('text')
-      .attr('clip-path', (d: any) => 'url(#clip-' + d.data.data.id + ')')
-      .attr('x', 0)
-      .attr('y', 3)
-      .text((d: any) => d.data.data.name);
-      
+    // // Lastly add the text that will make use of the clipPath so we don't have text overflowing all over the place.
+    // // So point at the clipPath which in turn knows the path to clip b/c it's referring to the circle. 
+    // leaf.append('text')
+    //   .attr('clip-path', (d: any) => 'url(#clip-' + d.data.data.id + ')')
+    //   .attr('x', 0)
+    //   .attr('y', 3)
+    //   .text((d: any) => d.data.data.name);
+
+    this.zoomTo([this.root.x, this.root.y, this.root.r * 2]);
   }
 
   createSvg() {
@@ -114,15 +128,41 @@ export class CovidTrackerComponent implements OnInit {
       .style('font', '10px sans-serif')
       .attr('text-anchor', 'middle')
       // Make the svg responsive according to the parent container's size
-      .attr('width', '100%')                              // 100% width means that the svg's width is driven by the container (div)
-      .attr('height', this.height)                             // We start with a given height and scale it down in the resize later.
-      .attr('preserveAspectRatio', 'xMidYMid meet')       // This is important for responsiveness
-      .attr('viewBox', `0 0 ${this.width} ${this.height}`);         // This is important for responsiveness
+      .attr('width', '100%')                               // 100% width means that the svg's width is driven by the container (div)
+      .attr('height', this.height)                         // We start with a given height and scale it down in the resize later.
+      .attr('preserveAspectRatio', 'xMidYMid meet')        // This is important for responsiveness
+      // .attr('viewBox', `0 0 ${this.width} ${this.height}`) // This is important for responsiveness
+      .attr('viewBox', `-${this.width / 2} -${this.height / 2} ${this.width} ${this.height}`) // This is important for responsiveness
+      .style('cursor', 'pointer')
+      .style('background', 'white')
+      .on('click', () => this.zoom(this.root));
 
     this.g = this.svg.append('g')
       .attr('class', 'main-group');
-    //   .attr('transform', `translate(${leftOffset}, ${topOffset})`);
   }
+
+  zoomTo(v: [number, number, number]) {
+    const k = this.width / v[2];
+    this.view = v;
+
+    this.node.attr('transform', (d: any) => `translate(${(d.x - v[0]) * k}, ${(d.y - v[1]) * k})`);
+    this.node.attr('r', (d: any) => d.r * k);
+  }
+
+  zoom(d: HierarchyCircularNode<unknown>) {
+    const focus0 = this.focus;
+
+    this.focus = d;
+
+    const t = transition()
+      .duration(750)
+      .tween('zoom', (d: any) => {
+        const i = interpolateZoom(this.view, [this.focus.x, this.focus.y, this.focus.r * 2]);
+        return t2 => this.zoomTo(i(t2));
+      });
+  }
+
+  // #region Data 
 
   /** Return the function that takes in our raw data and returns back a hierarchical structure that has all of the information required to drive the visualization */
   createPackFunction() {
@@ -163,4 +203,6 @@ export class CovidTrackerComponent implements OnInit {
 
     return result;
   }
+
+  // #endregion
 }
