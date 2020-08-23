@@ -7,4 +7,43 @@
       }
     }
   }
+
+  ////////////// TOOLTIP
+  .tooltip {
+    position: absolute;
+    min-width: 200px;
+    top: 0;
+    left: 0;
+    background: white;
+    border: 1px solid #6e6e6e;
+    padding: 3px 0;
+    z-index: 99;
+    pointer-events: none;
+
+    h5 {
+      border-bottom: 1px solid #ccc;
+      font-size: 14px;
+      margin-bottom: 3px;
+      padding: 0 10px 2px 10px;
+    }
+
+    p {
+      position: relative;
+      margin: 0;
+      padding-left: 24px;
+      padding-right: 10px;
+      font-size: 13px;
+
+      .color-swatch {
+        position: absolute;
+        left: 10px;
+        top: 2px;
+        display: inline-block;
+        width: 10px;
+        height: 13px;
+        vertical-align: -1px;
+        margin-right: 4px;
+      }
+    }
+  }
 }

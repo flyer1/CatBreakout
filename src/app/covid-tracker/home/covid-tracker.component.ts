@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BaseType, Selection, select, event } from 'd3-selection';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { BaseType, Selection, select, event, mouse, ContainerElement } from 'd3-selection';
 import { transition } from 'd3-transition';
 import { interpolateZoom } from 'd3-interpolate';
 import { ScaleSequential, scaleSequential } from 'd3-scale';
@@ -15,6 +15,10 @@ import { SchoolService } from '../services/school.service';
   encapsulation: ViewEncapsulation.None
 })
 export class CovidTrackerComponent implements OnInit {
+
+  @ViewChild('tooltip', { static: true }) tooltip: ElementRef;
+
+  /////////////////////////////////////////////////////////////////////////////////////////
 
   svg: Selection<BaseType, {}, HTMLElement, any>;
   g: Selection<BaseType, {}, HTMLElement, any>;
@@ -33,8 +37,11 @@ export class CovidTrackerComponent implements OnInit {
   data: any;
   hierarchicalData: any;
 
-  //////////////////////////////////////////////////////
-  constructor(private schoolService: SchoolService) { }
+  // On mouseover the activeNode is defined which later drives the tooltip content.
+  activeNode: any;
+
+  /////////////////////////////////////////////////////////////////////////////////////////
+  constructor(private schoolService: SchoolService, private renderer: Renderer2) { }
 
   ngOnInit() {
     this.width = 700;
@@ -42,6 +49,7 @@ export class CovidTrackerComponent implements OnInit {
 
     this.getData();
     this.createChart();
+    this.initTooltip();
   }
 
   getData() {
@@ -78,10 +86,29 @@ export class CovidTrackerComponent implements OnInit {
       .join('circle')
       .attr('fill', d => d.children ? this.colorScale(d.height) : 'white')
       .attr('pointer-events', d => !d.children ? 'none' : null)
-      .on('mouseover', function () { select(this).attr('stroke', '#000'); })
-      .on('mouseout', function () { select(this).attr('stroke', null); })
+      .on('mouseover', (node: any, index, group) => {
+        select(group[index]).attr('stroke', '#000');
+        this.activeNode = node.data;
+        console.log(node);
+
+        // const [x, y] = mouse(group[index] as ContainerElement);
+
+        // this.renderer.setStyle(this.tooltip.nativeElement, 'left', node.x + 350 + 'px');
+        // this.renderer.setStyle(this.tooltip.nativeElement, 'top', node.y + 'px');
+        this.renderer.setStyle(this.tooltip.nativeElement, 'display', 'block');
+      })
+      // .on('mouseenter', function (node, index, group) {
+      // })
+      .on('mouseout', function (node: any, index, group) {
+        select(group[index]).attr('stroke', null);
+      })
       .on('click', d => this.focus !== d && (this.zoom(d), event.stopPropagation()));
 
+    const leaf = this.node.filter((d: any) => !d.children && d.data.data.relationships.length);
+
+    leaf.attr('fill', 'red')
+    console.log(leaf)
+    // leaf.append('line')
     // this.node = this.g.
     //   selectAll('g')
     //   .data(nest().key((d: any) => d.height).entries(this.root.descendants()))
@@ -161,6 +188,28 @@ export class CovidTrackerComponent implements OnInit {
         return t2 => this.zoomTo(i(t2));
       });
   }
+
+  // #region TOOLTIP
+  initTooltip() {
+    return;
+    this.g.on('touchmove mousemove', _ => {
+      // Get the x,y mouse position within the svg.
+      const [x, y] = mouse(this.g.node() as ContainerElement);
+
+      this.renderer.setStyle(this.tooltip.nativeElement, 'left', x + 'px');
+      this.renderer.setStyle(this.tooltip.nativeElement, 'top', y + 'px');
+
+      if (!this.activeNode) {
+        this.renderer.setStyle(this.tooltip.nativeElement, 'display', 'none');
+        return;
+      }
+
+      this.renderer.setStyle(this.tooltip.nativeElement, 'display', 'block');
+
+    });
+  }
+
+  // #endregion
 
   // #region Data 
 
