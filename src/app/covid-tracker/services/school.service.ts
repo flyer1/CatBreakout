@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { name } from 'faker';
 
 import { School } from '../models/school.model';
 import { Class } from '../models/class.model';
@@ -62,8 +63,7 @@ export class SchoolService {
     createClass(index: number, grade: string): Class {
         const classSize = getRandom(15, 20);
         const instance = index + 1;
-        const teachers = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-        const teacher = teachers[index % teachers.length];
+        const teacher = `${name.prefix()} ${name.firstName()} ${name.lastName()}`;
 
         const newClass: Class = {
             id: grade === 'K' ? '0-' + padLeft(instance, 2) : grade + '-' + padLeft(instance, 2),
@@ -85,7 +85,7 @@ export class SchoolService {
     createStudent(index: number): Student {
         const newStudent: Student = {
             id: this.nextStudentId++,
-            name: index + '',
+            name: `${name.firstName()} ${name.lastName()}`,
             relationships: [],
             status: StudentStatus.normal,
             statusDate: null

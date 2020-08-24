@@ -5,10 +5,23 @@
 
   <div class="tooltip" #tooltip>
     <div *ngIf="activeNode" class="inner-tooltip">
-      <h5>{{activeNode.name}} ({{activeNode.data.teacher}})</h5>
-      <p *ngFor="let student of activeNode.data.students">
-        <span>{{student.name}} <span *ngIf="student.relationships.length">({{student.relationships.length}} relationships)</span></span>
-      </p>
+      <h5>{{activeNode.data.teacher}} - {{activeNode.name}}</h5>
+      <table>
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Relationships</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of activeNode.data.students">
+            <td>{{student.name}}</td>
+            <td class="align-right">
+              <span *ngIf="student.relationships.length" class="badge">{{student.relationships.length}}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

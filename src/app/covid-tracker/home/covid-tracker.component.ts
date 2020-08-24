@@ -106,7 +106,12 @@ export class CovidTrackerComponent implements OnInit {
 
     const leaf = this.node.filter((d: any) => !d.children && d.data.data.relationships.length);
 
-    leaf.attr('fill', 'red')
+    // this.node.filter((d: any) => !d.children && d.data.data.relationships.length > 1).append('g')
+    const d = this.root.descendants().filter((d: any) => !d.children && d.data.data.relationships.length > 1);
+    console.log(d)
+    this.g.append('g').attr('class', 'fuck').selectAll('line').data(d).join('line').style('stroke', 'black').attr('x1', (d: any)  => d.x).attr('y1', (d: any)  => d.y).attr('x2', 0).attr('y2', 0)
+
+    // leaf.attr('fill', 'red')
     console.log(leaf)
     // leaf.append('line')
     // this.node = this.g.

@@ -24,25 +24,57 @@
       border-bottom: 1px solid #ccc;
       font-size: 14px;
       margin-bottom: 3px;
-      padding: 0 10px 2px 10px;
+      padding: 0 10px 2px 5px;
     }
 
-    p {
-      position: relative;
-      margin: 0;
-      padding-left: 24px;
-      padding-right: 10px;
-      font-size: 13px;
+    table {
+      border-collapse: collapse;
 
-      .color-swatch {
-        position: absolute;
-        left: 10px;
-        top: 2px;
-        display: inline-block;
-        width: 10px;
-        height: 13px;
-        vertical-align: -1px;
-        margin-right: 4px;
+      thead {
+        tr {
+          th {
+            text-align: left;
+            font-weight: normal;
+            font-size: 13px;
+            border-bottom: 1px solid #ccc;
+            padding-left: 5px;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          td {
+            text-align: left;
+            font-weight: normal;
+            font-size: 13px;
+            border-bottom: 1px solid #f5f5f5;
+            padding-left: 5px;
+
+            .badge {
+              border-radius: 100%;
+              background: #eee;
+              display: inline-block;
+              width: 17px;
+              height: 17px;
+              font-size: 10px;
+              padding-top: 2px;
+              text-align: center;
+            }
+
+            &.align-right {
+              text-align: right;
+              padding-right: 10px;
+            }
+
+          }
+
+          &:last-child {
+            td {
+              border-bottom: none;
+            }
+          }
+        }
       }
     }
   }
