@@ -54,8 +54,7 @@ export class CovidTrackerComponent implements OnInit {
 
   getData() {
     this.hierarchicalData = this.stratifyData();
-    this.packer = this.createPackFunction();
-    this.root = this.packer(this.hierarchicalData);
+    this.root = this.packData(this.hierarchicalData);
     this.focus = this.root;
     console.log({ hierarchicalData: this.hierarchicalData, root: this.root });
   }
@@ -66,7 +65,7 @@ export class CovidTrackerComponent implements OnInit {
     // this.width = +this.el.nativeElement.offsetWidth;
     this.createSvg();
 
-    console.log(nest().key((d: any) => d.height).entries(this.root.descendants()));
+    console.log('nest output', nest().key((d: any) => d.height).entries(this.root.descendants()));
 
     // Add some shadows
     // this.svg.append('filter')
@@ -104,12 +103,21 @@ export class CovidTrackerComponent implements OnInit {
       })
       .on('click', d => this.focus !== d && (this.zoom(d), event.stopPropagation()));
 
-    const leaf = this.node.filter((d: any) => !d.children && d.data.data.relationships.length);
+    const leaf = this.node.filter((d: any) => !d.children && d.data.student.relationships.length);
 
     // this.node.filter((d: any) => !d.children && d.data.data.relationships.length > 1).append('g')
-    const d = this.root.descendants().filter((d: any) => !d.children && d.data.data.relationships.length > 1);
-    console.log(d)
-    this.g.append('g').attr('class', 'fuck').selectAll('line').data(d).join('line').style('stroke', 'black').attr('x1', (d: any)  => d.x).attr('y1', (d: any)  => d.y).attr('x2', 0).attr('y2', 0)
+    
+    this.g
+      .append('g')
+      .attr('class', 'relationships')
+      .selectAll('line')
+      .data(this.getRelationships(this.root))
+      .join('line')
+      .style('stroke', 'black')
+      .attr('x1', (d: any) => d.from.x)
+      .attr('y1', (d: any) => d.from.y)
+      .attr('x2', (d: any) => d.to.x)
+      .attr('y2', (d: any) => d.to.y);
 
     // leaf.attr('fill', 'red')
     console.log(leaf)
@@ -151,6 +159,35 @@ export class CovidTrackerComponent implements OnInit {
     //   .text((d: any) => d.data.data.name);
 
     this.zoomTo([this.root.x, this.root.y, this.root.r * 2]);
+  }
+
+  getRelationships(root: HierarchyCircularNode<unknown>) {
+
+    const relationships = this.root.leaves().filter((d: any) => d.data.student.relationships.length > 0);
+
+    // We need to go thru all of the student relationships, and reference the student Node for each of them. This node contains coordinate data that allows us to draw lines for each relationship
+    const studentDictionary = {};
+    // First, create a dictionary of each student ID and their node
+    relationships.forEach((l: any) => studentDictionary[l.data.student.id + ''] = l);
+
+    const result = [];
+
+    relationships.forEach((relationshipNode: any) => {
+      relationshipNode.data.student.relationships.forEach(relationship => {
+        const fromId = Math.min(relationshipNode.data.student.id, relationship.with.id);
+        const toId = Math.max(relationshipNode.data.student.id, relationship.with.id);
+        const id = `${fromId}-${toId}`;
+        const found = result.find(r => r.id === id);
+
+        // Relationships exist in 2 directions (from person A to person B and from person B to person A). Therefore only grab one copy of the relationship
+        if (!found) {
+          result.push({ id: id, from: relationshipNode, to: studentDictionary[relationship.with.id] });
+        }
+      })
+    });
+
+    console.log('r', result)
+    return result;
   }
 
   createSvg() {
@@ -218,35 +255,46 @@ export class CovidTrackerComponent implements OnInit {
 
   // #region Data 
 
-  /** Return the function that takes in our raw data and returns back a hierarchical structure that has all of the information required to drive the visualization */
-  createPackFunction() {
-    return (sourceData: any) => pack()
+  /** Take in our raw data and returns back a hierarchical structure that has all of the information required to drive the visualization */
+  packData(data: any) {
+    const hierarchyData = hierarchy(data)
+      .sum(d => d.value)
+      .sort((a: any, b: any) => b.name - a.name);
+
+    // We need to go thru all of the student relationships, and reference the student Node for each of them. This node contains coordinate data that allows us to draw lines for each relationship
+    // const studentDictionary = {};
+    // // First, create a dictionary of each student ID and their node
+    // hierarchyData.leaves().forEach(l => studentDictionary[l.data.student.id + ''] = l);
+    // // Next, use that dictionary in order to set the studentNode of each relationship
+    // hierarchyData.leaves().forEach(l => l.data.student.relationships.forEach(r => r.studentNode = studentDictionary[r.with.id + '']));
+
+    console.log('hierarchyData', hierarchyData);
+
+    return pack()
       .size([this.width, this.height])
       .padding(3)
-      (hierarchy(sourceData)
-        .sum(d => d.value)
-        .sort((a: any, b: any) => b.name - a.name));
+      (hierarchyData);
   }
 
   stratifyData() {
     const result = {
       name: 'school',
-      data: this.schoolService.school,
+      school: this.schoolService.school,
       children: []
     }
 
     this.schoolService.school.cohorts.forEach(cohort => {
       result.children.push({
         name: 'cohorts',
-        data: cohort,
+        cohort: cohort,
         children: cohort.classes.map(cls => {
           return {
             name: 'class',
-            data: cls,
+            cls: cls,
             children: cls.students.map(student => {
               return {
                 name: 'student',
-                data: student,
+                student: student,
                 value: 1
               };
             })

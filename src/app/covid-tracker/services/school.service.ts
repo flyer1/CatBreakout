@@ -112,9 +112,9 @@ export class SchoolService {
     // Generate random relationships between students of various types.
     createAllRelationships() {
         this.createStudentRelationships(RelationshipType.sibling, getRandom(50, 100));
-        this.createStudentRelationships(RelationshipType.daycare, getRandom(40, 60));
-        this.createStudentRelationships(RelationshipType.extraCurricular, getRandom(30, 40));
-        this.createStudentRelationships(RelationshipType.friend, getRandom(10, 20));
+        this.createStudentRelationships(RelationshipType.daycare, getRandom(20, 40));
+        this.createStudentRelationships(RelationshipType.extraCurricular, getRandom(10, 20));
+        this.createStudentRelationships(RelationshipType.friend, getRandom(10, 15));
     }
 
     createStudentRelationships(type: RelationshipType, count: number) {

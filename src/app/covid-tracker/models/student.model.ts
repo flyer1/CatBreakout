@@ -9,6 +9,7 @@ export interface Student {
 export interface StudentRelationship {
     type: RelationshipType;
     with: Student;
+    studentNode?: any;
 }
 
 export enum StudentStatus {
