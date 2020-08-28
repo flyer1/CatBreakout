@@ -4,10 +4,13 @@ import { transition } from 'd3-transition';
 import { interpolateZoom } from 'd3-interpolate';
 import { ScaleSequential, scaleSequential } from 'd3-scale';
 import { interpolateMagma } from 'd3-scale-chromatic';
-import { nest } from 'd3-collection';
 import { pack, hierarchy, HierarchyCircularNode } from 'd3-hierarchy';
 
 import { SchoolService } from '../services/school.service';
+import { StudentRelationshipNode } from '../models/student.model';
+
+// We are using a type alias here b/c some of the D3 type names are so long that they distract from the code.
+type D3Node = HierarchyCircularNode<any>;
 
 @Component({
   templateUrl: './covid-tracker.component.html',
@@ -24,10 +27,10 @@ export class CovidTrackerComponent implements OnInit {
   g: Selection<BaseType, {}, HTMLElement, any>;
   node: Selection<any, unknown, any, {}>;
 
-  packer: (data: any) => HierarchyCircularNode<unknown>;
+  packer: (data: any) => D3Node;
 
-  root: HierarchyCircularNode<unknown>;
-  focus: HierarchyCircularNode<unknown>;
+  root: D3Node;
+  focus: D3Node;
   view: [number, number, number];
 
   colorScale: ScaleSequential<string>;
@@ -65,8 +68,6 @@ export class CovidTrackerComponent implements OnInit {
     // this.width = +this.el.nativeElement.offsetWidth;
     this.createSvg();
 
-    console.log('nest output', nest().key((d: any) => d.height).entries(this.root.descendants()));
-
     // Add some shadows
     // this.svg.append('filter')
     //   .attr('id', 'shadow')
@@ -83,30 +84,22 @@ export class CovidTrackerComponent implements OnInit {
       .selectAll('circle')
       .data(this.root.descendants())
       .join('circle')
-      .attr('fill', d => d.children ? this.colorScale(d.height) : 'white')
-      .attr('pointer-events', d => !d.children ? 'none' : null)
-      .on('mouseover', (node: any, index, group) => {
+      .attr('fill', (d: D3Node) => d.children ? this.colorScale(d.height) : 'white')
+      .attr('pointer-events', (d: D3Node) => !d.children ? 'none' : null)
+      .on('mouseover', (node: D3Node, index, group) => {
         select(group[index]).attr('stroke', '#000');
         this.activeNode = node.data;
-        console.log(node);
-
         // const [x, y] = mouse(group[index] as ContainerElement);
 
-        // this.renderer.setStyle(this.tooltip.nativeElement, 'left', node.x + 350 + 'px');
-        // this.renderer.setStyle(this.tooltip.nativeElement, 'top', node.y + 'px');
         this.renderer.setStyle(this.tooltip.nativeElement, 'display', 'block');
       })
       // .on('mouseenter', function (node, index, group) {
       // })
-      .on('mouseout', function (node: any, index, group) {
+      .on('mouseout', function (node: D3Node, index, group) {
         select(group[index]).attr('stroke', null);
       })
-      .on('click', d => this.focus !== d && (this.zoom(d), event.stopPropagation()));
+      .on('click', (d: D3Node) => this.focus !== d && (this.zoom(d), event.stopPropagation()));
 
-    const leaf = this.node.filter((d: any) => !d.children && d.data.student.relationships.length);
-
-    // this.node.filter((d: any) => !d.children && d.data.data.relationships.length > 1).append('g')
-    
     this.g
       .append('g')
       .attr('class', 'relationships')
@@ -114,13 +107,13 @@ export class CovidTrackerComponent implements OnInit {
       .data(this.getRelationships(this.root))
       .join('line')
       .style('stroke', 'black')
-      .attr('x1', (d: any) => d.from.x)
-      .attr('y1', (d: any) => d.from.y)
-      .attr('x2', (d: any) => d.to.x)
-      .attr('y2', (d: any) => d.to.y);
+      .attr('x1', (d: StudentRelationshipNode) => d.from.x)
+      .attr('y1', (d: StudentRelationshipNode) => d.from.y)
+      .attr('x2', (d: StudentRelationshipNode) => d.to.x)
+      .attr('y2', (d: StudentRelationshipNode) => d.to.y);
 
+    // const leaf = this.node.filter((d: D3Node) => !d.children && d.data.student.relationships.length);
     // leaf.attr('fill', 'red')
-    console.log(leaf)
     // leaf.append('line')
     // this.node = this.g.
     //   selectAll('g')
@@ -161,9 +154,8 @@ export class CovidTrackerComponent implements OnInit {
     this.zoomTo([this.root.x, this.root.y, this.root.r * 2]);
   }
 
-  getRelationships(root: HierarchyCircularNode<unknown>) {
-
-    const relationships = this.root.leaves().filter((d: any) => d.data.student.relationships.length > 0);
+  getRelationships(root: D3Node): StudentRelationshipNode[] {
+    const relationships = root.leaves().filter((d: D3Node) => (d.data as any).student.relationships.length > 0);
 
     // We need to go thru all of the student relationships, and reference the student Node for each of them. This node contains coordinate data that allows us to draw lines for each relationship
     const studentDictionary = {};
@@ -172,7 +164,7 @@ export class CovidTrackerComponent implements OnInit {
 
     const result = [];
 
-    relationships.forEach((relationshipNode: any) => {
+    relationships.forEach((relationshipNode: D3Node) => {
       relationshipNode.data.student.relationships.forEach(relationship => {
         const fromId = Math.min(relationshipNode.data.student.id, relationship.with.id);
         const toId = Math.max(relationshipNode.data.student.id, relationship.with.id);
@@ -186,7 +178,6 @@ export class CovidTrackerComponent implements OnInit {
       })
     });
 
-    console.log('r', result)
     return result;
   }
 
@@ -218,7 +209,7 @@ export class CovidTrackerComponent implements OnInit {
     this.node.attr('r', (d: any) => d.r * k);
   }
 
-  zoom(d: HierarchyCircularNode<unknown>) {
+  zoom(d: D3Node) {
     const focus0 = this.focus;
 
     this.focus = d;
@@ -261,21 +252,14 @@ export class CovidTrackerComponent implements OnInit {
       .sum(d => d.value)
       .sort((a: any, b: any) => b.name - a.name);
 
-    // We need to go thru all of the student relationships, and reference the student Node for each of them. This node contains coordinate data that allows us to draw lines for each relationship
-    // const studentDictionary = {};
-    // // First, create a dictionary of each student ID and their node
-    // hierarchyData.leaves().forEach(l => studentDictionary[l.data.student.id + ''] = l);
-    // // Next, use that dictionary in order to set the studentNode of each relationship
-    // hierarchyData.leaves().forEach(l => l.data.student.relationships.forEach(r => r.studentNode = studentDictionary[r.with.id + '']));
-
-    console.log('hierarchyData', hierarchyData);
-
+    // It is important that we have our width and height determined at this point. Otherwise pack() would not be able to determine the proper coordinates for each Node
     return pack()
       .size([this.width, this.height])
       .padding(3)
       (hierarchyData);
   }
 
+  /** Put the data into a nested structure that can later be passed to D3's hierarchy() */
   stratifyData() {
     const result = {
       name: 'school',

@@ -1,3 +1,5 @@
+import { HierarchyCircularNode } from 'd3-hierarchy';
+
 export interface Student {
     id: number;
     name: string;
@@ -25,3 +27,11 @@ export enum RelationshipType {
     /** Peer that the child sees regularly outside of school, who is from another class */
     friend = 4
 }
+
+/** The data structure that is used to render the relationships between students */
+export interface StudentRelationshipNode {
+    id: number;
+    from: HierarchyCircularNode<any>;
+    to: HierarchyCircularNode<any>;
+}
+
