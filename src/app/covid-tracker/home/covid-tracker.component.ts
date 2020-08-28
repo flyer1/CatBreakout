@@ -26,22 +26,22 @@ export class CovidTrackerComponent implements OnInit {
   svg: Selection<BaseType, {}, HTMLElement, any>;
   g: Selection<BaseType, {}, HTMLElement, any>;
   node: Selection<any, unknown, any, {}>;
-
-  packer: (data: any) => D3Node;
+  relationshipSelection: Selection<any, unknown, any, {}>;
+  colorScale: ScaleSequential<string>;
 
   root: D3Node;
   focus: D3Node;
+  relationships: StudentRelationshipNode[];
   view: [number, number, number];
-
-  colorScale: ScaleSequential<string>;
 
   width: number;
   height: number;
+
   data: any;
   hierarchicalData: any;
 
   // On mouseover the activeNode is defined which later drives the tooltip content.
-  activeNode: any;
+  activeData: any;
 
   /////////////////////////////////////////////////////////////////////////////////////////
   constructor(private schoolService: SchoolService, private renderer: Renderer2) { }
@@ -58,8 +58,10 @@ export class CovidTrackerComponent implements OnInit {
   getData() {
     this.hierarchicalData = this.stratifyData();
     this.root = this.packData(this.hierarchicalData);
+    this.relationships = this.getRelationships(this.root);
+
     this.focus = this.root;
-    console.log({ hierarchicalData: this.hierarchicalData, root: this.root });
+
   }
 
   createChart() {
@@ -88,7 +90,7 @@ export class CovidTrackerComponent implements OnInit {
       .attr('pointer-events', (d: D3Node) => !d.children ? 'none' : null)
       .on('mouseover', (node: D3Node, index, group) => {
         select(group[index]).attr('stroke', '#000');
-        this.activeNode = node.data;
+        this.activeData = node.data;
         // const [x, y] = mouse(group[index] as ContainerElement);
 
         this.renderer.setStyle(this.tooltip.nativeElement, 'display', 'block');
@@ -100,11 +102,11 @@ export class CovidTrackerComponent implements OnInit {
       })
       .on('click', (d: D3Node) => this.focus !== d && (this.zoom(d), event.stopPropagation()));
 
-    this.g
+    this.relationshipSelection = this.g
       .append('g')
       .attr('class', 'relationships')
       .selectAll('line')
-      .data(this.getRelationships(this.root))
+      .data(this.relationships)
       .join('line')
       .style('stroke', 'black')
       .attr('x1', (d: StudentRelationshipNode) => d.from.x)
@@ -112,6 +114,7 @@ export class CovidTrackerComponent implements OnInit {
       .attr('x2', (d: StudentRelationshipNode) => d.to.x)
       .attr('y2', (d: StudentRelationshipNode) => d.to.y);
 
+    // #region Hide
     // const leaf = this.node.filter((d: D3Node) => !d.children && d.data.student.relationships.length);
     // leaf.attr('fill', 'red')
     // leaf.append('line')
@@ -151,34 +154,9 @@ export class CovidTrackerComponent implements OnInit {
     //   .attr('y', 3)
     //   .text((d: any) => d.data.data.name);
 
+    // #endregion
+
     this.zoomTo([this.root.x, this.root.y, this.root.r * 2]);
-  }
-
-  getRelationships(root: D3Node): StudentRelationshipNode[] {
-    const relationships = root.leaves().filter((d: D3Node) => (d.data as any).student.relationships.length > 0);
-
-    // We need to go thru all of the student relationships, and reference the student Node for each of them. This node contains coordinate data that allows us to draw lines for each relationship
-    const studentDictionary = {};
-    // First, create a dictionary of each student ID and their node
-    relationships.forEach((l: any) => studentDictionary[l.data.student.id + ''] = l);
-
-    const result = [];
-
-    relationships.forEach((relationshipNode: D3Node) => {
-      relationshipNode.data.student.relationships.forEach(relationship => {
-        const fromId = Math.min(relationshipNode.data.student.id, relationship.with.id);
-        const toId = Math.max(relationshipNode.data.student.id, relationship.with.id);
-        const id = `${fromId}-${toId}`;
-        const found = result.find(r => r.id === id);
-
-        // Relationships exist in 2 directions (from person A to person B and from person B to person A). Therefore only grab one copy of the relationship
-        if (!found) {
-          result.push({ id: id, from: relationshipNode, to: studentDictionary[relationship.with.id] });
-        }
-      })
-    });
-
-    return result;
   }
 
   createSvg() {
@@ -207,6 +185,12 @@ export class CovidTrackerComponent implements OnInit {
 
     this.node.attr('transform', (d: any) => `translate(${(d.x - v[0]) * k}, ${(d.y - v[1]) * k})`);
     this.node.attr('r', (d: any) => d.r * k);
+
+    this.relationshipSelection
+      .attr('x1', (d: StudentRelationshipNode) => (d.from.x - v[0]) * k)
+      .attr('y1', (d: StudentRelationshipNode) => (d.from.y - v[1]) * k)
+      .attr('x2', (d: StudentRelationshipNode) => (d.to.x - v[0]) * k)
+      .attr('y2', (d: StudentRelationshipNode) => (d.to.y - v[1]) * k);
   }
 
   zoom(d: D3Node) {
@@ -232,7 +216,7 @@ export class CovidTrackerComponent implements OnInit {
       this.renderer.setStyle(this.tooltip.nativeElement, 'left', x + 'px');
       this.renderer.setStyle(this.tooltip.nativeElement, 'top', y + 'px');
 
-      if (!this.activeNode) {
+      if (!this.activeData) {
         this.renderer.setStyle(this.tooltip.nativeElement, 'display', 'none');
         return;
       }
@@ -257,6 +241,33 @@ export class CovidTrackerComponent implements OnInit {
       .size([this.width, this.height])
       .padding(3)
       (hierarchyData);
+  }
+
+  getRelationships(root: D3Node): StudentRelationshipNode[] {
+    const relationships = root.leaves().filter((d: D3Node) => (d.data as any).student.relationships.length > 0);
+
+    // We need to go thru all of the student relationships, and reference the student Node for each of them. This node contains coordinate data that allows us to draw lines for each relationship
+    const studentDictionary = {};
+    // First, create a dictionary of each student ID and their node
+    relationships.forEach((l: any) => studentDictionary[l.data.student.id + ''] = l);
+
+    const result = [];
+
+    relationships.forEach((relationshipNode: D3Node) => {
+      relationshipNode.data.student.relationships.forEach(relationship => {
+        const fromId = Math.min(relationshipNode.data.student.id, relationship.with.id);
+        const toId = Math.max(relationshipNode.data.student.id, relationship.with.id);
+        const id = `${fromId}-${toId}`;
+        const found = result.find(r => r.id === id);
+
+        // Relationships exist in 2 directions (from person A to person B and from person B to person A). Therefore only grab one copy of the relationship
+        if (!found) {
+          result.push({ id: id, from: relationshipNode, to: studentDictionary[relationship.with.id] });
+        }
+      })
+    });
+
+    return result;
   }
 
   /** Put the data into a nested structure that can later be passed to D3's hierarchy() */
