@@ -1,109 +1,112 @@
-<div class="game" [class.is-winner]="game && game.isWinner">
-  <div class="header">
-    <div class="left">
-      <!-- <span class="level">Level: {{player.level}}</span> -->
+<div class="game-wrapper">
+  <div class="game" [class.is-winner]="game && game.isWinner">
+    <div class="header">
+      <div class="left">
+        <!-- <span class="level">Level: {{player.level}}</span> -->
+      </div>
+
+      <div class="center">
+        <h1>Cat Breakout!!!!</h1>
+        <p>Little kitty wants to see what's on the other side of the rainbow</p>
+        <p>Help her remove all of the blocks to see!</p>
+      </div>
+
+      <div class="right">
+        <app-avatar></app-avatar>
+        <a class="style-button" href="store">
+          <img src="../../../assets/images/game-ui/dressup.png">
+        </a>
+      </div>
     </div>
 
-    <div class="center">
-      <h1>Cat Breakout!!!!</h1>
-      <p>Little kitty wants to see what's on the other side of the rainbow</p>
-      <p>Help her remove all of the blocks to see!</p>
-    </div>
+    <div class="play-area">
+      <div class="play-header">
+        <span class="coins"><img src="../../../assets/images/game-ui/coin.png">
+          <label>Coins:</label>
+          <span class="coin-value" [class.ta-da]="coinValueChanged">{{player.coins}}</span>
+        </span>
+      </div>
 
-    <div class="right">
-      <app-avatar></app-avatar>
-      <a class="style-button" href="store">
-        <img src="../../../assets/images/game-ui/dressup.png">
-      </a>
-    </div>
-  </div>
+      <div class="game-surface" #gameSurface>
 
-  <div class="play-area">
-    <div class="play-header">
-      <span class="coins"><img src="../../../assets/images/game-ui/coin.png">
-        <label>Coins:</label>
-        <span class="coin-value" [class.ta-da]="coinValueChanged">{{player.coins}}</span>
-      </span>
-    </div>
+        <!-- Messageboxes -->
+        <div *ngIf="!game.isActive && game.state !== GameState.GameReward" class="play-button-wrapper">
+          <div class="button-panel">
+            <div *ngIf="game.state === GameState.NewGame">
+              <h2>😃</h2>
+              <p>Ready to play?</p>
+            </div>
+            <div *ngIf="game.state === GameState.LostGame">
+              <h2>Game over!!! 😢</h2>
+              <p>Want to play again?</p>
+            </div>
+            <div *ngIf="game.state === GameState.PlayAgain">
+              <h2>😃</h2>
+              <p>Want to play again?</p>
+            </div>
 
-    <div class="game-surface" #gameSurface>
-
-      <!-- Messageboxes -->
-      <div *ngIf="!game.isActive && game.state !== GameState.GameReward" class="play-button-wrapper">
-        <div class="button-panel">
-          <div *ngIf="game.state === GameState.NewGame">
-            <h2>😃</h2>
-            <p>Ready to play?</p>
+            <button class="play-button" type="button" (click)="play()">Play!</button>
           </div>
-          <div *ngIf="game.state === GameState.LostGame">
-            <h2>Game over!!! 😢</h2>
-            <p>Want to play again?</p>
-          </div>
-          <div *ngIf="game.state === GameState.PlayAgain">
-            <h2>😃</h2>
-            <p>Want to play again?</p>
-          </div>
+        </div>
 
-          <button class="play-button" type="button" (click)="play()">Play!</button>
+        <!-- Main Canvas! -->
+        <canvas id="my-canvas" class="game-canvas" width="1130" height="620" #gameCanvas></canvas>
+
+        <div class="winner-video">
+          <!-- Celebration Video -->
+          <video id="catCelebration" width="1130" height="620" playsinline
+            poster="../../../assets/images/game-ui/cat-celebration-poster.PNG" #winnerVideo>
+            <source src="../../../assets/videos/catCelebration.mp4">
+          </video>
+
+          <div *ngIf="!videoPlaying" class="controls">
+            <button class="video-button" aria-pressed="true" aria-label="Play video" type="button"
+              (click)="playVideo()">
+              <svg class="icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                <title>Play video</title>
+                <path
+                  d="M5.85355339,0.853553391 L12.2928932,7.29289322 C12.6834175,7.68341751 12.6834175,8.31658249 12.2928932,8.70710678 L5.85355339,15.1464466 C5.65829124,15.3417088 5.34170876,15.3417088 5.14644661,15.1464466 C5.05267842,15.0526784 5,14.9255015 5,14.7928932 L5,1.20710678 C5,0.930964406 5.22385763,0.707106781 5.5,0.707106781 C5.63260824,0.707106781 5.7597852,0.759785201 5.85355339,0.853553391 Z">
+                </path>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Main Canvas! -->
-      <canvas id="my-canvas" class="game-canvas" width="1130" height="620" #gameCanvas></canvas>
+      <div *ngIf="game.isActive" class="side-bar">
+        <img *ngFor="let heart of game.livesArray" src="../../../assets/images/game-ui/heart.png" />
+      </div>
 
-      <div class="winner-video">
-        <!-- Celebration Video -->
-        <video id="catCelebration" width="1130" height="620" playsinline
-          poster="../../../assets/images/game-ui/cat-celebration-poster.PNG" #winnerVideo>
-          <source src="../../../assets/videos/catCelebration.mp4">
-        </video>
+      <div *ngIf="game" class="play-footer">
+        <span class="score">
+          <label>Score:</label>
+          <span class="score-value">{{game.score}}</span>
+        </span>
 
-        <div *ngIf="!videoPlaying" class="controls">
-          <button class="video-button" aria-pressed="true" aria-label="Play video" type="button" (click)="playVideo()">
-            <svg class="icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-              <title>Play video</title>
-              <path
-                d="M5.85355339,0.853553391 L12.2928932,7.29289322 C12.6834175,7.68341751 12.6834175,8.31658249 12.2928932,8.70710678 L5.85355339,15.1464466 C5.65829124,15.3417088 5.34170876,15.3417088 5.14644661,15.1464466 C5.05267842,15.0526784 5,14.9255015 5,14.7928932 L5,1.20710678 C5,0.930964406 5.22385763,0.707106781 5.5,0.707106781 C5.63260824,0.707106781 5.7597852,0.759785201 5.85355339,0.853553391 Z">
-              </path>
-            </svg>
-          </button>
+        <a class="audio" [class.sound-effects]="player.soundEffects" (click)="toggleSoundEffects()">🔔</a>
+      </div>
+
+    </div>
+
+    <div class="speed-control-wrapper">
+      <div class="speed-control">
+        <div class="speed-header">
+          <span class="current">{{player.speed}}x</span>
+          <label>Speed</label>
         </div>
-      </div>
-    </div>
-
-    <div *ngIf="game.isActive" class="side-bar">
-      <img *ngFor="let heart of game.livesArray" src="../../../assets/images/game-ui/heart.png" />
-    </div>
-
-    <div *ngIf="game" class="play-footer">
-      <span class="score">
-        <label>Score:</label>
-        <span class="score-value">{{game.score}}</span>
-      </span>
-
-      <a class="audio" [class.sound-effects]="player.soundEffects" (click)="toggleSoundEffects()">🔔</a>
-    </div>
-
-  </div>
-
-  <div class="speed-control-wrapper">
-    <div class="speed-control">
-      <div class="speed-header">
-        <span class="current">{{player.speed}}x</span>
-        <label>Speed</label>
-      </div>
-      <input type="range" min="1" max="10" [value]="player.speed" (input)="onSpeedChanged($event)" />
-      <div class="ticks">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+        <input type="range" min="1" max="10" [value]="player.speed" (input)="onSpeedChanged($event)" />
+        <div class="ticks">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
     </div>
   </div>

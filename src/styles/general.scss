@@ -7,17 +7,12 @@ html {
   height: 100%;
 
   body {
-    background-image: url('../assets/images/game-ui/background.jpg');
-    background-size: cover;
     font-family: 'Lato', sans-serif;
     overflow: hidden;
-  }
-}
+    height: 100%;
 
-h1,
-h2,
-h3,
-h4,
-h5 {
-  // font-family: 'Helvetica';
+    .shell {
+      height: 100%;
+    }
+  }
 }

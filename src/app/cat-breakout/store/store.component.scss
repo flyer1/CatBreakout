@@ -1,371 +1,376 @@
-.store {
-  display: grid;
-  grid-template-areas:
-    "header"
-    "title"
-    "inventory";
-  grid-template-rows: auto auto 1fr;
-  height: calc(100vh - 40px);
-  padding: 20px;
-  max-width: 1000px;
-  margin: 0 auto;
+.store-wrapper {
+  background-image: url('../../../assets/images/game-ui/background.jpg');
+  background-size: cover;
 
-  .store-header {
-    display: flex;
-    justify-content: space-between;
-
-    .left {
-      h1 {
-        color: #c1b1fa;
-        font-size: 60px;
-        font-weight: 500;
-        position: relative;
-        padding: 0 30px 20px 0px;
-        border-radius: 80px;
-
-        img {
-          position: absolute;
-          top: -17px;
-          left: -29px;
-          width: 106px;
-        }
-      }
-    }
-  }
-
-  .tabs {
-    display: flex;
-    margin-top: -4px;
-    position: relative;
-
-    a {
-      font-size: 24px;
-      color: #fbfafa5e;
-      font-weight: 400;
-      margin: 0 15px 16px 15px;
-      cursor: pointer;
-
-      &.is-active {
-        border-bottom: 2px solid white;
-        color: white;
-      }
-    }
-
-    .meta-data {
-      position: absolute;
-      right: 20px;
-      bottom: 0;
-      font-size: 21px;
-      color: white;
-
-      .coins {
-        position: relative;
-        background: #0000002e;
-        border-radius: 10px 10px 0 0px;
-        font-size: 15px;
-        min-width: 116px;
-        text-align: center;
-        line-height: 30px;
-        font-weight: 600;
-        font-family: Helvetica;
-        border: 1px solid black;
-        border-bottom: 0;
-        z-index: 9;
-        padding: 8px 33px 8px 35px;
-        color: #e6c97a;
-
-        label {
-          margin-right: 7px;
-          font-weight: 400;
-        }
-
-        img {
-          position: absolute;
-          width: 25px;
-          left: 7px;
-          top: 5px;
-        }
-
-        .coin-value {
-          display: inline-block;
-          font-weight: 500;
-          font-size: 18px;
-          vertical-align: -2px;
-        }
-      }
-    }
-  }
-
-  .tabpage {
-    position: relative;
-    border-radius: 10px;
+  .store {
+    display: grid;
+    grid-template-areas:
+      "header"
+      "title"
+      "inventory";
+    grid-template-rows: auto auto 1fr;
+    height: calc(100vh - 40px);
     padding: 20px;
-    border: 1px solid black;
+    max-width: 1000px;
+    margin: 0 auto;
 
-    .items {
+    .store-header {
       display: flex;
-      flex-wrap: wrap;
-      flex-direction: row;
-      align-content: flex-start;
-      justify-content: center;
-      overflow-y: auto;
-      position: absolute;
-      top: 18px;
-      bottom: 13px;
-      right: 9px;
-      left: 20px;
+      justify-content: space-between;
 
-      .card {
-        width: 204px;
-        border: 1px solid #c1b1fa00;
-        margin-right: 30px;
-        margin-bottom: 30px;
-        background: rgba(255, 255, 255, 0.534);
-        overflow-y: auto;
-        border-radius: 10px;
-
-        .card-preview {
+      .left {
+        h1 {
+          color: #c1b1fa;
+          font-size: 60px;
+          font-weight: 500;
           position: relative;
-          display: flex;
-          justify-content: center;
-          padding: 20px;
-          border-bottom: 1px solid rgba(0, 0, 0, .12);
+          padding: 0 30px 20px 0px;
+          border-radius: 80px;
 
-          .image-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #fffefed6;
-            border-radius: 100%;
-            width: 120px;
-            height: 120px;
-            margin-right: 5px;
-            padding: 20px;
-
-            img {
-              width: 100px;
-            }
-          }
-
-          .price {
+          img {
             position: absolute;
-            right: 0;
-            top: 9px;
-            background: #0606068a;
-            border-radius: 10px 0px 0 10px;
-            font-size: 14px;
-            line-height: 29px;
-            padding-right: 12px;
-            padding-left: 35px;
-
-            img {
-              position: absolute;
-              width: 25px;
-              left: 7px;
-              top: 2px;
-            }
-
-            .coin-value {
-              color: #e6c97a;
-            }
+            top: -17px;
+            left: -29px;
+            width: 106px;
           }
         }
+      }
+    }
 
-        .details {
-          overflow: hidden;
-          height: 91px;
+    .tabs {
+      display: flex;
+      margin-top: -4px;
+      position: relative;
 
-          .inner-details {
-            transition: transform 300ms ease-out;
+      a {
+        font-size: 24px;
+        color: #fbfafa5e;
+        font-weight: 400;
+        margin: 0 15px 16px 15px;
+        cursor: pointer;
 
-            .card-title {
-              padding: 0;
-              display: flex;
-              height: 48px;
-              align-items: center;
-              padding-left: 14px;
-              padding-right: 14px;
-              font-size: 18px;
-              font-weight: 600;
-              color: rgba(0, 0, 0, .87);
-            }
+        &.is-active {
+          border-bottom: 2px solid white;
+          color: white;
+        }
+      }
 
-            .card-summary {
-              display: flex;
-              justify-content: space-between;
-              padding: 0 15px 8px 15px;
-              min-height: 2.4em;
-              font-size: 15px;
+      .meta-data {
+        position: absolute;
+        right: 20px;
+        bottom: 0;
+        font-size: 21px;
+        color: white;
 
-              label {
-                position: relative;
-                padding-left: 13px;
-                padding-top: 8px;
+        .coins {
+          position: relative;
+          background: #0000002e;
+          border-radius: 10px 10px 0 0px;
+          font-size: 15px;
+          min-width: 116px;
+          text-align: center;
+          line-height: 30px;
+          font-weight: 600;
+          font-family: Helvetica;
+          border: 1px solid black;
+          border-bottom: 0;
+          z-index: 9;
+          padding: 8px 33px 8px 35px;
+          color: #e6c97a;
 
-                &:after {
-                  content: "";
-                  position: absolute;
-                  left: -3px;
-                  width: 10px;
-                  height: 10px;
-                  top: 12px;
-                  border-radius: 100%;
-                }
-
-                &.Common {
-                  &:after {
-                    background: #ee08fe; // #66ede7 #662e79 #c1b1fa
-                  }
-                }
-
-                &.Rare {
-                  &:after {
-                    background: #66ede7;
-                  }
-                }
-
-                &.Legendary {
-                  &:after {
-                    background: #662e79;
-                  }
-                }
-
-                &.Ultra {
-                  &:after {
-                    background: #c1b1fa
-                  }
-                }
-              }
-
-              .btn {
-                &[disabled] {
-                  background: gainsboro;
-                  color: #0000006e;
-                  cursor: default;
-                }
-              }
-
-              .switch-control {
-                display: inline-block;
-                direction: ltr;
-                height: 28px;
-                vertical-align: middle;
-
-                input {
-                  display: none;
-                }
-              }
-            }
-
-            .link {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              cursor: pointer;
-              width: 70px;
-            }
+          label {
+            margin-right: 7px;
+            font-weight: 400;
           }
 
-          &.confirm-purchase {
-            .inner-details {
-              transform: translateY(-90px);
-            }
+          img {
+            position: absolute;
+            width: 25px;
+            left: 7px;
+            top: 5px;
+          }
+
+          .coin-value {
+            display: inline-block;
+            font-weight: 500;
+            font-size: 18px;
+            vertical-align: -2px;
           }
         }
+      }
+    }
 
-        &.full-size {
-          width: 100%;
+    .tabpage {
+      position: relative;
+      border-radius: 10px;
+      padding: 20px;
+      border: 1px solid black;
+
+      .items {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-content: flex-start;
+        justify-content: center;
+        overflow-y: auto;
+        position: absolute;
+        top: 18px;
+        bottom: 13px;
+        right: 9px;
+        left: 20px;
+
+        .card {
+          width: 204px;
+          border: 1px solid #c1b1fa00;
+          margin-right: 30px;
+          margin-bottom: 30px;
+          background: rgba(255, 255, 255, 0.534);
+          overflow-y: auto;
+          border-radius: 10px;
 
           .card-preview {
-            justify-content: space-between;
-            border-bottom: none;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, .12);
 
             .image-wrapper {
-              border-radius: 10px;
-              margin-right: 20px;
-            }
-
-            .description {
-              flex-grow: 1;
-
-              h3 {
-                font-size: 24px;
-                margin-bottom: 13px;
-              }
-
-              h5 {
-                display: inline;
-                font-size: 18px;
-                line-height: 34px;
-                color: #000000bf;
-                font-weight: 600;
-                border-bottom: 1px solid #038e94;
-                padding-bottom: 2px;
-              }
-
-              p {
-                font-size: 18px;
-                max-width: 550px;
-
-                &.unlock-level {
-                  margin-top: 20px;
-                  font-size: 15px;
-                }
-              }
-            }
-
-            .actions {
               display: flex;
               justify-content: center;
-              width: 110px;
+              align-items: center;
+              background: #fffefed6;
+              border-radius: 100%;
+              width: 120px;
+              height: 120px;
+              margin-right: 5px;
+              padding: 20px;
 
-              .btn {
-                width: unset;
+              img {
+                width: 100px;
+              }
+            }
+
+            .price {
+              position: absolute;
+              right: 0;
+              top: 9px;
+              background: #0606068a;
+              border-radius: 10px 0px 0 10px;
+              font-size: 14px;
+              line-height: 29px;
+              padding-right: 12px;
+              padding-left: 35px;
+
+              img {
+                position: absolute;
+                width: 25px;
+                left: 7px;
+                top: 2px;
               }
 
-              .locked {
-                background: #060606;
-                color: white;
-                padding: 7px 14px;
-                border-radius: 4px;
-                padding: 4px 15px;
-                border-radius: 8px;
-                height: 25px;
-                white-space: nowrap;
+              .coin-value {
+                color: #e6c97a;
+              }
+            }
+          }
+
+          .details {
+            overflow: hidden;
+            height: 91px;
+
+            .inner-details {
+              transition: transform 300ms ease-out;
+
+              .card-title {
+                padding: 0;
+                display: flex;
+                height: 48px;
+                align-items: center;
+                padding-left: 14px;
+                padding-right: 14px;
+                font-size: 18px;
+                font-weight: 600;
+                color: rgba(0, 0, 0, .87);
+              }
+
+              .card-summary {
+                display: flex;
+                justify-content: space-between;
+                padding: 0 15px 8px 15px;
+                min-height: 2.4em;
+                font-size: 15px;
+
+                label {
+                  position: relative;
+                  padding-left: 13px;
+                  padding-top: 8px;
+
+                  &:after {
+                    content: "";
+                    position: absolute;
+                    left: -3px;
+                    width: 10px;
+                    height: 10px;
+                    top: 12px;
+                    border-radius: 100%;
+                  }
+
+                  &.Common {
+                    &:after {
+                      background: #ee08fe; // #66ede7 #662e79 #c1b1fa
+                    }
+                  }
+
+                  &.Rare {
+                    &:after {
+                      background: #66ede7;
+                    }
+                  }
+
+                  &.Legendary {
+                    &:after {
+                      background: #662e79;
+                    }
+                  }
+
+                  &.Ultra {
+                    &:after {
+                      background: #c1b1fa
+                    }
+                  }
+                }
+
+                .btn {
+                  &[disabled] {
+                    background: gainsboro;
+                    color: #0000006e;
+                    cursor: default;
+                  }
+                }
+
+                .switch-control {
+                  display: inline-block;
+                  direction: ltr;
+                  height: 28px;
+                  vertical-align: middle;
+
+                  input {
+                    display: none;
+                  }
+                }
+              }
+
+              .link {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                width: 70px;
+              }
+            }
+
+            &.confirm-purchase {
+              .inner-details {
+                transform: translateY(-90px);
+              }
+            }
+          }
+
+          &.full-size {
+            width: 100%;
+
+            .card-preview {
+              justify-content: space-between;
+              border-bottom: none;
+
+              .image-wrapper {
+                border-radius: 10px;
+                margin-right: 20px;
+              }
+
+              .description {
+                flex-grow: 1;
+
+                h3 {
+                  font-size: 24px;
+                  margin-bottom: 13px;
+                }
+
+                h5 {
+                  display: inline;
+                  font-size: 18px;
+                  line-height: 34px;
+                  color: #000000bf;
+                  font-weight: 600;
+                  border-bottom: 1px solid #038e94;
+                  padding-bottom: 2px;
+                }
+
+                p {
+                  font-size: 18px;
+                  max-width: 550px;
+
+                  &.unlock-level {
+                    margin-top: 20px;
+                    font-size: 15px;
+                  }
+                }
+              }
+
+              .actions {
+                display: flex;
+                justify-content: center;
+                width: 110px;
+
+                .btn {
+                  width: unset;
+                }
+
+                .locked {
+                  background: #060606;
+                  color: white;
+                  padding: 7px 14px;
+                  border-radius: 4px;
+                  padding: 4px 15px;
+                  border-radius: 8px;
+                  height: 25px;
+                  white-space: nowrap;
+                }
               }
             }
           }
         }
       }
     }
-  }
 
-  .close {
-    display: flex;
-    justify-content: center;
-    margin-top: 12px;
-    position: absolute;
-    left: 50%;
-
-    a {
+    .close {
       display: flex;
       justify-content: center;
-      align-items: center;
-      border-radius: 100%;
-      width: 40px;
-      height: 40px;
-      border: 4px solid #1dd7ee3b;
-      cursor: pointer;
-      box-shadow: 0 0 4px #1c323d, 0 0 1px black inset;
-      background: #ffffff9e;
-      font-size: 20px;
-      text-decoration: none;
-      color: #00000096;
-      font-weight: 600;
-      transition: background-color .3s ease;
+      margin-top: 12px;
+      position: absolute;
+      left: 50%;
 
-      &:hover {
-        background-color: #fff;
+      a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100%;
+        width: 40px;
+        height: 40px;
+        border: 4px solid #1dd7ee3b;
+        cursor: pointer;
+        box-shadow: 0 0 4px #1c323d, 0 0 1px black inset;
+        background: #ffffff9e;
+        font-size: 20px;
+        text-decoration: none;
+        color: #00000096;
+        font-weight: 600;
+        transition: background-color .3s ease;
+
+        &:hover {
+          background-color: #fff;
+        }
       }
     }
   }

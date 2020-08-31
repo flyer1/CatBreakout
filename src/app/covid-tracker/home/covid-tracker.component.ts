@@ -302,4 +302,8 @@ export class CovidTrackerComponent implements OnInit {
   }
 
   // #endregion
+
+  generateSchool() {
+    
+  }
 }

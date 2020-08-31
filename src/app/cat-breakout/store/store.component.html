@@ -1,95 +1,97 @@
-<div class="store">
-  <div class="store-header">
-    <div class="close">
-      <a href="/game">X</a>
+<div class="store-wrapper">
+  <div class="store">
+    <div class="store-header">
+      <div class="close">
+        <a href="/game">X</a>
+      </div>
+      <div class="left">
+        <h1>Cat Store<img src="../../../assets/images/game-ui/whiskers.png"></h1>
+      </div>
+      <app-avatar>
+      </app-avatar>
     </div>
-    <div class="left">
-      <h1>Cat Store<img src="../../../assets/images/game-ui/whiskers.png"></h1>
+
+    <div class="tabs">
+      <a [class.is-active]="activeTab === 'accessories'" (click)="selectTab('accessories')">Accessories</a>
+      <a [class.is-active]="activeTab === 'skins'" (click)="selectTab('skins')">Skins</a>
+      <div class="meta-data">
+        <span class="coins">
+          <img src="../../../assets/images/game-ui/coin.png">
+          <label>Coins</label>
+          <span class="coin-value">{{player.coins}}</span>
+        </span>
+      </div>
     </div>
-    <app-avatar>
-    </app-avatar>
-  </div>
 
-  <div class="tabs">
-    <a [class.is-active]="activeTab === 'accessories'" (click)="selectTab('accessories')">Accessories</a>
-    <a [class.is-active]="activeTab === 'skins'" (click)="selectTab('skins')">Skins</a>
-    <div class="meta-data">
-      <span class="coins">
-        <img src="../../../assets/images/game-ui/coin.png">
-        <label>Coins</label>
-        <span class="coin-value">{{player.coins}}</span>
-      </span>
-    </div>
-  </div>
-
-  <!-- ACCESSORIES TAB -->
-  <div *ngIf="activeTab === 'accessories'" class="tabpage">
-    <div class="items small-scrollbar">
-      <div *ngFor="let item of store.activeSkin.accessories" class="card">
-        <div class="card-preview">
-          <span class="price">
-            <img src="../../../assets/images/game-ui/coin.png">
-            <span class="coin-value">{{item.price | number}}</span>
-          </span>
-          <div class="image-wrapper">
-            <img [src]="item.image.path" [ngStyle]="{width: item.image.avatarWidth + 'px' }" />
-          </div>
-        </div>
-
-        <div class="details" [class.confirm-purchase]="item.confirmPurchase">
-          <div class="inner-details">
-            <div class="item-info">
-              <div class="card-title">{{item.name}}</div>
-              <div class="card-summary">
-                <label [ngClass]="item.category">{{item.category}}</label>
-                <button *ngIf="!item.isPurchased" type="button" class="btn"
-                  (click)="confirmPurchase(item)" [disabled]="player.coins < item.price">Buy!</button>
-                <span *ngIf="item.isPurchased" class="equip">
-                  <!-- Normally I'd made this into an angular component with data binding features but this'll be a quick n dirty approach since I only need to use in 1 place in the app -->
-                  <a class="switch-control" (click)="toggleAccessory(item)">
-                    <input type="checkbox" [value]="item.isActive" autocomplete="off" />
-                    <div class="switch" [ngClass]="item.isActive ? 'switch-on': 'switch-off'">
-                      <div class="cursor"></div>
-                      <div class="label label-on">On</div>
-                      <div class="label label-off">Off</div>
-                    </div>
-                  </a>
-                </span>
-              </div>
+    <!-- ACCESSORIES TAB -->
+    <div *ngIf="activeTab === 'accessories'" class="tabpage">
+      <div class="items small-scrollbar">
+        <div *ngFor="let item of store.activeSkin.accessories" class="card">
+          <div class="card-preview">
+            <span class="price">
+              <img src="../../../assets/images/game-ui/coin.png">
+              <span class="coin-value">{{item.price | number}}</span>
+            </span>
+            <div class="image-wrapper">
+              <img [src]="item.image.path" [ngStyle]="{width: item.image.avatarWidth + 'px' }" />
             </div>
-            <div class="confirm-purchase">
-              <div class="card-title">You sure you want to buy this item?</div>
-              <div class="card-summary">
-                <button type="button" class="btn" (click)="purchaseItem(item)">Yes</button>
-                <a class="link" (click)="cancelPurchase(item)">Cancel</a>
+          </div>
+
+          <div class="details" [class.confirm-purchase]="item.confirmPurchase">
+            <div class="inner-details">
+              <div class="item-info">
+                <div class="card-title">{{item.name}}</div>
+                <div class="card-summary">
+                  <label [ngClass]="item.category">{{item.category}}</label>
+                  <button *ngIf="!item.isPurchased" type="button" class="btn" (click)="confirmPurchase(item)"
+                    [disabled]="player.coins < item.price">Buy!</button>
+                  <span *ngIf="item.isPurchased" class="equip">
+                    <!-- Normally I'd made this into an angular component with data binding features but this'll be a quick n dirty approach since I only need to use in 1 place in the app -->
+                    <a class="switch-control" (click)="toggleAccessory(item)">
+                      <input type="checkbox" [value]="item.isActive" autocomplete="off" />
+                      <div class="switch" [ngClass]="item.isActive ? 'switch-on': 'switch-off'">
+                        <div class="cursor"></div>
+                        <div class="label label-on">On</div>
+                        <div class="label label-off">Off</div>
+                      </div>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <div class="confirm-purchase">
+                <div class="card-title">You sure you want to buy this item?</div>
+                <div class="card-summary">
+                  <button type="button" class="btn" (click)="purchaseItem(item)">Yes</button>
+                  <a class="link" (click)="cancelPurchase(item)">Cancel</a>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- SKINS TAB -->
-  <div *ngIf="activeTab === 'skins'" class="tabpage">
-    <div class="items small-scrollbar">
-      <div *ngFor="let item of store.skins" class="card full-size">
+    <!-- SKINS TAB -->
+    <div *ngIf="activeTab === 'skins'" class="tabpage">
+      <div class="items small-scrollbar">
+        <div *ngFor="let item of store.skins" class="card full-size">
 
-        <div class="card-preview">
-          <div class="image-wrapper">
-            <img [src]="item.imagePath">
-          </div>
-          <div class="description">
-            <h3>{{item.name}}</h3>
-            <h5>About Me</h5>
-            <p>{{item.aboutMe}}</p>
-            <p class="unlock-level">Unlocks at level: <strong>{{item.unlockLevel}}</strong></p>
-          </div>
-          <div class="actions">
-            <span *ngIf="item.isActive" class="">Active ✔️</span>
-            <button *ngIf="!item.isActive && item.unlockLevel <= player.level" type="button" class="make-default btn"
-              (click)="makeSkinDefault(item)">Select Skin</button>
-            <span *ngIf="item.unlockLevel > player.level" class="locked">Locked 🔒</span>
+          <div class="card-preview">
+            <div class="image-wrapper">
+              <img [src]="item.imagePath">
+            </div>
+            <div class="description">
+              <h3>{{item.name}}</h3>
+              <h5>About Me</h5>
+              <p>{{item.aboutMe}}</p>
+              <p class="unlock-level">Unlocks at level: <strong>{{item.unlockLevel}}</strong></p>
+            </div>
+            <div class="actions">
+              <span *ngIf="item.isActive" class="">Active ✔️</span>
+              <button *ngIf="!item.isActive && item.unlockLevel <= player.level" type="button" class="make-default btn"
+                (click)="makeSkinDefault(item)">Select Skin</button>
+              <span *ngIf="item.unlockLevel > player.level" class="locked">Locked 🔒</span>
+            </div>
           </div>
         </div>
       </div>

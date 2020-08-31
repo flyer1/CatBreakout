@@ -1,4 +1,39 @@
 <div class="covid-tracker">
+  <div class="school-settings">
+    <h2>School Configuration</h2>
+    <form>
+      <div class="control-group">
+        <label># of students</label>
+        <input type="number">
+      </div>
+      <div class="control-group">
+        <label>Students per Cohort</label>
+        <input type="number">
+      </div>
+      <h3>Relationships</h3>
+      <div class="control-group">
+        <label>Siblings</label>
+        <input type="number">
+      </div>
+      <div class="control-group">
+        <label>Daycare</label>
+        <input type="number">
+      </div>
+      <div class="control-group">
+        <label>Extra Curricular</label>
+        <input type="number">
+      </div>
+      <div class="control-group">
+        <label>Friend</label>
+        <input type="number">
+      </div>
+      <div class="actions">
+        <button type="button" (click)="generateSchool()">Generate School</button>
+        <span class="disclaimer">* student data is fake</span>
+      </div>
+    </form>
+  </div>
+
   <div class="data-visualization">
     <!-- SVG added here -->
   </div>
