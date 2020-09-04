@@ -1,0 +1,27 @@
+<div class="circle-pack">
+  <div class="data-visualization">
+    <!-- SVG added here -->
+  </div>
+
+  <div class="tooltip" #tooltip>
+    <div *ngIf="activeData && activeData.name === 'class'" class="inner-tooltip">
+      <h5>{{activeData.cls.teacher}} - {{activeData.name}}</h5>
+      <table>
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Relationships</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of activeData.cls.students">
+            <td>{{student.name}}</td>
+            <td class="align-right">
+              <span *ngIf="student.relationships.length" class="badge">{{student.relationships.length}}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

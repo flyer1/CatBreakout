@@ -1,0 +1,81 @@
+.circle-pack {
+
+  svg {
+    g {
+      text {
+        font-size: 8px;
+      }
+    }
+  }
+
+  ////////////// TOOLTIP
+  .tooltip {
+    position: absolute;
+    min-width: 200px;
+    top: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #6e6e6e;
+    padding: 3px 0;
+    z-index: 99;
+    pointer-events: none;
+
+    h5 {
+      border-bottom: 1px solid #ccc;
+      font-size: 14px;
+      margin-bottom: 3px;
+      padding: 0 10px 2px 5px;
+    }
+
+    table {
+      border-collapse: collapse;
+
+      thead {
+        tr {
+          th {
+            text-align: left;
+            font-weight: normal;
+            font-size: 13px;
+            border-bottom: 1px solid #ccc;
+            padding-left: 5px;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          td {
+            text-align: left;
+            font-weight: normal;
+            font-size: 13px;
+            border-bottom: 1px solid #f5f5f5;
+            padding-left: 5px;
+
+            .badge {
+              border-radius: 100%;
+              background: #eee;
+              display: inline-block;
+              width: 17px;
+              height: 17px;
+              font-size: 10px;
+              padding-top: 2px;
+              text-align: center;
+            }
+
+            &.align-right {
+              text-align: right;
+              padding-right: 10px;
+            }
+
+          }
+
+          &:last-child {
+            td {
+              border-bottom: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}

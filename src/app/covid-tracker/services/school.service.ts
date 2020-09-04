@@ -5,7 +5,8 @@ import { School } from '../models/school.model';
 import { Class } from '../models/class.model';
 import { Cohort } from '../models/cohort.model';
 import { Student, StudentStatus, RelationshipType } from '../models/student.model';
-import { padLeft, getRandom } from '../../core/helpers/common-helpers';
+import { padLeft, getRandom, compare } from '../../core/helpers/common-helpers';
+import { CookieStorageService, CookieStorageKeys } from 'src/app/core/storage/cookie-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class SchoolService {
@@ -15,21 +16,24 @@ export class SchoolService {
     nextStudentId = 0;
 
     ////////////////////////////////////////////////////////////
+    constructor(private cookieStorageService: CookieStorageService) { }
 
-    init(): School {
-        this.createSchool();
+    init(options?: SchoolOptions): School {
+        options = options ?? School.resetSchool();
+        
+        // this.player = this.cookieStorageService.get(CookieStorageKeys.SCHOOL_STATE) || Player.resetPlayer();
+        // this.cookieStorageService.set({ name: CookieStorageKeys.SCHOOL_STATE, value: , session: true });
+
+        this.createSchool(options);
         this.flattenStudents();
-        this.createAllRelationships();
+        this.createAllRelationships(options);
         console.log(this.school);
 
         return this.school;
     }
 
     // #region CREATE SCHOOL 
-    createSchool() {
-        const totalCohorts = 10;
-        const grades = ['K', '1', '2', '3', '4', '5', '6'];
-
+    createSchool(options: SchoolOptions) {
         this.school = {
             name: 'Sage Creek',
             cohorts: [],
@@ -38,11 +42,40 @@ export class SchoolService {
             totalStudents: 0
         };
 
-        for (let i = 0; i < totalCohorts; i++) {
-            let grade = grades[i];
-
-            this.school.cohorts.push(this.createCohort(i, grade));
+        const students: Student[] = [];
+        for (let i = 0; i < options.totalStudents; i++) {
+            students.push(this.createStudent(i));
         }
+
+        const classes: Class[] = [];
+        const grades = ['K', '1', '2', '3', '4', '5', '6'];
+        const classCount = Math.ceil(options.totalStudents / options.classSize);
+        for (let i = 0; i < classCount; i++) {
+            let grade = grades[i % grades.length];
+            classes.push(this.createClass(i, grade));
+        }
+        // Sort the classes
+        classes.sort((a, b) => compare(a.id, b.id, true))
+
+        // Use a round robin approach to assigning students to the collection of available classes
+        for (let i = 0; i < students.length; i++) {
+            const c = classes[i % classes.length];
+            c.students.push(students[i]);
+        }
+
+        const cohortCount = Math.ceil(options.totalStudents / options.cohortSize);
+        const cohorts: Cohort[] = [];
+        for (let i = 0; i < cohortCount; i++) {
+            cohorts.push(this.createCohort(i, 'xxx'));
+        }
+
+        // Use a round robin approach to assigning classes to the collection of available cohorts
+        for (let i = 0; i < classes.length; i++) {
+            const cohort = cohorts[i % cohorts.length];
+            cohort.classes.push(classes[i]);
+        }
+
+        this.school.cohorts = cohorts;
     }
 
     createCohort(index: number, grade: string): Cohort {
@@ -51,10 +84,6 @@ export class SchoolService {
             name: 'Cohort-' + index,
             classes: []
         };
-
-        for (let i = 0; i < 4; i++) {
-            newCohort.classes.push(this.createClass(i, grade));
-        }
 
         this.school.totalCohorts++;
         return newCohort;
@@ -73,10 +102,6 @@ export class SchoolService {
             gradeInstance: instance,
             students: []
         };
-
-        for (let i = 0; i < classSize; i++) {
-            newClass.students.push(this.createStudent(i));
-        }
 
         this.school.totalClasses++;
         return newClass;
@@ -110,11 +135,11 @@ export class SchoolService {
     // #region CREATE STUDENT RELATIONSHIPS
 
     // Generate random relationships between students of various types.
-    createAllRelationships() {
-        this.createStudentRelationships(RelationshipType.sibling, getRandom(50, 100));
-        this.createStudentRelationships(RelationshipType.daycare, getRandom(20, 40));
-        this.createStudentRelationships(RelationshipType.extraCurricular, getRandom(10, 20));
-        this.createStudentRelationships(RelationshipType.friend, getRandom(10, 15));
+    createAllRelationships(options: SchoolOptions) {
+        this.createStudentRelationships(RelationshipType.sibling, options.relationshipCounts.siblings);
+        this.createStudentRelationships(RelationshipType.daycare, options.relationshipCounts.daycare);
+        this.createStudentRelationships(RelationshipType.extraCurricular, options.relationshipCounts.extraCurricular);
+        this.createStudentRelationships(RelationshipType.friend, options.relationshipCounts.friend);
     }
 
     createStudentRelationships(type: RelationshipType, count: number) {
@@ -153,4 +178,18 @@ export class SchoolService {
     }
 
     //#endregion
+}
+
+export class SchoolOptions {
+
+    totalStudents: number;
+    cohortSize: number;
+    classSize: number;
+
+    relationshipCounts: {
+        siblings: number;
+        daycare: number;
+        extraCurricular: number;
+        friend: number;
+    }
 }

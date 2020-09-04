@@ -74,4 +74,5 @@ export class CookieStorageService {
 
 export class CookieStorageKeys {
     public static PLAYER_STATE = 'player-state';
+    public static SCHOOL_STATE = 'school-state';
 }

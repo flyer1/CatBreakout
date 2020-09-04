@@ -10,6 +10,7 @@ import { StoreComponent } from './cat-breakout/store/store.component';
 import { AvatarComponent } from './cat-breakout/common/avatar/avatar.component';
 
 import { CovidTrackerComponent } from './covid-tracker/home/covid-tracker.component';
+import { CirclePackComponent } from './covid-tracker/home/chart/circle-pack.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { CovidTrackerComponent } from './covid-tracker/home/covid-tracker.compon
     StoreComponent,
 
     /////// COVID TRACKER ////////
+    CirclePackComponent,
     CovidTrackerComponent,
   ],
   imports: [

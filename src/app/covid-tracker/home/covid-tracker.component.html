@@ -3,11 +3,15 @@
     <h2>School Configuration</h2>
     <form>
       <div class="control-group">
-        <label># of students</label>
+        <label>Total students</label>
         <input type="number">
       </div>
       <div class="control-group">
-        <label>Students per Cohort</label>
+        <label>Cohort Size</label>
+        <input type="number">
+      </div>
+      <div class="control-group">
+        <label>Class Size</label>
         <input type="number">
       </div>
       <h3>Relationships</h3>
@@ -33,30 +37,7 @@
       </div>
     </form>
   </div>
-
-  <div class="data-visualization">
-    <!-- SVG added here -->
-  </div>
-
-  <div class="tooltip" #tooltip>
-    <div *ngIf="activeData && activeData.name === 'class'" class="inner-tooltip">
-      <h5>{{activeData.cls.teacher}} - {{activeData.name}}</h5>
-      <table>
-        <thead>
-          <tr>
-            <th>Student</th>
-            <th>Relationships</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let student of activeData.cls.students">
-            <td>{{student.name}}</td>
-            <td class="align-right">
-              <span *ngIf="student.relationships.length" class="badge">{{student.relationships.length}}</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+ 
+  <app-circle-pack [data]="data"></app-circle-pack>
+ 
 </div>
