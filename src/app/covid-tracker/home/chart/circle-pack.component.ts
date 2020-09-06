@@ -6,7 +6,6 @@ import { ScaleSequential, scaleSequential } from 'd3-scale';
 import { interpolateMagma } from 'd3-scale-chromatic';
 import { pack, hierarchy, HierarchyCircularNode } from 'd3-hierarchy';
 
-import { SchoolService } from '../../services/school.service';
 import { StudentRelationshipNode } from '../../models/student.model';
 
 // We are using a type alias here b/c some of the D3 type names are so long that they distract from the code.
@@ -20,7 +19,14 @@ type D3Node = HierarchyCircularNode<any>;
 })
 export class CirclePackComponent implements OnInit {
 
-  @Input() data: any;
+  @Input() set data(value: any[]) {
+    this._data = value;
+    if (value) {
+      this.init();
+    }
+  }
+  get data(): any[] { return this._data; }
+  private _data: any;
 
   /////////////////////////////////////////////////////////////////////////////////////////
   @ViewChild('tooltip', { static: true }) tooltip: ElementRef;
@@ -45,12 +51,18 @@ export class CirclePackComponent implements OnInit {
   activeData: any;
 
   /////////////////////////////////////////////////////////////////////////////////////////
-  constructor(private schoolService: SchoolService, private renderer: Renderer2) { }
+  constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
+  }
+
+  init() {
+    if (this.svg) {
+      this.svg.remove();
+    }
+    
     this.width = 700;
     this.height = 700;
-
     this.getData();
     this.createChart();
     this.initTooltip();
@@ -61,7 +73,6 @@ export class CirclePackComponent implements OnInit {
     this.relationships = this.getRelationships(this.root);
 
     this.focus = this.root;
-
   }
 
   createChart() {

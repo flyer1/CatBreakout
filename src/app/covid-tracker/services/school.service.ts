@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { name } from 'faker';
 
-import { School } from '../models/school.model';
+import { School, SchoolOptions } from '../models/school.model';
 import { Class } from '../models/class.model';
 import { Cohort } from '../models/cohort.model';
 import { Student, StudentStatus, RelationshipType } from '../models/student.model';
@@ -27,6 +27,7 @@ export class SchoolService {
         this.createSchool(options);
         this.flattenStudents();
         this.createAllRelationships(options);
+        
         console.log(this.school);
 
         return this.school;
@@ -109,7 +110,7 @@ export class SchoolService {
 
     createStudent(index: number): Student {
         const newStudent: Student = {
-            id: this.nextStudentId++,
+            id: index,
             name: `${name.firstName()} ${name.lastName()}`,
             relationships: [],
             status: StudentStatus.normal,
@@ -170,7 +171,7 @@ export class SchoolService {
     }
 
     getRandomStudentId() {
-        return getRandom(0, this.nextStudentId - 1);
+        return getRandom(0, this.school.totalStudents - 1);
     }
 
     findStudent(studentId: number) {
@@ -178,18 +179,4 @@ export class SchoolService {
     }
 
     //#endregion
-}
-
-export class SchoolOptions {
-
-    totalStudents: number;
-    cohortSize: number;
-    classSize: number;
-
-    relationshipCounts: {
-        siblings: number;
-        daycare: number;
-        extraCurricular: number;
-        friend: number;
-    }
 }

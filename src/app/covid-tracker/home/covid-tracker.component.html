@@ -1,43 +1,47 @@
 <div class="covid-tracker">
-  <div class="school-settings">
+  <div [formGroup]="form" class="school-settings">
     <h2>School Configuration</h2>
-    <form>
+    <div>
       <div class="control-group">
         <label>Total students</label>
-        <input type="number">
+        <input formControlName="totalStudents" type="number">
       </div>
       <div class="control-group">
         <label>Cohort Size</label>
-        <input type="number">
+        <input formControlName="cohortSize" type="number">
       </div>
       <div class="control-group">
         <label>Class Size</label>
-        <input type="number">
+        <input formControlName="classSize" type="number">
       </div>
-      <h3>Relationships</h3>
-      <div class="control-group">
-        <label>Siblings</label>
-        <input type="number">
+
+      <div formGroupName="relationshipCounts">
+        <h3>Relationships</h3>
+        <div class="control-group">
+          <label>Siblings</label>
+          <input formControlName="siblings" type="number">
+        </div>
+        <div class="control-group">
+          <label>Daycare</label>
+          <input formControlName="daycare" type="number">
+        </div>
+        <div class="control-group">
+          <label>Extra Curricular</label>
+          <input formControlName="extraCurricular" type="number">
+        </div>
+        <div class="control-group">
+          <label>Friend</label>
+          <input formControlName="friend" type="number">
+        </div>
       </div>
-      <div class="control-group">
-        <label>Daycare</label>
-        <input type="number">
-      </div>
-      <div class="control-group">
-        <label>Extra Curricular</label>
-        <input type="number">
-      </div>
-      <div class="control-group">
-        <label>Friend</label>
-        <input type="number">
-      </div>
+
       <div class="actions">
         <button type="button" (click)="generateSchool()">Generate School</button>
         <span class="disclaimer">* student data is fake</span>
       </div>
-    </form>
+    </div>
   </div>
- 
+
   <app-circle-pack [data]="data"></app-circle-pack>
- 
+
 </div>

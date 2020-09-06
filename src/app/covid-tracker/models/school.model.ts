@@ -1,6 +1,4 @@
 import { Cohort } from "./cohort.model";
-import { SchoolOptions } from '../services/school.service';
-
 export class School {
     name: string;
     cohorts: Cohort[];
@@ -20,5 +18,19 @@ export class School {
                 siblings: 0
             }
         };
+    }
+}
+
+export class SchoolOptions {
+
+    totalStudents: number;
+    cohortSize: number;
+    classSize: number;
+
+    relationshipCounts: {
+        siblings: number;
+        daycare: number;
+        extraCurricular: number;
+        friend: number;
     }
 }

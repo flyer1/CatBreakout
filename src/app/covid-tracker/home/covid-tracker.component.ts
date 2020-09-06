@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-
+import { FormBuilder, FormGroup } from '@angular/forms'
 import { SchoolService } from '../services/school.service';
+import { SchoolOptions, School } from '../models/school.model';
 
 @Component({
   templateUrl: './covid-tracker.component.html',
@@ -14,11 +15,38 @@ export class CovidTrackerComponent implements OnInit {
   /////////////////////////////////////////////////////////////////////////////////////////
 
   data: any;
+  form: FormGroup;
 
   /////////////////////////////////////////////////////////////////////////////////////////
-  constructor(private schoolService: SchoolService) { }
+
+  get formValue(): SchoolOptions { return this.form.value; }
+
+  /////////////////////////////////////////////////////////////////////////////////////////
+  constructor(private schoolService: SchoolService, private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.initForm();
+    this.getData();
+  }
+
+  initForm() {
+    const options = School.resetSchool();
+
+    this.form = this.fb.group({
+      totalStudents: options.totalStudents,
+      cohortSize: options.cohortSize,
+      classSize: options.classSize,
+
+      relationshipCounts: this.fb.group({
+        siblings: options.relationshipCounts.siblings,
+        daycare: options.relationshipCounts.daycare,
+        extraCurricular: options.relationshipCounts.extraCurricular,
+        friend: options.relationshipCounts.friend,
+      })
+    });
+  }
+
+  getData() {
     this.data = this.stratifyData();
   }
 
@@ -53,5 +81,8 @@ export class CovidTrackerComponent implements OnInit {
     return result;
   }
 
-  generateSchool() { }
+  generateSchool() {
+    this.schoolService.init(this.formValue);
+    this.getData();
+  }
 }
