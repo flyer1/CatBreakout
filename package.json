@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic": "~10.0.3",
     "@angular/router": "~10.0.3",
     "d3-collection": "^1.0.7",
-    "d3-color": "^1.4.1",
+    "d3-color": "^3.1.0",
     "d3-hierarchy": "^1.1.9",
     "d3-interpolate": "^1.4.0",
     "d3-scale": "^3.2.1",
